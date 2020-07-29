@@ -25,6 +25,8 @@ A pipeline has three basic stages:
 - Link to the website / online documentation for the data
 - The file format (e.g. netCDF, csv)
 - How are the source files organized? (e.g. one file per day)
+- How are the source files accessed (e.g. FTP)
+  - provide an example link if possible
 - Any special steps required to access the data (e.g. password required)
 
 ## Transformation / Alignment / Merging 
