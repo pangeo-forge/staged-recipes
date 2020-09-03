@@ -1,0 +1,8 @@
+dask
+distributed
+fsspec
+numcodecs
+prefect
+xarray
+zarr
+git+https://github.com/pangeo-forge/pangeo-forge@master
