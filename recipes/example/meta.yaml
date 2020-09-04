@@ -1,0 +1,59 @@
+# Note: there are many handy hints in comments in this example -- remove them when you've finalized your recipe
+
+dataset:
+  name: HadCRUT4
+  version: 4.6.0.0
+
+build:
+  number: 0
+
+pipeline:
+  # Put the path to your pipeline here.
+  # Note: In the future we may support using generic pipelines defined in pangeo-forge, e.g.
+  # path: "pangeo_forge.pipelines.pipeline_a::PipelineA"
+  path: pipeline.py
+
+# this is where you specify metadata about the dataset and th pipeline
+about:
+  source:
+    home: https://crudata.uea.ac.uk/cru/data/temperature/
+    license: Open Government Licence
+    license_url: http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+    # license_file: LICENSE.txt
+    summary: "HadCRUT4 global temperature dataset"
+    description: |
+      HadCRUT4 is a global temperature dataset, providing gridded temperature anomalies across
+      the world as well as averages for the hemispheres and the globe as a whole. CRUTEM4 and
+      HadSST3 are the land and ocean components of this overall dataset, respectively.
+
+      These datasets have been developed by the Climatic Research Unit (University of East Anglia)
+      in conjunction with the Hadley Centre (UK Met Office), apart from the sea surface
+      temperature (SST) dataset which was developed solely by the Hadley Centre. These datasets
+      will be updated at roughly monthly intervals into the future. Hemispheric and global
+      averages as monthly and annual values are available as separate files.
+    references:
+      - "Jones, P.D., New, M., Parker, D.E., Martin, S. and Rigor, I.G., 1999: Surface air temperature and its variations over the last 150 years. Reviews of Geophysics 37, 173-199, doi:10.1029/1999RG900002"
+      - "Jones, P.D., Osborn, T.J., Briffa, K.R., Folland, C.K., Horton, B., Alexander, L.V., Parker, D.E. and Rayner, N.A., 2001: Adjusting for sampling density in grid-box land and ocean surface temperature time series. J. Geophys. Res. 106, 3371-3380, doi:10.1029/2000JD900564"
+      - "Jones, P.D., Lister, D.H., Osborn, T.J., Harpham, C., Salmon, M. and Morice, C.P., 2012: Hemispheric and large-scale land surface air temperature variations: an extensive revision and an update to 2010. Journal of Geophysical Research 117, D05127, doi:10.1029/2011JD017139."
+      - "Kennedy J.J., Rayner, N.A., Smith, R.O., Saunby, M. and Parker, D.E., 2011: Reassessing biases and other uncertainties in sea-surface temperature observations measured in situ since 1850 part 2: biases and homogenisation. Journal of Geophysical Research 116, D14104, doi:10.1029/2010JD015220"
+      - "Osborn, T.J. and Jones, P.D., 2014: The CRUTEM4 land-surface air temperature data set: construction, previous versions and dissemination via Google Earth. Earth System Science Data 6, 61-68, doi:10.5194/essd-6-61-2014"
+      - "Morice, C.P., Kennedy, J.J., Rayner, N.A. and Jones, P.D., 2012: Quantifying uncertainties in global and regional temperature change using an ensemble of observational estimates: the HadCRUT4 dataset. Journal of Geophysical Research, 117, D08101, doi:10.1029/2011JD017187"
+
+  pipeline:
+    # Remember to specify the license variants for BSD, Apache, GPL, and LGPL.
+    # Use the SPDX identifier, e.g: GPL-2.0-only instead of GNU General Public License version 2.0
+    # See https://spdx.org/licenses/
+    license: MIT
+    # The license_family, i.e. "BSD" if license is "BSD-3-Clause". (optional)
+    license_family: MIT
+    # You can also include the license file directly in the recipe.
+    license_file: LICENSE.txt
+    summary: 'Simple, fast, extensible JSON encoder/decoder for Python'
+    description: |
+      A pipline to convert HadCRUT4 from NetCDF to Zarr format.
+
+recipe-maintainers:
+  # GitHub IDs for maintainers of the recipe.
+  # Always check with the people listed below if they are OK becoming maintainers of the recipe. (There will be spam!)
+  - jhamman
+  - rabernat
