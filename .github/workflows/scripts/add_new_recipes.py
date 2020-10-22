@@ -58,7 +58,7 @@ def create_repository(repository: pathlib.Path):
 
     print("Created repository", url)
     subprocess.check_output(["git", "-C", str(root), "remote", "add", "origin", url])
-    subprocess.check_output(["git", "-C", str(root), "push", "origin"])
+    subprocess.check_output(["git", "-C", str(root), "push", "--set-upstream", "origin", "master"])
     print("Pushed repository")
 
 
