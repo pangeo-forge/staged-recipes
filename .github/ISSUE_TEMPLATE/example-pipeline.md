@@ -12,9 +12,9 @@ This template is to describe a potential pipeline for Pangeo Forge to create ana
 
 A pipeline has three basic stages:
 1. Download the source files from the upstream repository in whatever format they are stored.
-2. Perform any transformations that are needed in order to make the data "analysis ready." 
+2. Perform any transformations that are needed in order to make the data "analysis ready."
 3. Write out a new dataset in a cloud optimized format
---> 
+-->
 
 ## Source Dataset
 
@@ -29,9 +29,9 @@ A pipeline has three basic stages:
   - provide an example link if possible
 - Any special steps required to access the data (e.g. password required)
 
-## Transformation / Alignment / Merging 
+## Transformation / Alignment / Merging
 
-<!-- 
+<!--
 Describe below how the files should be combined into one analysis-ready dataset.
 For example, "the files should be concatenated along the time dimension."
 Are there any other transformations or checks that should be performed to make the data more "analysis ready"?
