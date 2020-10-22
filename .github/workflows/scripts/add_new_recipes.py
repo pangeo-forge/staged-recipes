@@ -46,7 +46,8 @@ def create_repository(repository: pathlib.Path):
     subprocess.check_output(["git", "-C", str(root), "commit", "-m", "initial commit"])
 
     assert "GH_API_TOKEN" in os.environ
-    auth = ("pangeo-bot", os.environ["GH_API_TOKEN"])
+    GH_TOKEN = os.environ["GH_TOKEN"]
+    auth = ("pangeo-bot", GH_TOKEN)
     data = dict(
         name=f"{repository.name}-pipeline",
         description=f"pangeo-forge pipeline for {repository.name}",
@@ -54,10 +55,10 @@ def create_repository(repository: pathlib.Path):
     )
     r = requests.post(f"{BASE}/orgs/pangeo-forge/repos", json=data, headers=HEADERS, auth=auth)
     r.raise_for_status()
-    url = f"https://github.com/pangeo-forge/{repository.name}-pipeline"
+    url = f"https://x-access-token:{GH_TOKEN}@github.com/pangeo-forge/{repository.name}-pipeline"
 
     print("Created repository", url)
-    subprocess.check_output(["git", "-C", str(root), "remote", "add", "origin", url])
+    subprocess.check_output(["git", "remote", "set-url", "origin", url])
     subprocess.check_output(["git", "-C", str(root), "push", "--set-upstream", "origin", "master"])
     print("Pushed repository")
 
