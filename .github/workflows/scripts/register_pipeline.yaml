@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Pipeline
         run: |
-            # Register flow
+            prefect auth login --token ${{ secrets.PREFECT_ACCESS_TOKEN }}
             pangeo-forge check
             pangeo-forge register
 

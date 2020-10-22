@@ -37,9 +37,9 @@ def source_url(day: str) -> str:
 class Pipeline(pangeo_forge.AbstractPipeline):
     # You must define a few pieces of metadata in your pipeline.
     # name is the pipeline name, typically the name of the dataset.
-    name = "noaa-oisst-avhrr"
+    name = "name"
     # repo is the URL of the GitHub repository this will be stored at.
-    repo = "pangeo-forge/noaa-oisst-avhrr-feedstock"
+    repo = "pangeo-forge/example-pipeline"
 
     # Some pipelines take parameters. These are things like subsets of the
     # data to select or where to write the data.
@@ -75,6 +75,7 @@ class Pipeline(pangeo_forge.AbstractPipeline):
             # https://docs.prefect.io/core/concepts/mapping.html#prefect-approach
             # for more. We'll have one output URL per day.
             sources = source_url.map(self.days)
+
             # Map the `download` task (provided by prefect) to download the raw data
             # into a cache.
             # Mapped outputs (sources) can be fed straight into another Task.map call.
@@ -83,10 +84,12 @@ class Pipeline(pangeo_forge.AbstractPipeline):
             # https://docs.prefect.io/core/concepts/mapping.html#unmapped-inputs
             # nc_sources will be a list of cached URLs, one per input day.
             nc_sources = download.map(sources, cache_location=unmapped(self.cache_location))
+
             # The individual files would be a bit too small for analysis. We'll use
             # pangeo_forge.utils.chunk to batch them up. We can pass mapped outputs
             # like nc_sources directly to `chunk`.
             chunked = pangeo_forge.utils.chunk(nc_sources, size=5)
+
             # Combine all the chunked inputs and write them to their final destination.
             writes = combine_and_write.map(
                 chunked,
@@ -94,6 +97,7 @@ class Pipeline(pangeo_forge.AbstractPipeline):
                 append_dim=unmapped("time"),
                 concat_dim=unmapped("time"),
             )
+
             # Consolidate the metadata for the final dataset.
             consolidate_metadata(self.target_location, writes=writes)
 

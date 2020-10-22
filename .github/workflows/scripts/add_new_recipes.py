@@ -55,10 +55,10 @@ def create_repository(repository: pathlib.Path):
     )
     r = requests.post(f"{BASE}/orgs/pangeo-forge/repos", json=data, headers=HEADERS, auth=auth)
     r.raise_for_status()
-    url = f"https://x-access-token:{GH_TOKEN}@github.com/pangeo-forge/{repository.name}-pipeline"
+    print("Created repository")
 
-    print("Created repository", url)
-    subprocess.check_output(["git", "remote", "set-url", "origin", url])
+    url = f"https://x-access-token:{GH_TOKEN}@github.com/pangeo-forge/{repository.name}-pipeline"
+    subprocess.check_output(["git", "-C", str(root), "remote", "add", "origin", url])
     subprocess.check_output(["git", "-C", str(root), "push", "--set-upstream", "origin", "master"])
     print("Pushed repository")
 
