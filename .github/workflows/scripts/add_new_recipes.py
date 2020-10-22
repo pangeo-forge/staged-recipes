@@ -36,6 +36,9 @@ def create_repository(repository: pathlib.Path):
     root = pathlib.Path(".").joinpath("..", f"{repository.name}-pipeline")
     root.mkdir()
     shutil.copytree(repository, root / "recipe")
+    workflows = root / ".github/workflows/"
+    workflows.mkdir(parents=True, exist_ok=True)
+    shutil.copy(pathlib.Path(".") / ".github/workflows/scripts/register_pipeline.yaml", workflows)
     root.joinpath("README.md").touch()  # TODO: template.
 
     subprocess.check_output(["git", "-C", str(root), "init"])
