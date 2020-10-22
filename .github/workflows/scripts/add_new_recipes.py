@@ -46,7 +46,7 @@ def create_repository(repository: pathlib.Path):
     subprocess.check_output(["git", "-C", str(root), "commit", "-m", "initial commit"])
 
     assert "GH_API_TOKEN" in os.environ
-    GH_TOKEN = os.environ["GH_TOKEN"]
+    GH_TOKEN = os.environ["GH_API_TOKEN"]
     auth = ("pangeo-bot", GH_TOKEN)
     data = dict(
         name=f"{repository.name}-pipeline",
