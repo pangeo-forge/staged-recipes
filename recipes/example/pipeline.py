@@ -37,7 +37,7 @@ def source_url(day: str) -> str:
 class Pipeline(pangeo_forge.AbstractPipeline):
     # You must define a few pieces of metadata in your pipeline.
     # name is the pipeline name, typically the name of the dataset.
-    name = "name"
+    name = "example"
     # repo is the URL of the GitHub repository this will be stored at.
     repo = "pangeo-forge/example-pipeline"
 
