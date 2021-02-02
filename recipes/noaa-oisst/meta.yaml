@@ -1,0 +1,15 @@
+recipe:
+  python:
+    - file: recipe.py
+
+provenance:
+  provider: NOAA NCEI
+  website: https://www.ncdc.noaa.gov/oisst
+  reference: http://dx.doi.org/10.1175/1520-0442(1993)006%3C0768:IOMPAO%3E2.0.CO;2
+  license: ?
+
+extra:
+  maintainers:
+   - name: Ryan Abernathey
+     github: rabernat
+     orcid: 0000-0001-5999-4917
