@@ -1,4 +1,5 @@
 import pandas as pd
+from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
 
 input_url_pattern = (
     "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation"
