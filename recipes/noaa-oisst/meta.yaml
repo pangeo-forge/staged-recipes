@@ -1,15 +1,22 @@
-recipe:
-  python:
-    - file: recipe.py
-
+title: "NOAA Optimum Interpolated SST"
+description: "Analysis-ready Zarr datasets derived from NOAA OISST NetCDF"
+pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+recipes:
+  - id: noaa-oisst-avhrr-only
+    module: recipe.py  # the module where to find the recipe
+    name: recipe  # the name of the object to import
 provenance:
-  provider: NOAA NCEI
-  website: https://www.ncdc.noaa.gov/oisst
-  reference: http://dx.doi.org/10.1175/1520-0442(1993)006%3C0768:IOMPAO%3E2.0.CO;2
-  license: ?
-
-extra:
-  maintainers:
-   - name: Ryan Abernathey
-     github: rabernat
-     orcid: 0000-0001-5999-4917
+  providers:
+    - name: "NOAA NCEI"
+      description: "National Oceanographic & Atmospheric Administration National Centers for Environmental Information"
+      roles:
+        - producer
+        - licensor
+      url: https://www.ncdc.noaa.gov/oisst
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Ryan Abernathey"
+    orcid: "0000-0001-5999-4917"
+    github: rabernat
+bakeries:
+  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
