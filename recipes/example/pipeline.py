@@ -18,17 +18,17 @@ from prefect import Flow, Parameter, task, unmapped
 
 
 @task
-def source_url(day: str) -> str:
+def source_url(reg: str, day: str) -> str:
     """
     Format the URL for a specific day.
     """
     day = pd.Timestamp(day)
     source_url_pattern = (
-        "https://www.ncei.noaa.gov/data/"
-        "sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/"
-        "{day:%Y%m}/oisst-avhrr-v02r01.{day:%Y%m%d}.nc"
-    )
-    return source_url_pattern.format(day=day)
+        "https://ige-meom-opendap.univ-grenoble-alpes.fr/"
+        "thredds/fileServer/meomopendap/extract/SWOT-Adac/Surface/eNATL60/"
+        "Region{reg}-surface-hourly_{day:%Y%m}.nc"
+        )
+    return source_url_pattern.format(reg=reg,day=day)
 
 
 # All pipelines in pangeo-forge must inherit from pangeo_forge.AbstractPipeline
@@ -37,9 +37,11 @@ def source_url(day: str) -> str:
 class Pipeline(pangeo_forge.AbstractPipeline):
     # You must define a few pieces of metadata in your pipeline.
     # name is the pipeline name, typically the name of the dataset.
-    name = "example"
+    name = "eNATL60"
     # repo is the URL of the GitHub repository this will be stored at.
-    repo = "pangeo-forge/example-pipeline"
+    repo = "pangeo-forge/SWOT-AdAC"
+
+    region = "01"
 
     # Some pipelines take parameters. These are things like subsets of the
     # data to select or where to write the data.
@@ -47,7 +49,7 @@ class Pipeline(pangeo_forge.AbstractPipeline):
     days = Parameter(
         # All parameters have a "name" and should have a default value.
         "days",
-        default=pd.date_range("1981-09-01", "1981-09-10", freq="D").strftime("%Y-%m-%d").tolist(),
+        default=pd.date_range("2010-02", "2010-05", freq="M").strftime("%Y-%m").tolist(),
     )
     cache_location = Parameter(
         "cache_location", default=f"gs://pangeo-forge-scratch/cache/{name}.zarr"
@@ -74,7 +76,7 @@ class Pipeline(pangeo_forge.AbstractPipeline):
             # a list of string URLS. See
             # https://docs.prefect.io/core/concepts/mapping.html#prefect-approach
             # for more. We'll have one output URL per day.
-            sources = source_url.map(self.days)
+            sources = source_url.map(self.region, self.days)
 
             # Map the `download` task (provided by prefect) to download the raw data
             # into a cache.
