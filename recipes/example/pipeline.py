@@ -7,6 +7,7 @@ from pangeo_forge.tasks.http import download
 from pangeo_forge.tasks.xarray import combine_and_write
 from pangeo_forge.tasks.zarr import consolidate_metadata
 from prefect import Flow, Parameter, task, unmapped
+import os
 
 # We use Prefect to manage pipelines. In this pipeline we'll see
 # * Tasks: https://docs.prefect.io/core/concepts/tasks.html
@@ -23,7 +24,7 @@ def source_url(reg: int, day: str) -> str:
     Format the URL for a specific day.
     """
     day = pd.Timestamp(day)
-    region = op.join("%02d" % (reg))
+    region = os.path.join("%02d" % (reg))
     source_url_pattern = (
         "https://ige-meom-opendap.univ-grenoble-alpes.fr/"
         "thredds/fileServer/meomopendap/extract/SWOT-Adac/Surface/eNATL60/"
