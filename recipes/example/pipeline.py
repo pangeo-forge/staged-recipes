@@ -38,7 +38,7 @@ def source_url(reg: int, day: str) -> str:
 class Pipeline(pangeo_forge.AbstractPipeline):
     # You must define a few pieces of metadata in your pipeline.
     # name is the pipeline name, typically the name of the dataset.
-    name = "eNATL60"
+    name = "eNATL60-surface-hourly"
     # repo is the URL of the GitHub repository this will be stored at.
     repo = "pangeo-forge/SWOT-AdAC"
 
