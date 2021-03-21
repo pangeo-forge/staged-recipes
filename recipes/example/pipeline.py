@@ -18,17 +18,18 @@ from prefect import Flow, Parameter, task, unmapped
 
 
 @task
-def source_url(reg: str, day: str) -> str:
+def source_url(reg: int, day: str) -> str:
     """
     Format the URL for a specific day.
     """
     day = pd.Timestamp(day)
+    region = op.join("%02d" % (reg))
     source_url_pattern = (
         "https://ige-meom-opendap.univ-grenoble-alpes.fr/"
         "thredds/fileServer/meomopendap/extract/SWOT-Adac/Surface/eNATL60/"
-        "Region{reg}-surface-hourly_{day:%Y%m}.nc"
+        "Region{region}-surface-hourly_{day:%Y%m}.nc"
         )
-    return source_url_pattern.format(reg=reg,day=day)
+    return source_url_pattern.format(region=region,day=day)
 
 
 # All pipelines in pangeo-forge must inherit from pangeo_forge.AbstractPipeline
@@ -41,7 +42,7 @@ class Pipeline(pangeo_forge.AbstractPipeline):
     # repo is the URL of the GitHub repository this will be stored at.
     repo = "pangeo-forge/SWOT-AdAC"
 
-    region = "01"
+    region = 1
 
     # Some pipelines take parameters. These are things like subsets of the
     # data to select or where to write the data.
