@@ -11,7 +11,7 @@ input_url_pattern = (
                 "Region{reg}-surface-hourly_{month}.nc"
                      )
 input_urls = [
-              input_url_pattern.format(reg=region,
+              input_url_pattern.format(reg=os.path.join("%02d" % region),
                                        month=day.strftime("%Y%m")
                                       )
               for day in dates
