@@ -6,6 +6,10 @@ import pangeo_forge.utils
 from pangeo_forge.tasks.http import download
 from pangeo_forge.tasks.xarray import combine_and_write
 from pangeo_forge.tasks.zarr import consolidate_metadata
+from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
+import tempfile
+from fsspec.implementations.local import LocalFileSystem
+from pangeo_forge.storage import FSSpecTarget, CacheFSSpecTarget
 from prefect import Flow, Parameter, task, unmapped
 import os
 
@@ -33,81 +37,98 @@ def source_url(reg: int, day: str) -> str:
     return source_url_pattern.format(region=region,day=day)
 
 
+recipe = NetCDFtoZarrSequentialRecipe(
+                input_urls=source_url,
+                sequence_dim="time_counter",
+                inputs_per_chunk=20
+                )
+
+fs_local = LocalFileSystem()
+
+cache_dir = tempfile.TemporaryDirectory()
+cache_target = CacheFSSpecTarget(fs_local, cache_dir.name)
+
+target_dir = tempfile.TemporaryDirectory()
+target = FSSpecTarget(fs_local, target_dir.name)
+
+recipe.input_cache = cache_target
+recipe.target = target
+
 # All pipelines in pangeo-forge must inherit from pangeo_forge.AbstractPipeline
 
 
-class Pipeline(pangeo_forge.AbstractPipeline):
-    # You must define a few pieces of metadata in your pipeline.
-    # name is the pipeline name, typically the name of the dataset.
-    name = "eNATL60-surface-hourly"
-    # repo is the URL of the GitHub repository this will be stored at.
-    repo = "pangeo-forge/SWOT-AdAC"
+# class Pipeline(pangeo_forge.AbstractPipeline):
+#     # You must define a few pieces of metadata in your pipeline.
+#     # name is the pipeline name, typically the name of the dataset.
+#     name = "eNATL60-surface-hourly"
+#     # repo is the URL of the GitHub repository this will be stored at.
+#     repo = "pangeo-forge/SWOT-AdAC"
 
-    region = 1
+#     region = 1
 
-    # Some pipelines take parameters. These are things like subsets of the
-    # data to select or where to write the data.
-    # See https://docs.prefect.io/core/concepts/parameters.htm for more
-    days = Parameter(
-        # All parameters have a "name" and should have a default value.
-        "days",
-        default=pd.date_range("2010-02", "2010-05", freq="M").strftime("%Y-%m").tolist(),
-    )
-    cache_location = Parameter(
-        "cache_location", default=f"gs://pangeo-forge-scratch/cache/{name}.zarr"
-    )
-    target_location = Parameter("target_location", default=f"gs://pangeo-forge-scratch/{name}.zarr")
+#     # Some pipelines take parameters. These are things like subsets of the
+#     # data to select or where to write the data.
+#     # See https://docs.prefect.io/core/concepts/parameters.htm for more
+#     days = Parameter(
+#         # All parameters have a "name" and should have a default value.
+#         "days",
+#         default=pd.date_range("2010-02", "2010-05", freq="M").strftime("%Y-%m").tolist(),
+#     )
+#     cache_location = Parameter(
+#         "cache_location", default=f"gs://pangeo-forge-scratch/cache/{name}.zarr"
+#     )
+#     target_location = Parameter("target_location", default=f"gs://pangeo-forge-scratch/{name}.zarr")
 
-    @property
-    def sources(self):
-        # This can be ignored for now.
-        pass
+#     @property
+#     def sources(self):
+#         # This can be ignored for now.
+#         pass
 
-    @property
-    def targets(self):
-        # This can be ignored for now.
-        pass
+#     @property
+#     def targets(self):
+#         # This can be ignored for now.
+#         pass
 
-    # The `Flow` definition is where you assemble your pipeline. We recommend using
-    # Prefects Functional API: https://docs.prefect.io/core/concepts/flows.html#functional-api
-    # Everything should happen in a `with Flow(...) as flow` block, and a `flow` should be returned.
-    @property
-    def flow(self):
-        with Flow(self.name) as flow:
-            # Use map the `source_url` task to each day. This returns a mapped output,
-            # a list of string URLS. See
-            # https://docs.prefect.io/core/concepts/mapping.html#prefect-approach
-            # for more. We'll have one output URL per day.
-            sources = source_url.map(self.region, self.days)
+#     # The `Flow` definition is where you assemble your pipeline. We recommend using
+#     # Prefects Functional API: https://docs.prefect.io/core/concepts/flows.html#functional-api
+#     # Everything should happen in a `with Flow(...) as flow` block, and a `flow` should be returned.
+#     @property
+#     def flow(self):
+#         with Flow(self.name) as flow:
+#             # Use map the `source_url` task to each day. This returns a mapped output,
+#             # a list of string URLS. See
+#             # https://docs.prefect.io/core/concepts/mapping.html#prefect-approach
+#             # for more. We'll have one output URL per day.
+#             sources = source_url.map(self.region, self.days)
 
-            # Map the `download` task (provided by prefect) to download the raw data
-            # into a cache.
-            # Mapped outputs (sources) can be fed straight into another Task.map call.
-            # If an input is just a regular argument that's not a mapping, it must
-            # be wrapepd in `prefect.unmapped`.
-            # https://docs.prefect.io/core/concepts/mapping.html#unmapped-inputs
-            # nc_sources will be a list of cached URLs, one per input day.
-            nc_sources = download.map(sources, cache_location=unmapped(self.cache_location))
+#             # Map the `download` task (provided by prefect) to download the raw data
+#             # into a cache.
+#             # Mapped outputs (sources) can be fed straight into another Task.map call.
+#             # If an input is just a regular argument that's not a mapping, it must
+#             # be wrapepd in `prefect.unmapped`.
+#             # https://docs.prefect.io/core/concepts/mapping.html#unmapped-inputs
+#             # nc_sources will be a list of cached URLs, one per input day.
+#             nc_sources = download.map(sources, cache_location=unmapped(self.cache_location))
 
-            # The individual files would be a bit too small for analysis. We'll use
-            # pangeo_forge.utils.chunk to batch them up. We can pass mapped outputs
-            # like nc_sources directly to `chunk`.
-            chunked = pangeo_forge.utils.chunk(nc_sources, size=5)
+#             # The individual files would be a bit too small for analysis. We'll use
+#             # pangeo_forge.utils.chunk to batch them up. We can pass mapped outputs
+#             # like nc_sources directly to `chunk`.
+#             chunked = pangeo_forge.utils.chunk(nc_sources, size=5)
 
-            # Combine all the chunked inputs and write them to their final destination.
-            writes = combine_and_write.map(
-                chunked,
-                unmapped(self.target_location),
-                append_dim=unmapped("time"),
-                concat_dim=unmapped("time"),
-            )
+#             # Combine all the chunked inputs and write them to their final destination.
+#             writes = combine_and_write.map(
+#                 chunked,
+#                 unmapped(self.target_location),
+#                 append_dim=unmapped("time_counter"),
+#                 concat_dim=unmapped("time_counter"),
+#             )
 
-            # Consolidate the metadata for the final dataset.
-            consolidate_metadata(self.target_location, writes=writes)
+#             # Consolidate the metadata for the final dataset.
+#             consolidate_metadata(self.target_location, writes=writes)
 
-        return flow
+#         return flow
 
 
-# pangeo-forge and Prefect require that a `flow` be present at the top-level
-# of this module.
-flow = Pipeline().flow
+# # pangeo-forge and Prefect require that a `flow` be present at the top-level
+# # of this module.
+# flow = Pipeline().flow

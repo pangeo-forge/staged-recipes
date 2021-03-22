@@ -1,0 +1,22 @@
+title: "SWOT-AdAC data (eNATL60)"
+description: "eNATL60 regional data for SWOT-AdAC Xovers"
+pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+recipes:
+  - id: noaa-oisst-avhrr-only
+    module: recipe.py  # the module where to find the recipe
+    name: recipe  # the name of the object to import
+provenance:
+  providers:
+    - name: "MEOM IGE"
+      description: "Multiscale Ocean Modelling Group, Institut des Geosciences de l'Environnement"
+      roles:
+        - producer
+        - licensor
+      url: https://ige-meom-opendap.univ-grenoble-alpes.fr/thredds/fileServer/meomopendap/extract/SWOT-Adac/
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Takaya Uchida"
+    orcid: "0000-0002-8654-6009"
+    github: roxyboy
+bakeries:
+  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
