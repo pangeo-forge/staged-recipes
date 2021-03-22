@@ -3,18 +3,18 @@ from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
 import os
 
 dates = pd.date_range("2021-02", "2021-05", freq="M")
-regions = range(1,5)
+region = 1
 
 input_url_pattern = (
                 "https://ige-meom-opendap.univ-grenoble-alpes.fr/"
                 "thredds/fileServer/meomopendap/extract/SWOT-Adac/Surface/eNATL60/"
-                "Region{region}-surface-hourly_{month}.nc"
+                "Region{reg}-surface-hourly_{month}.nc"
                      )
 input_urls = [
-              input_url_pattern.format(region=os.path.join("%02d" % reg),
+              input_url_pattern.format(reg=region,
                                        month=day.strftime("%Y%m")
                                       )
-              for reg in regions for day in dates
+              for day in dates
              ]
 
 recipe = NetCDFtoZarrSequentialRecipe(
