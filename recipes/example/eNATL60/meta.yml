@@ -2,7 +2,7 @@ title: "SWOT-AdAC data (eNATL60)"
 description: "eNATL60 regional data for SWOT-AdAC Xovers"
 pangeo_forge_version: "0.0.1"  # do we need a separate spec version
 recipes:
-  - id: SWOT-AdAC-eNATL60
+  - id: swot-adac-enatl60
     module: recipe_01.py  # the module where to find the recipe
     name: recipe_01  # the name of the object to import
 provenance:
