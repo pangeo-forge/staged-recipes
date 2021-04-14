@@ -16,8 +16,8 @@ input_urls = [
 
 recipe = NetCDFtoZarrSequentialRecipe(
                             input_urls=input_urls,
-                            sequence_dim="time_counter",
+                            sequence_dim="time",
                             inputs_per_chunk=1,
                             nitems_per_input=None,
-                            target_chunks={'time_counter': 72}
+                            target_chunks={"time": 24}
                                     )
