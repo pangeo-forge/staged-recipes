@@ -18,42 +18,47 @@ def gen_url(freq, dim, variables):
     return input_urls
 
 
-recipe:surf_ocean_4h = NetCDFtoZarrSequentialRecipe(
-                                    input_urls=gen_url('4h','surface',np.array(['u','v','hts'])),
-                                    sequence_dim="time_counter",
-                                    inputs_per_chunk=1,
-                                    nitems_per_input=None,
-                                    target_chunks={'time_counter': 15}
-                                                   )
+surf_ocean_4h = NetCDFtoZarrSequentialRecipe(
+                                input_urls=gen_url('4h','surface',np.array(['u','v','hts'])),
+                                sequence_dim="time_counter",
+                                inputs_per_chunk=1,
+                                nitems_per_input=None,
+                                target_chunks={'time_counter': 15}
+                                            )
 
-recipe:surf_ocean_5d = NetCDFtoZarrSequentialRecipe(
-                                    input_urls=gen_url('5d','surface',np.array(['u','v','hts'])),
-                                    sequence_dim="time_counter",
-                                    inputs_per_chunk=1,
-                                    nitems_per_input=None,
-                                    target_chunks={'time_counter': 15}
-                                                   )
+surf_ocean_5d = NetCDFtoZarrSequentialRecipe(
+                                input_urls=gen_url('5d','surface',np.array(['u','v','hts'])),
+                                sequence_dim="time_counter",
+                                inputs_per_chunk=1,
+                                nitems_per_input=None,
+                                target_chunks={'time_counter': 15}
+                                            )
 
-recipe:surf_flux = NetCDFtoZarrSequentialRecipe(
-                                    input_urls=gen_url('1d','surface',np.array(['flux','taux','tauy'])),
-                                    sequence_dim="time_counter",
-                                    inputs_per_chunk=1,
-                                    nitems_per_input=None,
-                                    target_chunks={'time_counter': 15}
-                                               )
+surf_flux = NetCDFtoZarrSequentialRecipe(
+                                input_urls=gen_url('1d','surface',np.array(['flux','taux','tauy'])),
+                                sequence_dim="time_counter",
+                                inputs_per_chunk=1,
+                                nitems_per_input=None,
+                                target_chunks={'time_counter': 15}
+                                        )
 
-recipe:int_ocean = NetCDFtoZarrSequentialRecipe(
-                                    input_urls=gen_url('1d','upper1000m',np.array(['ts','u','v','w'])),
-                                    sequence_dim="time_counter",
-                                    inputs_per_chunk=1,
-                                    nitems_per_input=None,
-                                    target_chunks={'time_counter': 15}
-                                               )
+int_ocean = NetCDFtoZarrSequentialRecipe(
+                                input_urls=gen_url('1d','upper1000m',np.array(['ts','u','v','w'])),
+                                sequence_dim="time_counter",
+                                inputs_per_chunk=1,
+                                nitems_per_input=None,
+                                target_chunks={'time_counter': 15}
+                                           )
 
-recipe:grid = NetCDFtoZarrSequentialRecipe(
-                                    input_urls=input_url_pattern = (
-                                                    "https://data.geomar.de/downloads/20.500.12085/"
-                                                    "0e95d316-f1ba-47e3-b667-fc800afafe22/data/"
-                                                    "INALT60_mesh_mask.nc"
-                                                                                                                                                              )
-                                          )
+grid = NetCDFtoZarrSequentialRecipe(
+                                input_urls=input_url_pattern = (
+                                                "https://data.geomar.de/downloads/20.500.12085/"
+                                                "0e95d316-f1ba-47e3-b667-fc800afafe22/data/"
+                                                "INALT60_mesh_mask.nc"
+                                                                                                                                                          )
+                                   )
+
+recipe = {
+        'surf_ocean_4h':surf_ocean_4h, 'surf_ocean_5d':surf_ocean_5d,
+        'surf_flux':surf_flux, 'int_ocean':int_ocean, 'grid':grid
+         }
