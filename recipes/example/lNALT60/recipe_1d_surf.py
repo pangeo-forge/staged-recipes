@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
 
 months = np.array([2,3,4,8,9,10], dtype=int)
