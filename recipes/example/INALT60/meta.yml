@@ -1,10 +1,19 @@
-title: "SWOT-AdAC data (lNALT60)"
-description: "lNALT60 regional data for SWOT-AdAC Xovers"
+title: "SWOT-AdAC data (INALT60)"
+description: "INALT60 regional data for SWOT-AdAC Xovers"
 pangeo_forge_version: "0.0.1"  # do we need a separate spec version
 recipes:
-  - id: swot-adac-lnalt60_surf
-    module: recipe_1d_surf.py  # the module where to find the recipe
-    name: recipe_1d_surf  # the name of the object to import
+  - id: inalt60_surf_ocean
+    object: "recipe:"
+    module: recipes.py  # the module where to find the recipe
+    name: recipes  # the name of the object to import
+  - id: inalt60_surf_flux
+    object: "recipe:"
+    module: recipe_inalt60.py
+    name: recipe_inalt60
+  - id: inalt60_int_ocean
+    object: "recipe:"
+    module: recipe_inalt60.py
+    name: recipe_inalt60
 provenance:
   providers:
     - name: "GEOMAR"
