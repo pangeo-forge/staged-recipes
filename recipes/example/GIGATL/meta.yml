@@ -1,0 +1,22 @@
+title: "SWOT-AdAC data (GIGATL)"
+description: "GIGATL regional data for SWOT-AdAC Xovers"
+pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+recipes:
+  - id: swot-adac-gigatl_surf
+    module: recipe_01_surf.py  # the module where to find the recipe
+    name: recipe_01_surf  # the name of the object to import
+provenance:
+  providers:
+    - name: "LOPS"
+      description: "Laboratoire d'Oceaographie Physique et Spatiale"
+      roles:
+        - producer
+        - licensor
+      url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Jonathan Gula"
+    orcid: "0000-0002-0876-9557"
+    github: Mesharou
+bakeries:
+  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
