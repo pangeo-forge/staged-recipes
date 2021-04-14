@@ -1,0 +1,22 @@
+title: "SWOT-AdAC data (lNALT60)"
+description: "lNALT60 regional data for SWOT-AdAC Xovers"
+pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+recipes:
+  - id: swot-adac-lnalt60_surf
+    module: recipe_1d_surf.py  # the module where to find the recipe
+    name: recipe_1d_surf  # the name of the object to import
+provenance:
+  providers:
+    - name: "GEOMAR"
+      description: "GEOMAR Helmholtz Centre for Ocean Research Kiel"
+      roles:
+        - producer
+        - licensor
+      url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Rene Schubert"
+    orcid: "0000-0003-1118-3968"
+    github: reneschubert
+bakeries:
+  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
