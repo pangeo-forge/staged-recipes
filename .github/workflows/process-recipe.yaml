@@ -46,4 +46,4 @@ jobs:
         uses: ./.github/actions/process_recipe
         with:
           path_to_recipe_py: ${{ steps.recipe.outputs.RECIPE_PY }}
-          path_to_meta_yml: ${{ steps.meta.outputs.META_YAML }}
+          path_to_meta_yaml: ${{ steps.meta.outputs.META_YAML }}
