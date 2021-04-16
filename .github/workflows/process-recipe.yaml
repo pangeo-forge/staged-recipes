@@ -21,10 +21,10 @@ jobs:
         id: recipe
         run: |
           for changed_file in ${{ steps.changed-files.outputs.all }}; do
-            if [[ ${changed_file} =~ ^.*recipes\/.*recipe.py$ ]];
+            if [[ ${changed_file} =~ ^.*recipes\/.*recipe\.py$ ]];
             then
               echo "::set-output name=RECIPE_PY::${changed_file}";
-              break
+              exit 0
             fi
           done
           exit 1 # Fail - recipe.py required
@@ -33,10 +33,10 @@ jobs:
         id: meta
         run: |
           for changed_file in ${{ steps.changed-files.outputs.all }}; do
-            if [[ ${changed_file} =~ ^.*recipes\/.*meta.(yml|yaml)$ ]];
+            if [[ ${changed_file} =~ ^.*recipes\/.*meta\.(yml|yaml)$ ]];
             then
               echo "::set-output name=META_YAML::${changed_file}";
-              break
+              exit 0
             fi
           done
           exit 1 # Fail - meta.yaml required
