@@ -1,6 +1,8 @@
 name: Process PR Recipe
 
 on:
+  push:
+    branches: ["*"]
   pull_request:
     branches: master
   workflow_dispatch:
