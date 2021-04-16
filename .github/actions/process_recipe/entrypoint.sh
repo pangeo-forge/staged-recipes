@@ -4,4 +4,4 @@
 # - Conda environment .yaml file attached
 # - Dependencies in a list in the meta.yaml
 
-python3 /process_recipe.py
+python3 /process_recipe.py $1 $2
