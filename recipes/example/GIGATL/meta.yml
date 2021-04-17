@@ -2,9 +2,14 @@ title: "SWOT-AdAC data (GIGATL)"
 description: "GIGATL regional data for SWOT-AdAC Xovers"
 pangeo_forge_version: "0.0.1"  # do we need a separate spec version
 recipes:
-  - id: swot-adac-gigatl_surf
-    module: recipe_01_surf.py  # the module where to find the recipe
-    name: recipe_01_surf  # the name of the object to import
+  - id: gigatl-surf-01
+    object: "recipe:surf-reg-01"
+    module: recipe_gigatl.py  # the module where to find the recipe
+    name: recipe_gigatl
+  - id: gigatl-surf-02
+    object: "recipe:surf-reg-02"
+    module: recipe_gigatl.py  # the module where to find the recipe
+    name: recipe_gigatl  # the name of the object to import
 provenance:
   providers:
     - name: "LOPS"
