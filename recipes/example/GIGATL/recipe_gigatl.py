@@ -2,6 +2,8 @@ import pandas as pd
 from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
 
 dates = pd.date_range("2008-08-01", "2008-11-01", freq="5D")
+dates = pd.concat([dates, pd.date_range("2009-02-01", "2009-05-01", freq="5D")
+                  ], ignore_index=True)
 
 def get_url(dates, region, dim='surf'):
     input_url_pattern = (
