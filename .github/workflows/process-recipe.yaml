@@ -1,7 +1,7 @@
 name: Process PR Recipe
 
 on:
-  pull_request:
+  pull_request: 
     branches: master
 
 jobs:
@@ -14,17 +14,10 @@ jobs:
         name: Get the files changed in the Pull Request
         uses: jitterbit/get-changed-files@v1
 
-      - name: Locate Pull Requests recipe.py
-        id: recipe
+      - name: Download bakeries.yaml
+        id: download_bakeries
         run: |
-          for changed_file in ${{ steps.changed-files.outputs.all }}; do
-            if [[ ${changed_file} =~ ^.*recipes\/.*recipe\.py$ ]];
-            then
-              echo "::set-output name=RECIPE_PY::${changed_file}";
-              exit 0
-            fi
-          done
-          exit 1 # Fail - recipe.py required
+          curl https://raw.githubusercontent.com/pangeo-forge/bakery-database/main/bakeries.yaml -o ${GITHUB_WORKSPACE}/bakeries.yaml
 
       - name: Locate Pull Requests meta.yaml
         id: meta
@@ -39,8 +32,12 @@ jobs:
           exit 1 # Fail - meta.yaml required
 
       - name: Process Pull Requests recipe
-        if: ${{ steps.recipe.outputs.RECIPE_PY != null && steps.meta.outputs.META_YAML != null }}
+        if: ${{ steps.meta.outputs.META_YAML != null }}
         uses: ./.github/actions/process_recipe
         with:
-          path_to_recipe_py: ${{ steps.recipe.outputs.RECIPE_PY }}
           path_to_meta_yaml: ${{ steps.meta.outputs.META_YAML }}
+          path_to_bakeries_yaml: bakeries.yaml
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          PREFECT__CLOUD__AUTH_TOKEN: ${{ secrets.PREFECT__CLOUD__AUTH_TOKEN }}
+
