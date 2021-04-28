@@ -44,11 +44,11 @@ int_ocean = NetCDFtoZarrSequentialRecipe(
                                            )
 
 grid = NetCDFtoZarrSequentialRecipe(
-                                input_urls=input_url_pattern = (
-                                                "https://data.geomar.de/downloads/20.500.12085/"
-                                                "0e95d316-f1ba-47e3-b667-fc800afafe22/data/"
-                                                "INALT60_mesh_mask.nc"
-                                                                                                                                                          )
+                                input_urls=(
+                                "https://data.geomar.de/downloads/20.500.12085/"
+                                "0e95d316-f1ba-47e3-b667-fc800afafe22/data/"
+                                "INALT60_mesh_mask.nc"
+                                           )
                                    )
 
 recipe = {
