@@ -22,7 +22,7 @@ provenance:
         - producer
         - licensor
       url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
-  license: "CC-BY-4.0"
+  license: "CC-BY-NC-SA-4.0"
 maintainers:
   - name: "Rene Schubert"
     orcid: "0000-0003-1118-3968"
