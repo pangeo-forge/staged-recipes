@@ -9,7 +9,7 @@ def gen_url(reg, freq):
                             )
     input_urls = [
                 input_url_pattern.format(month=month,
-                                       reg=regs, freq=freqs
+                                       reg=reg, freq=freq
                                         )
                 for month in months
                  ]
