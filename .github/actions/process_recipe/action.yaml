@@ -1,0 +1,19 @@
+name: 'Process Recipe'
+description: '''
+For a given recipe.py and its meta.yaml file: convert it to a Prefect Flow,
+register the Flow with the specified Bakery in the meta.yml, and test a pruned run
+of the Flow on the Bakery.
+'''
+inputs:
+  path_to_bakeries_yaml:
+    description: 'Path to the bakeries.yaml'
+    required: true
+  path_to_meta_yaml:
+    description: 'Path to the meta.yaml file of the recipe to process'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.path_to_bakeries_yaml }}
+    - ${{ inputs.path_to_meta_yaml }}
