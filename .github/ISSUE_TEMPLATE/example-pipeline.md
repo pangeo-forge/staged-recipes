@@ -1,5 +1,5 @@
 ---
-name: Example Pipeline
+name: Proposed Recipe
 about: This template helps us gather information about possible use cases for pangeo-forge
 title: Example pipeline for [Dataset Name]
 labels: example
