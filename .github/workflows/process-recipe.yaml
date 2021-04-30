@@ -13,6 +13,7 @@ jobs:
       - id: changed-files
         name: Get the files changed in the Pull Request
         uses: jitterbit/get-changed-files@v1
+        continue-on-error: true
 
       - name: Download bakeries.yaml
         id: download_bakeries
