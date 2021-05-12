@@ -1,0 +1,21 @@
+title: "NASA SMAP Sea Surface Salinity (SSS)"
+description: "Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Salinity (SSS) NetCDF"
+pangeo_forge_version: "0.3.*"  # do we need a separate spec version
+recipes:
+  - id: nasa-smap-sss
+    module: recipe.py  # the module where to find the recipe
+    name: recipe  # the name of the object to import
+provenance:
+  providers:
+    - name: "NASA SMAP"
+      description: "National Aeronautics and Space Administration Soil Moisture Active Passive Mission"
+      roles:
+        - producer
+        - licensor
+      url: https://smap.jpl.nasa.gov/
+  license: "CC-BY-4.0" # TODO: double-check before merging
+maintainers:
+  - name: "Charles Stern"
+    github: cisaacstern
+bakeries:
+  - id: "pangeo-aws-west-1" # TODO: double-check before merging
