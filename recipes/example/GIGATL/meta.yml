@@ -10,6 +10,14 @@ recipes:
     object: "recipe:surf-reg-02"
     module: recipe_gigatl.py  # the module where to find the recipe
     name: recipe_gigatl  # the name of the object to import
+  - id: gigatl-int-01
+    object: "recipe:int-reg-01"
+    module: recipe_gigatl.py
+    name: recipe_gigatl
+  - id: gigatl-int-02
+    object: "recipe:int-reg-02"
+    module: recipe_gigatl.py
+    name: recipe_gigatl
 provenance:
   providers:
     - name: "LOPS"
