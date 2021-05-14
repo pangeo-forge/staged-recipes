@@ -2,9 +2,7 @@ title: "NASA SMAP Sea Surface Salinity (SSS)"
 description: "Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Salinity (SSS) NetCDF"
 pangeo_forge_version: "0.3.*"  # do we need a separate spec version
 recipes:
-  - id: nasa-smap-sss
-    module: recipe.py  # the module where to find the recipe
-    name: recipe  # the name of the object to import
+  - dict-object: "recipe:recipes"
 provenance:
   providers:
     - name: "NASA SMAP"

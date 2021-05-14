@@ -99,7 +99,7 @@ counter_dict = {
 }
 
 
-def make_full_path(algorithm, freq, date, counter_dict=counter_dict):
+def make_path(algorithm, freq, date, counter_dict=counter_dict):
     '''
     Parameters
     ----------
@@ -155,23 +155,26 @@ def make_full_path(algorithm, freq, date, counter_dict=counter_dict):
 jpl_daily_dates, jpl_monthly_dates = _return_jpl_dates()
 rss_daily_dates, rss_monthly_dates = _return_rss_dates()
 
-all_urls = {
-    'jpl_eightday': [make_full_path('JPL', '8day_running', date=d) for d in jpl_daily_dates],
-    'jpl_monthly': [make_full_path('JPL', 'monthly', date=d) for d in jpl_monthly_dates],
-    'rss_eightday': [make_full_path('RSS', '8day_running', date=d) for d in rss_daily_dates],
-    'rss_monthly': [make_full_path('RSS', 'monthly', date=d) for d in rss_monthly_dates],
+base = 'NASA-SMAP-SSS'
+urls = {
+    f'{base}/JPL/8day': [make_path('JPL', '8day_running', date=d) for d in jpl_daily_dates],
+    f'{base}/JPL/monthly': [make_path('JPL', 'monthly', date=d) for d in jpl_monthly_dates],
+    f'{base}/RSS/8day': [make_path('RSS', '8day_running', date=d) for d in rss_daily_dates],
+    f'{base}/RSS/monthly': [make_path('RSS', 'monthly', date=d) for d in rss_monthly_dates],
+}
+# -
+
+patterns = {
+    list(urls)[i] : pattern_from_file_sequence(urls[list(urls)[i]], "time")
+    for i in range(4)
 }
 
-# +
-import xarray as xr
+recipes = {
+    list(patterns)[i] : XarrayZarrRecipe(patterns[list(patterns)[i]], target_chunks={"time": "50MB"})
+    for i in range(4)
+}
 
-for store in list(all_urls):
-    print(f"{store} contains {len(all_urls[store])} urls.")
-    print(f"""
-    The coordinates of the first and last source files in this store are:
-      {xr.open_dataset(all_urls[store][0]).coords}
-      {xr.open_dataset(all_urls[store][-1]).coords}
-    """)
-# -
+for r in list(recipes):
+    assert recipes[r].file_pattern.shape[0] == len(urls[r])
 
 
