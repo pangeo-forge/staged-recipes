@@ -34,10 +34,64 @@ def _create_jpl_counter_dict():
     )
     counter_list = [f"{n:03}" for n in counter_list]
     assert len(counter_list)==len(daily_dates), "Length mismatch!"
-    return {daily_dates[i]:(counter_list[i],) for i in range(len(counter_list))}
+    return {daily_dates[i]:counter_list[i] for i in range(len(counter_list))}
+
+
+# +
+def _make_rss_counter(level):
+    '''
+    '''
+    if level == "inner":
+        regular_year_count = list(range(5,366)) + list(range(1,5))
+        day_counter = (
+            list(range(90,366)) + list(range(1,5))  # 2015
+            + list(range(5,367)) + list(range(1,5)) # 2016 (leap year)
+            + regular_year_count # 2017 
+            + regular_year_count # 2018
+            + regular_year_count # 2019
+            + list(range(5,367)) + list(range(1,5)) # 2020 (leap year)
+            + list(range(5,122)) # 2021 (current year)
+        )
+    elif level == "outer":
+        regular_year_count = list(range(1,366))
+        day_counter = (
+            list(range(86,366))  # 2015
+            + list(range(1,367)) # 2016 (leap year)
+            + regular_year_count # 2017 
+            + regular_year_count # 2018
+            + regular_year_count # 2019
+            + list(range(1,367)) # 2020 (leap year)
+            + list(range(1,118)) # 2021 (current year)
+        )
+    return day_counter 
+
+def _return_rss_dates():
+    '''
+    '''
+    daily_dates = pd.date_range("2015-03-31", "2021-05-01", freq='D')
+    daily_dates = [str(daily_dates[i])[:4] for i in range(len(daily_dates))]
+
+    counter = _make_rss_counter("inner")
+    assert len(daily_dates) == len(counter), "Length mismatch!"
+    daily_dates = [daily_dates[n] + f"{counter[n]:03}" for n in range(len(daily_dates))]
+    
+    monthly_dates = pd.date_range("2015-04", "2021-04", freq='M')
+    monthly_dates = [str(monthly_dates[i])[:8].replace('-','') for i in range(len(monthly_dates))]
+    
+    return daily_dates, monthly_dates
+
+def _create_rss_counter_dict():
+    '''
+    '''
+    daily_dates, _ = _return_rss_dates()
+    
+    counter_list = _make_rss_counter("outer")
+    counter_list = [f"{n:03}" for n in counter_list]
+    assert len(counter_list)==len(daily_dates), "Length mismatch!"
+    return {daily_dates[i]:counter_list[i] for i in range(len(counter_list))}
+
+
 # -
-
-
 
 counter_dict = {
     'JPL' : _create_jpl_counter_dict(),
@@ -45,7 +99,7 @@ counter_dict = {
 }
 
 
-def make_full_path(algorithm, freq, date, ):
+def make_full_path(algorithm, freq, date, counter_dict=counter_dict):
     '''
     Parameters
     ----------
@@ -82,7 +136,7 @@ def make_full_path(algorithm, freq, date, ):
         day = date[6:8] if len(date) == 8 else None
         freq_caps = '8DAYS' if freq == '8day_running' else 'MONTHLY'
         file_date = f'{yr}{mo}{day}' if freq == '8day_running' else f'{yr}{mo}'
-        url_tail = f'JPL/V5.0/{freq}/{yr}/{count}SMAP_L3_SSS_{file_date}_{freq_caps}_V5.0.nc'
+        url_tail = f'JPL/V5.0/{freq}/{yr}/{count}/SMAP_L3_SSS_{file_date}_{freq_caps}_V5.0.nc'
     else:
         if len(date) == 7:
             seq_day = date[4:7]
@@ -107,23 +161,17 @@ all_urls = {
     'rss_eightday': [make_full_path('RSS', '8day_running', date=d) for d in rss_daily_dates],
     'rss_monthly': [make_full_path('RSS', 'monthly', date=d) for d in rss_monthly_dates],
 }
-# -
-
-all_urls['jpl_eightday'][0]
 
 # +
 import xarray as xr
 
-url_base = 'https://podaac-opendap.jpl.nasa.gov/opendap/allData/smap/L3/'
-freq = '8day_running'
-yr = 2019
-count = '001'
-seq_day = '005'
-url_tail = f'RSS/V4/{freq}/SCI/{yr}/{count}/RSS_smap_SSS_L3_{freq}_{yr}_{seq_day}_FNL_v04.0.nc'
-
-#ds = xr.open_dataset(all_urls['jpl_monthly'][-1])
-ds = xr.open_dataset(url_base + url_tail)
-ds.coords
+for store in list(all_urls):
+    print(f"{store} contains {len(all_urls[store])} urls.")
+    print(f"""
+    The coordinates of the first and last source files in this store are:
+      {xr.open_dataset(all_urls[store][0]).coords}
+      {xr.open_dataset(all_urls[store][-1]).coords}
+    """)
 # -
 
 
