@@ -1,6 +1,6 @@
 import pandas as pd
-from pangeo_forge.patterns import pattern_from_file_sequence
-from pangeo_forge.recipes import XarrayZarrRecipe
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 input_url_pattern = (
     "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation"
