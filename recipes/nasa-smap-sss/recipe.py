@@ -170,7 +170,13 @@ patterns = {
 }
 
 recipes = {
-    list(patterns)[i] : XarrayZarrRecipe(patterns[list(patterns)[i]], target_chunks={"time": "50MB"})
+    list(patterns)[i] : (
+        XarrayZarrRecipe(
+            patterns[list(patterns)[i]], 
+            target_chunks={"time": "50MB"},
+            fsspec_open_kwargs={"block_size": 0},
+        )
+    )
     for i in range(4)
 }
 
