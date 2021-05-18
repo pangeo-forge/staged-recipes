@@ -4,8 +4,7 @@ pangeo_forge_version: "0.3.3"
 pangeo_notebook_version: "2021.05.04"
 recipes:
   - id: noaa-oisst-avhrr-only
-    module: recipe.py  # the module where to find the recipe
-    name: recipe  # the name of the object to import
+    object: "recipe:recipe"
 provenance:
   providers:
     - name: "NOAA NCEI"
