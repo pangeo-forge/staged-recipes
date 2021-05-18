@@ -11,6 +11,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       - name: Download bakeries.yaml
