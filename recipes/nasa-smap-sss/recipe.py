@@ -14,23 +14,23 @@ def _return_jpl_dates():
 
     monthly_dates = pd.date_range("2015-04", "2021-05", freq="M")
     monthly_dates = [str(monthly_dates[i])[:8].replace("-", "") for i in range(len(monthly_dates))]
-    
+
     return daily_dates, monthly_dates
 
 def _create_jpl_counter_dict():
     """Returns dict mapping JPL dates to file indices.
     """
     daily_dates, _ = _return_jpl_dates()
-    
+
     regular_year_count = list(range(1, 366))
     counter_list = (
-        list(range(120, 366)) # 2015 (mission start)
-        + list(range(1, 367)) # 2016 (leap year)
+        list(range(120, 366))  # 2015 (mission start)
+        + list(range(1, 367))  # 2016 (leap year)
         + regular_year_count  # 2017 
         + regular_year_count  # 2018
         + regular_year_count  # 2019
-        + list(range(1, 367)) # 2020 (leap year)
-        + list(range(1, 123)) # 2021 (current year)
+        + list(range(1, 367))  # 2020 (leap year)
+        + list(range(1, 123))  # 2021 (current year)
     )
     counter_list = [f"{n:03}" for n in counter_list]
     assert len(counter_list) == len(daily_dates), "Length mismatch!"
@@ -44,24 +44,27 @@ def _make_rss_counter(level):
     if level == "inner":
         regular_year_count = list(range(5, 366)) + list(range(1, 5))
         day_counter = (
-            list(range(90, 366)) + list(range(1, 5))  # 2015
-            + list(range(5, 367)) + list(range(1, 5)) # 2016 (leap year)
-            + regular_year_count # 2017 
-            + regular_year_count # 2018
-            + regular_year_count # 2019
-            + list(range(5, 367)) + list(range(1, 5)) # 2020 (leap year)
-            + list(range(5, 122)) # 2021 (current year)
+            list(range(90, 366)) 
+            + list(range(1, 5))  # 2015
+            + list(range(5, 367)) 
+            + list(range(1, 5))  # 2016 (leap year)
+            + regular_year_count  # 2017 
+            + regular_year_count  # 2018
+            + regular_year_count  # 2019
+            + list(range(5, 367)) 
+            + list(range(1, 5))  # 2020 (leap year)
+            + list(range(5, 122))  # 2021 (current year)
         )
     elif level == "outer":
         regular_year_count = list(range(1, 366))
         day_counter = (
             list(range(86, 366))  # 2015
-            + list(range(1, 367)) # 2016 (leap year)
-            + regular_year_count # 2017 
-            + regular_year_count # 2018
-            + regular_year_count # 2019
-            + list(range(1, 367)) # 2020 (leap year)
-            + list(range(1, 118)) # 2021 (current year)
+            + list(range(1, 367))  # 2016 (leap year)
+            + regular_year_count  # 2017 
+            + regular_year_count  # 2018
+            + regular_year_count  # 2019
+            + list(range(1, 367))  # 2020 (leap year)
+            + list(range(1, 118))  # 2021 (current year)
         )
     return day_counter
 
@@ -74,17 +77,17 @@ def _return_rss_dates():
     counter = _make_rss_counter("inner")
     assert len(daily_dates) == len(counter), "Length mismatch!"
     daily_dates = [daily_dates[n] + f"{counter[n]:03}" for n in range(len(daily_dates))]
-    
+
     monthly_dates = pd.date_range("2015-04", "2021-04", freq="M")
     monthly_dates = [str(monthly_dates[i])[:8].replace("-", "") for i in range(len(monthly_dates))]
-    
+
     return daily_dates, monthly_dates
 
 def _create_rss_counter_dict():
     """Returns dict mapping RSS dates to file indices.
     """
     daily_dates, _ = _return_rss_dates()
-    
+
     counter_list = _make_rss_counter("outer")
     counter_list = [f"{n:03}" for n in counter_list]
     assert len(counter_list) == len(daily_dates), "Length mismatch!"
@@ -94,8 +97,8 @@ def _create_rss_counter_dict():
 # -
 
 counter_dict = {
-    'JPL' : _create_jpl_counter_dict(),
-    'RSS' : _create_rss_counter_dict(),
+    'JPL': _create_jpl_counter_dict(),
+    'RSS': _create_rss_counter_dict(),
 }
 
 
@@ -108,7 +111,7 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
     freq : str
         One of '8day_running' or 'monthly'
     date : str
-        if freq == '8day_running': 
+        if freq == '8day_running':
             and algorithm == 'JPL': 8-character numerical string of format YYYYMMDD
             and algorithm == 'RSS': 7-character numerical string of format YYYYDDD
         else: 6-character numerical string of format YYYYMM
@@ -118,10 +121,10 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
     Returns
     -------
     Full url path for specified dataset.
-    """    
+    """
     assert algorithm in ("JPL", "RSS"), "algorithm must be one of 'JPL' or 'RSS'"
     assert freq in ("8day_running", "monthly"), "freq must be one of '8day_running' or 'monthly'"
-    
+
     if freq == "8day_running":
         if algorithm == "JPL":
             assert len(date) == 8, "if freq=='8day_running' and algo=='JPL', len(date) must == 8"
@@ -130,11 +133,11 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
         count = counter_dict[algorithm][date]
     else:
         assert len(date) == 6, "if freq=='monthly', len(date) must == 6"
-        count = ''
-    
+        count = ""
+
     url_base = "https://podaac-opendap.jpl.nasa.gov/opendap/allData/smap/L3/"
     yr = date[:4]
-    
+
     if algorithm == "JPL":
         mo = date[4:6]
         day = date[6:8] if len(date) == 8 else None
@@ -144,13 +147,15 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
     else:
         if len(date) == 7:
             seq_day = date[4:7]
-            assert int(seq_day) in range(1,367), "Sequential day must be in range(1,367)"
+            assert int(seq_day) in range(1, 367), "Sequential day must be in range(1,367)"
             date_spec = seq_day
         else:
             month = date[4:6]
-            assert int(month) in range(1,13), "Month must be in range(1,13)"
+            assert int(month) in range(1, 13), "Month must be in range(1,13)"
             date_spec = month
-        url_tail = f"RSS/V4/{freq}/SCI/{yr}/{count}/RSS_smap_SSS_L3_{freq}_{yr}_{date_spec}_FNL_v04.0.nc"
+        url_tail = (
+            f"RSS/V4/{freq}/SCI/{yr}/{count}/RSS_smap_SSS_L3_{freq}_{yr}_{date_spec}_FNL_v04.0.nc"
+        )
 
     return url_base + url_tail
 
@@ -169,9 +174,9 @@ urls = {
 # -
 
 patterns = {
-    list(urls)[i] : (
+    list(urls)[i]: (
         pattern_from_file_sequence(
-            file_list = urls[list(urls)[i]], concat_dim = "time", nitems_per_file = 1,
+            file_list=urls[list(urls)[i]], concat_dim="time", nitems_per_file=1,
         )
     )
     for i in range(4)
