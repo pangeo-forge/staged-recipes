@@ -49,7 +49,7 @@ def _make_rss_counter(level):
             + list(range(1, 5))  # 2015
             + list(range(5, 367))
             + list(range(1, 5))  # 2016 (leap year)
-            + regular_year_count  # 2017 
+            + regular_year_count  # 2017
             + regular_year_count  # 2018
             + regular_year_count  # 2019
             + list(range(5, 367))
@@ -69,6 +69,7 @@ def _make_rss_counter(level):
         )
     return day_counter
 
+
 def _return_rss_dates():
     """Returns lists of dates for RSS file pattern.
     """
@@ -83,6 +84,7 @@ def _return_rss_dates():
     monthly_dates = [str(monthly_dates[i])[:8].replace("-", "") for i in range(len(monthly_dates))]
 
     return daily_dates, monthly_dates
+
 
 def _create_rss_counter_dict():
     """Returns dict mapping RSS dates to file indices.
@@ -192,5 +194,3 @@ recipes = {
 
 for r in list(recipes):
     assert recipes[r].file_pattern.shape[0] == len(urls[r])
-
-
