@@ -1,11 +1,9 @@
-# +
 import pandas as pd
 
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
-# +
 def _return_jpl_dates():
     """Returns lists of dates for the JPL file pattern.
     """
@@ -38,7 +36,6 @@ def _create_jpl_counter_dict():
     return {daily_dates[i]: counter_list[i] for i in range(len(counter_list))}
 
 
-# +
 def _make_rss_counter(level):
     """Returns file index lists for RSS file pattern.
     """
@@ -96,8 +93,6 @@ def _create_rss_counter_dict():
     assert len(counter_list) == len(daily_dates), "Length mismatch!"
     return {daily_dates[i]: counter_list[i] for i in range(len(counter_list))}
 
-
-# -
 
 counter_dict = {
     "JPL": _create_jpl_counter_dict(),
@@ -163,7 +158,6 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
     return url_base + url_tail
 
 
-# +
 jpl_daily_dates, jpl_monthly_dates = _return_jpl_dates()
 rss_daily_dates, rss_monthly_dates = _return_rss_dates()
 
@@ -174,7 +168,6 @@ urls = {
     f"{base}/RSS/8day": [make_path("RSS", "8day_running", date=d) for d in rss_daily_dates],
     f"{base}/RSS/monthly": [make_path("RSS", "monthly", date=d) for d in rss_monthly_dates],
 }
-# -
 
 patterns = {
     list(urls)[i]: (
