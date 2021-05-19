@@ -17,6 +17,7 @@ def _return_jpl_dates():
 
     return daily_dates, monthly_dates
 
+
 def _create_jpl_counter_dict():
     """Returns dict mapping JPL dates to file indices.
     """
@@ -26,7 +27,7 @@ def _create_jpl_counter_dict():
     counter_list = (
         list(range(120, 366))  # 2015 (mission start)
         + list(range(1, 367))  # 2016 (leap year)
-        + regular_year_count  # 2017 
+        + regular_year_count  # 2017
         + regular_year_count  # 2018
         + regular_year_count  # 2019
         + list(range(1, 367))  # 2020 (leap year)
@@ -44,14 +45,14 @@ def _make_rss_counter(level):
     if level == "inner":
         regular_year_count = list(range(5, 366)) + list(range(1, 5))
         day_counter = (
-            list(range(90, 366)) 
+            list(range(90, 366))
             + list(range(1, 5))  # 2015
-            + list(range(5, 367)) 
+            + list(range(5, 367))
             + list(range(1, 5))  # 2016 (leap year)
             + regular_year_count  # 2017 
             + regular_year_count  # 2018
             + regular_year_count  # 2019
-            + list(range(5, 367)) 
+            + list(range(5, 367))
             + list(range(1, 5))  # 2020 (leap year)
             + list(range(5, 122))  # 2021 (current year)
         )
@@ -60,7 +61,7 @@ def _make_rss_counter(level):
         day_counter = (
             list(range(86, 366))  # 2015
             + list(range(1, 367))  # 2016 (leap year)
-            + regular_year_count  # 2017 
+            + regular_year_count  # 2017
             + regular_year_count  # 2018
             + regular_year_count  # 2019
             + list(range(1, 367))  # 2020 (leap year)
@@ -97,8 +98,8 @@ def _create_rss_counter_dict():
 # -
 
 counter_dict = {
-    'JPL': _create_jpl_counter_dict(),
-    'RSS': _create_rss_counter_dict(),
+    "JPL": _create_jpl_counter_dict(),
+    "RSS": _create_rss_counter_dict(),
 }
 
 
@@ -117,7 +118,7 @@ def make_path(algorithm, freq, date, counter_dict=counter_dict):
         else: 6-character numerical string of format YYYYMM
     counter_dict : dict
         A dict of dicts.
-        
+
     Returns
     -------
     Full url path for specified dataset.

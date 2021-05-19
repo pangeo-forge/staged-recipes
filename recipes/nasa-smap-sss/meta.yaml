@@ -16,4 +16,4 @@ maintainers:
   - name: "Charles Stern"
     github: cisaacstern
 bakeries:
-  - id: "pangeo-aws-west-1" # TODO: double-check before merging
+  - id: "pangeo-aws-west-1"
