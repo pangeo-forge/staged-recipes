@@ -165,7 +165,13 @@ urls = {
 # -
 
 patterns = {
-    list(urls)[i] : pattern_from_file_sequence(urls[list(urls)[i]], "time")
+    list(urls)[i] : (
+        pattern_from_file_sequence(
+            file_list = urls[list(urls)[i]], 
+            concat_dim = "time",
+            nitems_per_file = 1,
+        )
+    )
     for i in range(4)
 }
 
@@ -173,7 +179,6 @@ recipes = {
     list(patterns)[i] : (
         XarrayZarrRecipe(
             patterns[list(patterns)[i]], 
-            target_chunks={"time": "50MB"},
             fsspec_open_kwargs={"block_size": 0},
         )
     )
