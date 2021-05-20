@@ -7,7 +7,7 @@ def gen_urls(reg, freq=None, grid=False):
     months = ["Feb", "Mar", "Apr", "Aug", "Sep", "Oct"]
     base = "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
 
-    if grid == False:
+    if not grid:
         urls = [base + f"HYCOM50_E043_{month}_{reg}_{freq}.nc" for month in months]
     else:
         urls = [
