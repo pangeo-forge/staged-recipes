@@ -1,92 +1,75 @@
-import numpy as np
-from pangeo_forge.recipe import NetCDFtoZarrSequentialRecipe
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-def gen_url(reg, freq):
-    months = np.array(['Feb','Mar','Apr','Aug','Sep','Oct'], dtype=str)
-    input_url_pattern = (
-                "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
-                "HYCOM50_E043_{month}_{reg}_{freq}.nc"
-                            )
-    input_urls = [
-                input_url_pattern.format(month=month,
-                                       reg=reg, freq=freq
-                                        )
-                for month in months
-                 ]
-    return input_urls
+def gen_urls(reg, freq=None, grid=False):
+
+    months = ["Feb", "Mar", "Apr", "Aug", "Sep", "Oct"]
+    base = "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
+                
+    if grid == False:
+        urls = [base + f"HYCOM50_E043_{month}_{reg}_{freq}.nc" for month in months]
+    else:
+        urls = [base + f"HYCOM50_grid_{reg}.nc",]
+    
+    return urls
 
 
-surf_01 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=gen_url('GS','hourly'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={'time': 24}
-                                      )
+regs = ["GS", "GE", "MD"]
 
-surf_02 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=gen_url('GE','hourly'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={'time': 24}
-                                      )
+surf_patterns = {
+    f"surf_{i+1:02}": (
+        pattern_from_file_sequence(
+            gen_urls(reg, "hourly"), concat_dim="time",
+        )
+    ) 
+    for i, reg in zip(range(3), regs)
+}
 
-surf_03 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=get_url('MD','hourly'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={"time":24}
-                                      )
+surf_recipes = {
+    list(surf_patterns)[i]: (
+        XarrayZarrRecipe(
+            surf_patterns[list(surf_patterns)[i]], 
+            target_chunks={"time": 24},
+        )
+    )
+    for i in range(3)
+}
 
-int_01 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=gen_url('GS','daily'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={'time': 24}
-                                     )
+int_patterns = {
+    f"int_{i+1:02}": (
+        pattern_from_file_sequence(
+            gen_urls(reg, "daily"), concat_dim="time",
+        )
+    ) 
+    for i, reg in zip(range(3), regs)
+}
 
-int_02 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=gen_url('GE','daily'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={'time': 24}
-                                     )
+int_recipes = {
+    list(int_patterns)[i]: (
+        XarrayZarrRecipe(
+            int_patterns[list(int_patterns)[i]], 
+            target_chunks={"time": 24},
+        )
+    )
+    for i in range(3)
+}
 
-int_03 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=gen_url('MD','daily'),
-                    sequence_dim="time",
-                    inputs_per_chunk=1,
-                    nitems_per_input=None,
-                    target_chunks={'time': 24}
-                                     )
+grid_patterns = {
+    f"grid_{i+1:02}": (
+        pattern_from_file_sequence(
+            gen_urls(reg, grid=True), concat_dim="time", nitems_per_file=1,
+        )
+    ) 
+    for i, reg in zip(range(3), regs)
+}
 
-grid_01 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=(
-                        "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
-                        "HYCOM50_grid_GS.nc"
-                               )
-                                      )
+grid_recipes = {
+    list(grid_patterns)[i]: (
+        XarrayZarrRecipe(
+            grid_patterns[list(grid_patterns)[i]],
+        )
+    )
+    for i in range(3)
+}
 
-grid_02 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=(
-                        "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
-                        "HYCOM50_grid_GE.nc"
-                        )
-                                      )
-
-grid_03 = NetCDFtoZarrSequentialRecipe(
-                    input_urls=(
-                        "ftp://ftp.hycom.org/pub/xbxu/ATLc0.02/SWOT_ADAC/"
-                        "HYCOM50_grid_MD.nc"
-                        )
-                                      )
-
-recipe = {
-          'surf_01':surf_01, 'surf_02':surf_02, 'surf_03':surf_03, 
-          'int_01':int_01, 'int_02':int_02, 'int_03':int_03,
-          'grid_01':grid_01, 'grid_02':grid_02, 'grid_03':grid_03
-         }
+recipes = {**surf_recipes, **int_recipes, **grid_recipes,}
