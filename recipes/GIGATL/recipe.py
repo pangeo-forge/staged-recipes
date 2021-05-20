@@ -10,7 +10,7 @@ surf_dates = pd.concat(
 )
 
 
-def get_surf_url(region, dim='surf', dates=surf_dates):
+def get_surf_url(region, dim="surf", dates=surf_dates):
     pattern = "ftp://eftp.ifremer.fr/SWOT/gigatl1_1h_tides_{dim}_avg_{reg:1d}_{yymmdd}.nc"
     input_urls = [
         pattern.format(dim=dim, reg=region, yymmdd=day.strftime("%Y-%m-%d")) for day in dates
