@@ -1,6 +1,7 @@
 title: "NASA SMAP Sea Surface Salinity (SSS)"
 description: "Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Salinity (SSS) Level 3 Gridded NetCDFs"
 pangeo_forge_version: "0.3.3"
+pangeo_notebook_version: "2021.05.04"
 recipes:
   - dict_object: "recipe:recipes"
 provenance:
