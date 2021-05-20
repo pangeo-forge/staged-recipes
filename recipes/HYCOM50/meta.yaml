@@ -1,44 +1,10 @@
   
 title: "SWOT-AdAC data (HYCOM50)"
 description: "HYCOM50 regional data for SWOT-AdAC Xovers"
-pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+pangeo_forge_version: "0.3.3"
+pangeo_notebook_version: "2021.05.04"
 recipes:
-  - id: hycom50-surf-01
-    object: "recipe:surf_01"
-    module: recipe_hycom50.py  # the module where to find the recipe
-    name: recipe_hycom50  # the name of the object to import
-  - id: hycom50-surf-02
-    object: "recipe:surf_02"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-surf-03
-    object: "recipe:surf_03"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-int-01
-    object: "recipe:int_01"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-int-02
-    object: "recipe:int_02"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-int-03
-    object: "recipe:int_03"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-grid-01
-    object: "recipe:grid_01"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-grid-02
-    object: "recipe:grid_02"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
-  - id: hycom50-grid-03
-    object: "recipe:grid_03"
-    module: recipe_hycom50.py
-    name: recipe_hycom50
+  - dict_object: "recipe:recipes"
 provenance:
   providers:
     - name: "COAPS, FSU"
@@ -49,8 +15,11 @@ provenance:
       url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
   license: "CC-BY-NC-SA-4.0"
 maintainers:
-  - name: "Xiaobiao Xu"
-    orcid: ""
-    github: 
-bakeries:
-  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
+  - name: "Charles Stern"
+    github: cisaacstern
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
+  target: pangeo-forge-aws-bakery-flowcachebucketpangeofor-196cpck7y0pbl
+  resources:
+    memory: 4096
+    cpu: 1024

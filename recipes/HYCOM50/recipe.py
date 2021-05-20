@@ -46,7 +46,7 @@ int_recipes = {
 grid_patterns = {
     f"grid_{i+1:02}": (
         pattern_from_file_sequence(gen_urls(reg, grid=True), concat_dim="time", nitems_per_file=1,)
-    ) 
+    )
     for i, reg in zip(range(3), regs)
 }
 
