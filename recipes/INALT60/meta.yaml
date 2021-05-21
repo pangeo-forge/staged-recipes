@@ -1,19 +1,9 @@
 title: "SWOT-AdAC data (INALT60)"
 description: "INALT60 regional data for SWOT-AdAC Xovers"
-pangeo_forge_version: "0.0.1"  # do we need a separate spec version
+pangeo_forge_version: "0.3.3"
+pangeo_notebook_version: "2021.05.04"
 recipes:
-  - id: inalt60-surf-ocean
-    object: "recipe:surf_ocean"
-    module: recipe_inalt60.py  # the module where to find the recipe
-    name: recipe_inalt60  # the name of the object to import
-  - id: inalt60-surf-flux
-    object: "recipe:surf_flux"
-    module: recipe_inalt60.py
-    name: recipe_inalt60
-  - id: inalt60-int-ocean
-    object: "recipe:int_ocean"
-    module: recipe_inalt60.py
-    name: recipe_inalt60
+  - dict_object: "recipe:recipes"
 provenance:
   providers:
     - name: "GEOMAR"
@@ -24,8 +14,11 @@ provenance:
       url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
   license: "CC-BY-NC-SA-4.0"
 maintainers:
-  - name: "Rene Schubert"
-    orcid: "0000-0003-1118-3968"
+  - name: "Charles Stern"
     github: reneschubert
-bakeries:
-  - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
+  target: pangeo-forge-aws-bakery-flowcachebucketpangeofor-196cpck7y0pbl
+  resources:
+    memory: 4096
+    cpu: 1024
