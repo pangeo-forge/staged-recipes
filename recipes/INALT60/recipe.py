@@ -1,9 +1,12 @@
 from pangeo_forge_recipes.patterns import (
-    MergeDim, ConcatDim, FilePattern, pattern_from_file_sequence
+    ConcatDim,
+    FilePattern,
+    MergeDim,
+    pattern_from_file_sequence,
 )
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-months = [f"{m:02d}" for m in (2,3,4,8,9,10)]
+months = [f"{m:02d}" for m in (2, 3, 4, 8, 9, 10)]
 concat_months = ConcatDim("time_counter", keys=months)
 
 
@@ -15,18 +18,15 @@ def gen_url(variable, time_counter, freq, dim):
     return base + f"INALT60_{freq}_{dim}_{variable}_{time_counter}.nc"
 
 
-# +
 surf_ocean_vars = ["u", "v", "hts"]
 
 pattern_dict = {
-    "surf_ocean_4h": {"vars": surf_ocean_vars, "args": ("4h", "surface"),},
-    "surf_ocean_5d": {"vars": surf_ocean_vars, "args": ("5d", "surface"),},
-    "surf_flux_1d": {"vars": ["flux", "taux", "tauy"], "args": ("1d", "surface"),},
-    "int_ocean_1d": {"vars": ["ts", "u", "v", "w"], "args": ("1d", "upper1000m"),},
+    "surf_ocean_4h": {"vars": surf_ocean_vars, "args": ("4h", "surface")},
+    "surf_ocean_5d": {"vars": surf_ocean_vars, "args": ("5d", "surface")},
+    "surf_flux_1d": {"vars": ["flux", "taux", "tauy"], "args": ("1d", "surface")},
+    "int_ocean_1d": {"vars": ["ts", "u", "v", "w"], "args": ("1d", "upper1000m")},
 }
 
-
-# -
 
 def create_recipe(key, patterns=pattern_dict, url_func=gen_url, concat_dim=concat_months):
     url_func.__defaults__ = patterns[key]["args"]
