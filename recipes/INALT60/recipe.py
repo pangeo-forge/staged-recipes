@@ -1,8 +1,8 @@
 from pangeo_forge_recipes.patterns import (
-    MergeDim,
     ConcatDim,
     FilePattern,
-    pattern_from_file_sequence
+    MergeDim,
+    pattern_from_file_sequence,
 )
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
