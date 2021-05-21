@@ -21,10 +21,10 @@ def gen_url(variable, time_counter, freq, dim):
 surf_ocean_vars = ["u", "v", "hts"]
 
 pattern_dict = {
-    "surf_ocean_4h": {"vars": surf_ocean_vars, "args": ("4h", "surface"),},
-    "surf_ocean_5d": {"vars": surf_ocean_vars, "args": ("5d", "surface"),},
-    "surf_flux_1d": {"vars": ["flux", "taux", "tauy"], "args": ("1d", "surface"),},
-    "int_ocean_1d": {"vars": ["ts", "u", "v", "w"], "args": ("1d", "upper1000m"),},
+    "surf_ocean_4h": {"vars": surf_ocean_vars, "args": ("4h", "surface")},
+    "surf_ocean_5d": {"vars": surf_ocean_vars, "args": ("5d", "surface")},
+    "surf_flux_1d": {"vars": ["flux", "taux", "tauy"], "args": ("1d", "surface")},
+    "int_ocean_1d": {"vars": ["ts", "u", "v", "w"], "args": ("1d", "upper1000m")},
 }
 
 
@@ -44,7 +44,7 @@ def grid_recipe():
         "0e95d316-f1ba-47e3-b667-fc800afafe22/data/"
         "INALT60_mesh_mask.nc"
     )
-    pattern = pattern_from_file_sequence([url,], "time_counter", 1)
+    pattern = pattern_from_file_sequence([url, ], "time_counter", 1)
     return XarrayZarrRecipe(pattern)
 
 
