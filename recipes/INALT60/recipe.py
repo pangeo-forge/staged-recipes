@@ -1,9 +1,12 @@
 from pangeo_forge_recipes.patterns import (
-    MergeDim, ConcatDim, FilePattern, pattern_from_file_sequence
+    MergeDim,
+    ConcatDim,
+    FilePattern,
+    pattern_from_file_sequence
 )
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-months = [f"{m:02d}" for m in (2,3,4,8,9,10)]
+months = [f"{m:02d}" for m in (2, 3, 4, 8, 9, 10)]
 concat_months = ConcatDim("time_counter", keys=months)
 
 
