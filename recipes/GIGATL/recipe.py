@@ -5,7 +5,7 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 surf_dates = pd.date_range("2008-08-01", "2008-11-01", freq="5D").to_series()
 surf_dates = pd.concat(
-    [surf_dates, pd.date_range("2009-02-01", "2009-05-01", freq="5D").to_series()],
+    [surf_dates, pd.date_range("2009-02-02", "2009-05-01", freq="5D").to_series()],
     ignore_index=True,
 )
 
