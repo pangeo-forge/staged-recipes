@@ -20,11 +20,13 @@ def gen_urls(reg, season=None, datatype=None, grid=False):
 
     if not grid:
         assert datatype, "If `grid=False`, `datatype` must be one of `surf` or `int`."
-        months = (["Feb", "Mar", "Apr"] if season == "fma" else ["Aug", "Sep", "Oct"])
+        months = ["Feb", "Mar", "Apr"] if season == "fma" else ["Aug", "Sep", "Oct"]
         freq = "hourly" if datatype == "surf" else "daily"
         urls = [base + f"HYCOM50_E043_{month}_{reg}_{freq}.nc" for month in months]
     else:
-        urls = [base + f"HYCOM50_grid_{reg}.nc", ]
+        urls = [
+            base + f"HYCOM50_grid_{reg}.nc",
+        ]
 
     return urls
 
@@ -45,11 +47,9 @@ def create_recipes(datatype, season, regs=regs):
     A dictionary of recipes.
     """
     patterns = {
-        f"HYCOM50/Region{i+1:02}_{reg}/{datatype}/{season}":
-            pattern_from_file_sequence(
-                gen_urls(season=season, reg=reg, datatype=datatype),
-                concat_dim="time",
-            )
+        f"HYCOM50/Region{i+1:02}_{reg}/{datatype}/{season}": pattern_from_file_sequence(
+            gen_urls(season=season, reg=reg, datatype=datatype), concat_dim="time",
+        )
         for i, reg in zip(range(3), regs)
     }
     recipes = {
