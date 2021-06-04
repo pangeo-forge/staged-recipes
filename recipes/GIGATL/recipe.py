@@ -34,7 +34,9 @@ def get_int_url(region, dates=int_dates):
 
 
 surf_patterns = {
-    f"surf_reg_{i:02}": pattern_from_file_sequence(get_surf_url(i), concat_dim="time",)
+    f"surf_reg_{i:02}": (
+        pattern_from_file_sequence(get_surf_url(i), concat_dim="time", nitems_per_file=120,)
+    )
     for i in range(1, 3)
 }
 
