@@ -86,9 +86,7 @@ def create_recipes(datatype, season, pattern):
 
 surf_pattern = "ftp://eftp.ifremer.fr/SWOT/SURF/gigatl1_1h_tides_surf_avg_{reg:1d}_{yymmdd}.nc"
 
-int_pattern = (
-    "sftpgula@draco.univ-brest.fr:/GIGATL1/SWOT/gigatl1_1h_tides_region_{reg:02d}_{yymmdd}.nc"
-)
+int_pattern = "ftp://eftp.ifremer.fr/SWOT/3D/gigatl1_1h_tides_region_{reg:02d}_{yymmdd}.nc"
 
 recipes = {
     **create_recipes("surf", "aso", surf_pattern),
