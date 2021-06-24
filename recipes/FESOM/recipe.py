@@ -18,10 +18,11 @@ def gen_url(variable, time_counter):
 
 
 surf_ocean_vars = ["dflux","ssh","sss","sst","tx_sur","ty_sur","u_surf","v_surf"]
+int_ocean_vars = []
 
 pattern_dict = {
                 "surf_1h": {"vars": surf_ocean_vars},
-                "int_1d": {"vars": []},
+                "int_1d": {"vars": int_ocean_vars},
 }
 
 
@@ -32,4 +33,4 @@ def create_recipe(key, patterns=pattern_dict, url_func=gen_url, concat_dim=conca
     return XarrayZarrRecipe(pattern, target_chunks={"time": 15})
 
 
-recipes = {list(pattern_dict)[i]: create_recipe(list(pattern_dict)[i]) for i in range(4)}
+recipes = {list(pattern_dict)[i]: create_recipe(list(pattern_dict)[i]) for i in range(2)}
