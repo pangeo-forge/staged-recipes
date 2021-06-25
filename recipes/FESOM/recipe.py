@@ -6,8 +6,7 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 def gen_url(month, variable):
     base = (
-        "https://swiftbrowser.dkrz.de/public/dkrz_035d8f6ff058403bb42f8302e6badfbc/"
-        "SWOT_intercomparison/"
+        "https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/SWOT_intercomparison/"
     )
     return base + f"2012-{month}_{variable}_cubic.nc"
 
