@@ -37,7 +37,6 @@ def create_recipe(datatype, season, vars=var_dict, url_func=gen_url):
 datatypes = list(var_dict)
 seasons = ("fma", "aso")
 recipes = {
-    f"FESOM/{datatype}/{season}":
-    create_recipe(datatype=datatype, season=season)
+    f"FESOM/{datatype}/{season}": create_recipe(datatype=datatype, season=season)
     for datatype, season in product(datatypes, seasons)
 }
