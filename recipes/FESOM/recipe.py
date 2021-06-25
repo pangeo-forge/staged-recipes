@@ -31,7 +31,7 @@ def create_recipe(datatype, season, vars=var_dict, url_func=gen_url):
     concat_dim = ConcatDim("month", keys=months)
 
     pattern = FilePattern(url_func, merge_dim, concat_dim)
-    return XarrayZarrRecipe(pattern, target_chunks={"time": 15})
+    return XarrayZarrRecipe(pattern, target_chunks={"month": 15})
 
 
 datatypes = list(var_dict)
