@@ -30,7 +30,7 @@ def create_recipe(datatype, season, vars=var_dict, url_func=gen_url):
     months = [f"{m:02d}" for m in month_range]
     concat_dim = ConcatDim("month", keys=months)
 
-    pattern = FilePattern(url_func, merge_dim, concat_dim)
+    pattern = FilePattern(url_func, concat_dim, merge_dim)
     return XarrayZarrRecipe(pattern, target_chunks={"month": 15})
 
 
