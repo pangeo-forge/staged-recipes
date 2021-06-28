@@ -6,8 +6,8 @@ This is the starting place for a new pipeline recipe, welcome!
 
 To add a new recipe, you'll open a pull request containing:
 
-1. A `recipes/<Your recipe name>/meta.yaml` file, containing the metadata for your dataset
-2. A `recipes/<Your recipe name>/recipe.py` file, a Python module with actual pipeline definition.
+1. A `recipes/<Your feedstock name>/meta.yaml` file, containing the metadata for your dataset
+2. A `recipes/<Your feedstock name>/recipe.py` file, a Python module with actual pipeline definition.
 
 See below for help on writing those files.
 
