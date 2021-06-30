@@ -35,7 +35,7 @@ merge_dim = MergeDim("variable", keys=vars)
 pattern = FilePattern(make_full_path, merge_dim)
 
 chunks = {
-    'time:20'
+    'time:200'
 }
 
 recipe = XarrayZarrRecipe(pattern, target_chunks=chunks)
