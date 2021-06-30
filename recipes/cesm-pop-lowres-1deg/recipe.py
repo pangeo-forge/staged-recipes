@@ -10,13 +10,24 @@ def make_full_path(variable):
     variable: str
         A string representing each variable
     """
-    return f"fill_in_the_path_here_{variable}.nc"
+    return f"https://tds.ucar.edu/thredds/fileServer/datazone/campaign/cesm/collections/ASD/v5_rel04_BC5_ne30_g16/ocn/proc/tseries/daily/v5_rel04_BC5_ne30_g16.pop.h.nday1.{variable}.00010101-01661231.nc"
 
 
 vars = [
-    # this should be a list of strings cooresponding to the variable names
-    # it will eventually be passed into the `make_full_path` function,
-    # to generate the source file paths
+    'HMXL_2',
+    'SFWF_2',
+    'SHF_2',
+    'SSH_2',
+    'SSS',
+    'SST',
+    'SST2',
+    'TAUX_2',
+    'TAUY_2',
+    'U1_1',
+    'U2_2',
+    'V1_1',
+    'V2_2',
+    'XMXL_2'
 ]
 
 merge_dim = MergeDim("variable", keys=vars)
@@ -24,8 +35,7 @@ merge_dim = MergeDim("variable", keys=vars)
 pattern = FilePattern(make_full_path, merge_dim)
 
 chunks = {
-    # this should be a dictionary mapping the name of the time dimension to
-    # the desired chunk size, for example: `{"time": 15}`
+    'time:20'
 }
 
 recipe = XarrayZarrRecipe(pattern, target_chunks=chunks)
