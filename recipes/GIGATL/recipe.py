@@ -20,7 +20,9 @@ def create_dates(datatype, season):
     """
     freq = "5D" if datatype == "surf" else "1D"
 
-    start_stop = ["2008-08-01", "2008-11-01"] if season == "aso" else ["2009-01-28", "2009-05-01"]
+    fma_start = "2009-01-28" if datatype == "surf" else "2009-02-01"
+
+    start_stop = ["2008-08-01", "2008-11-01"] if season == "aso" else [fma_start, "2009-05-01"]
 
     return pd.date_range(*start_stop, freq=freq)
 
