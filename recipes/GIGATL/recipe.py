@@ -73,12 +73,14 @@ def create_recipes(datatype, season, pattern):
     A dictionary of recipes
     """
     chunks = 24 if datatype == "surf" else 10
+    time_dim_length = 120 if datatype == "surf" else 1
+
     patterns = {
         f"GIGATL/Region{i:02}/{datatype}/{season}": (
             pattern_from_file_sequence(
                 create_urls(pattern=pattern, datatype=datatype, reg=i, season=season,),
                 concat_dim="time",
-                nitems_per_file=120,  # I'm not 100% this also applies for int recipes
+                nitems_per_file=time_dim_length,
             )
         )
         for i in range(1, 3)
