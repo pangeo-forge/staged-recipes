@@ -72,8 +72,8 @@ def create_recipes(datatype, season, pattern):
     -------
     A dictionary of recipes
     """
-    chunks = 24 if datatype == "surf" else 10
     time_dim_length = 120 if datatype == "surf" else 1
+    target_chunks = {"time": 24} if datatype == "surf" else {"s_rho": 2}
 
     patterns = {
         f"GIGATL/Region{i:02}/{datatype}/{season}": (
@@ -87,7 +87,7 @@ def create_recipes(datatype, season, pattern):
     }
     recipes = {
         list(patterns)[i]: (
-            XarrayZarrRecipe(patterns[list(patterns)[i]], target_chunks={"time": chunks},)
+            XarrayZarrRecipe(patterns[list(patterns)[i]], target_chunks=target_chunks,)
         )
         for i in range(2)
     }
