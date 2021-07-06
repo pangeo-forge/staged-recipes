@@ -33,7 +33,7 @@ def make_recipe_surface(region, season):
 
 
 def make_recipe_interior(region, season):
-    input_url_pattern = url_base + "/Interior/eNATL60/Region{reg:02d}-interior-daily_{yymm}.nc"    
+    input_url_pattern = url_base + "/Interior/eNATL60/Region{reg:02d}-interior-daily_{yymm}.nc"
     months = season_months[season]
     input_urls = [input_url_pattern.format(reg=region, yymm=date.strftime("%Y-%m"))
                   for date in months]
@@ -41,7 +41,7 @@ def make_recipe_interior(region, season):
 
     recipe = XarrayZarrRecipe(
         file_pattern,
-        target_chunks={'time_counter': "50MB"}
+        target_chunks={'time_counter': 1}
     )
     return recipe
 
