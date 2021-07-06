@@ -41,8 +41,7 @@ def make_recipe_interior(region, season):
 
     recipe = XarrayZarrRecipe(
         file_pattern,
-        # target_chunks={'time_counter': 1},
-        target_chunks={'deptht': 1},
+        target_chunks={'time_counter': 1, 'y': 15},
     )
     return recipe
 
