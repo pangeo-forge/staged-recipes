@@ -18,14 +18,26 @@ def make_full_path(variable):
 
 
 vars = [
-    'HMXL_2', 'SFWF_2', 'SHF_2', 'SSH_2', 'SSS', 'SST', 'SST2', 'TAUX_2', 'TAUY_2', 'U1_1',
-    'U2_2', 'V1_1', 'V2_2', 'XMXL_2',
+    "HMXL_2",
+    "SFWF_2",
+    "SHF_2",
+    "SSH_2",
+    "SSS",
+    "SST",
+    "SST2",
+    "TAUX_2",
+    "TAUY_2",
+    "U1_1",
+    "U2_2",
+    "V1_1",
+    "V2_2",
+    "XMXL_2",
 ]
 
 merge_dim = MergeDim("variable", keys=vars)
 
 pattern = FilePattern(make_full_path, merge_dim)
 
-chunks = {'time': 200}
+chunks = {"time": 200}
 
 recipe = XarrayZarrRecipe(pattern, target_chunks=chunks)
