@@ -1,4 +1,4 @@
-from pangeo_forge_recipes.patterns import MergeDim, FilePattern
+from pangeo_forge_recipes.patterns import FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
