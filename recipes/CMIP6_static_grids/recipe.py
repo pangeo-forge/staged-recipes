@@ -5,8 +5,10 @@ url_dict = {
     "GFDL-ESM4": (
         "{mock_concat}ftp://ftp.gfdl.noaa.gov/"
         "perm/Alistair.Adcroft/MOM6-testing/OM4_05/ocean_hgrid.nc"
-        ),
-    # "another_grid_key": "{mock_concat}ftp://another_grid_source_file_url",
+    ),
+    # "another_grid_key": (
+    #   "{mock_concat}ftp://another_grid_source_file_url"
+    # ),
 }
 
 time_concat_dim = ConcatDim("mock_concat", [""], nitems_per_file=1)
