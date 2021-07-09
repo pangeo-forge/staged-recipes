@@ -1,6 +1,5 @@
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
-from pangeo_forge_recipes.patterns import FilePattern
-from pangeo_forge_recipes.patterns import ConcatDim
 
 
 ## This seems cumbersome and not elegant. Is there a way to wrap the values of `url_dict` into functions programmatically?
