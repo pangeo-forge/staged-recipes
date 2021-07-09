@@ -37,9 +37,11 @@ xr_open_kwargs_dict = {
 
 
 def make_recipe(grid_key):
-    pp = preprocess_dict[grid_key]
     make_full_path.__defaults__ = (grid_key,)
     filepattern = FilePattern(make_full_path, time_concat_dim)
+    pp = (
+        preprocess_dict[grid_key] if grid_key in preprocess_dict.keys() else None
+    )
     xarray_open_kwargs = (
         xr_open_kwargs_dict[grid_key] if grid_key in xr_open_kwargs_dict.keys() else {}
     )
