@@ -1,8 +1,7 @@
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
-
-# This seems cumbersome and not elegant. 
+# This seems cumbersome and not too elegant.
 # Is there a way to wrap the values of `url_dict` into functions programmatically?
 def gfdl_esm4_url():
     return "ftp://ftp.gfdl.noaa.gov/perm/Alistair.Adcroft/MOM6-testing/OM4_05/ocean_hgrid.nc"
