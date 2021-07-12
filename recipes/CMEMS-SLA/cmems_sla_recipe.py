@@ -4,11 +4,11 @@ from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
-def make_full_path(date):
+def make_full_path(time):
     """Return a valid ftp download url based on a date input
     """
 
-    year, month, day = date.year, date.month, date.day
+    year, month, day = time.year, time.month, time.day
 
     return (
         "ftp://my.cmems-du.eu/Core/SEALEVEL_GLO_PHY_L4_REP_OBSERVATIONS_008_047/"
@@ -19,7 +19,7 @@ def make_full_path(date):
 
 dates = pd.date_range(start="1993-01-01", end="2017-05-15")
 
-concat_dim = ConcatDim("date", dates)
+concat_dim = ConcatDim("time", keys=dates)
 
 file_pattern = FilePattern(make_full_path, concat_dim)
 
