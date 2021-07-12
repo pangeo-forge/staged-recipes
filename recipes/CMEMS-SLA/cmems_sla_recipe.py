@@ -33,4 +33,6 @@ def process_input(ds, fname):
     return ds
 
 
-recipe = XarrayZarrRecipe(file_pattern, process_input=process_input)
+chunks = {"time": 12}  # for the `"sla"` data only, this yields ~100 MB chunks
+
+recipe = XarrayZarrRecipe(file_pattern, process_input=process_input, target_chunks=chunks)
