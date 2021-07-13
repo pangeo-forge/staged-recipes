@@ -1,0 +1,24 @@
+title: "SWOT-AdAC data (ORCA36)"
+description: "ORCA36 regional data for SWOT-AdAC Xovers"
+pangeo_forge_version: "0.3.3"
+pangeo_notebook_version: "2021.05.04"
+recipes:
+  - dict_object: "recipe:recipes"
+provenance:
+  providers:
+    - name: "Mercator"
+      description: "Mercator Ocean International"
+      roles:
+        - producer
+        - licensor
+      url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
+  license: "CC-BY-NC-SA-4.0"
+maintainers:
+  - name: "Clément Bricud"
+    github: cbricaud
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
+  target: pangeo-forge-aws-bakery-flowcachebucketpangeofor-196cpck7y0pbl
+  resources:
+    memory: 4096
+    cpu: 1024
