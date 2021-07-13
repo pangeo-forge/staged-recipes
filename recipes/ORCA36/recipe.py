@@ -68,3 +68,8 @@ recipes.update(
     {f'ORCA36/Region{rid:02d}/interior_daily/{season}': make_recipe_interior(reg, season)
      for rid, reg, season in product(regid, regions, season_months)}
 )
+
+recipes.update(
+    {f'ORCA36/Region{rid:02d}/grid': make_recipe_grid(reg)
+     for rid, reg in product(regid, regions)}
+)
