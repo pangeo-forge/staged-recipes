@@ -29,7 +29,7 @@ def process_input(ds, fname):
     """
     vars_to_drop = [var for var in ds.data_vars.keys() if var != "sla"]
     for var in vars_to_drop:
-        ds = ds.drop[var]
+        ds = ds.drop(var)
     return ds
 
 
