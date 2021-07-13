@@ -12,8 +12,8 @@ def make_full_path(time):
 
     return (
         "ftp://my.cmems-du.eu/Core/SEALEVEL_GLO_PHY_L4_REP_OBSERVATIONS_008_047/"
-        f"dataset-duacs-rep-global-merged-allsat-phy-l4/{year}/{month}/"
-        f"dt_global_allsat_phy_l4_{year}{month}{day}_20190101.nc"
+        f"dataset-duacs-rep-global-merged-allsat-phy-l4/{year}/{month:02d}/"
+        f"dt_global_allsat_phy_l4_{year}{month:02d}{day:02d}_20190101.nc"
     )
 
 
