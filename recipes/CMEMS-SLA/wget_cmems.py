@@ -24,9 +24,9 @@ if __name__ == "__main__":
         SOURCE_GBS = round((AVG_BYTES*NSOURCES)/1e9, 2)
         TARGET = env["CMEMS_DIRECTORY"]
 
-        years = os.listdir(TARGET)
-        months = os.listdir(TARGET + f"/{years[-1]}")
-        files = os.listdir(TARGET + f"/{years[-1]}" + f"/{months[-1]}")
+        years = sorted(os.listdir(TARGET))
+        months = sorted(os.listdir(TARGET + f"/{years[-1]}"))
+        files = os.listdir(TARGET + f"/{years[-1]}/{months[-1]}")
         files = sorted([f[30:32] for f in files])
         final_day = f"{years[-1]}-{months[-1]}-{files[-1]}"
 
@@ -41,8 +41,8 @@ if __name__ == "__main__":
             f"{r} ({round(elapsed, 1)} seconds).{c}"
             f"\n {r}Of target range (1993-01-01 to 2017-05-15),{c} {m}{final_day}{c}"
             f"{r} was last day reached.{c}"
-            f"\n {r}Downloaded {c}{m}{nfiles} {c}{r}of {c}{m}{NSOURCES}{c}{r} files.{c}"
-            f" {r}(~{nbytes} GBs of ~{SOURCE_GBS} GBs"
+            f"\n {r}Downloaded {c}{m}{nfiles} {c}{r}of {c}{m}{NSOURCES}{c}{r} files{c}"
+            f" {r}(~{nbytes} GBs of ~{SOURCE_GBS} GBs)."
             f"\n {r}Full download would take an additional{c}"
             f"{m} ~{round(remaining/60, 2)} hours{c}{r} (~{remaining} minutes).{c}"
             "\n"
