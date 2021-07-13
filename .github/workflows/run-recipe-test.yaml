@@ -1,0 +1,49 @@
+name: Run recipe test
+on:
+  repository_dispatch:
+    types: [run-recipe-test-command]
+jobs:
+  run-recipe-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the pull request branch
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      - name: Download bakeries.yaml
+        id: download-bakeries
+        run: |
+          curl https://raw.githubusercontent.com/pangeo-forge/bakery-database/main/bakeries.yaml -o ${GITHUB_WORKSPACE}/bakeries.yaml
+
+      - name: Get changed files
+        id: changed-files
+        # Set outputs using the command.
+        run: |
+          echo "::set-output name=all::$(git diff --name-only origin/master HEAD | xargs)"
+
+      - name: Locate pr meta.yaml
+        id: meta
+        run: |
+          for changed_file in ${{ steps.changed-files.outputs.all }}; do
+            if [[ ${changed_file} =~ ^.*recipes\/.*meta\.(yml|yaml)$ ]];
+            then
+              echo "::set-output name=META_YAML::${changed_file}";
+              exit 0
+            fi
+          done
+          exit 1 # Fail - meta.yaml required
+
+      - name: Process pr recipe
+        if: ${{ steps.meta.outputs.META_YAML != null }}
+        uses: pangeo-forge/recipe-prefect-action@pangeonotebook-2021.05.04_prefect-0.14.7_pangeoforgerecipes-0.3.3
+        with:
+          path_to_meta_yaml: ${{ steps.meta.outputs.META_YAML }}
+          path_to_bakeries_yaml: bakeries.yaml
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          PREFECT__CLOUD__AUTH_TOKEN: ${{ secrets.PREFECT__CLOUD__AUTH_TOKEN }}
+          PREFECT_PROJECT_NAME: ${{ secrets.PREFECT_PROJECT_NAME }}
