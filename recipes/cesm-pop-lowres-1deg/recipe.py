@@ -37,8 +37,8 @@ chunks = {"time": 200}
 
 
 def instantiate_recipe(api_params):
-    
+
     make_full_path.__defaults__ = (api_params,)
     pattern = FilePattern(make_full_path, concat_dim, merge_dim)
-    
+
     return XarrayZarrRecipe(pattern, target_chunks=chunks)
