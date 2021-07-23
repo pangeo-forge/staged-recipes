@@ -49,3 +49,4 @@ jobs:
           PREFECT__CLOUD__AUTH_TOKEN: ${{ secrets.PREFECT__CLOUD__AUTH_TOKEN }}
           PREFECT_PROJECT_NAME: ${{ secrets.PREFECT_PROJECT_NAME }}
           GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
+          COMMENT_ID: ${{ github.event.client_payload.comment.id }}
