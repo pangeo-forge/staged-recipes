@@ -13,7 +13,7 @@ def make_full_path(time):
 
 dates = pd.date_range("1992-01-05", "2020-12-23", freq="5D")
 
-concat_dim = ConcatDim("time", keys=dates)
+concat_dim = ConcatDim("time", keys=dates, nitems_per_file=1)
 
 pattern = FilePattern(make_full_path, concat_dim)
 
