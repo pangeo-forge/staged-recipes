@@ -1,0 +1,28 @@
+title: "TerraClimate Monthly Surface Dataset"
+description: "High-resolution monthly climate and climatic water balance dataset"
+pangeo_forge_version: "0.4.0"
+pangeo_notebook_version: "?"
+recipes:
+  - id: terraclimate
+    object: "?"
+provenance:
+  providers:
+    - name: "Climatology Lab"
+      description: "Climatology Lab at University of California Merced (http://www.climatologylab.org/)"
+      roles:
+        - producer
+        - licensor
+      url: http://www.climatologylab.org/terraclimate.html
+  license: "CC-0-1.0"
+maintainers:
+  - name: "Raphael Hagen"
+    orcid: "0000-0003-1994-1153"
+    github: norlandrhagen
+bakery:
+  id: "?"  # must come from a valid list of bakeries
+  target: "?"
+  resources:
+    memory: "?"
+    cpu: "?"
+    # memory: 4096
+    # cpu: 1024
