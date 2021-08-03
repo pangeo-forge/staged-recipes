@@ -17,4 +17,4 @@ concat_dim = ConcatDim("time", keys=dates, nitems_per_file=1)
 
 pattern = FilePattern(make_full_path, concat_dim)
 
-recipe = XarrayZarrRecipe(pattern, target_chunks={"time": 1})
+recipe = XarrayZarrRecipe(pattern)
