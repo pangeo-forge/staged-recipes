@@ -11,7 +11,7 @@ import xarray as xr
 
 # Filename Pattern Inputs
 target_chunks = {"lat": 1024, "lon": 1024, "time": 12}
-years = list(range(1958, 2020))
+years = list(range(1958, 2021))
 variables = [
     "aet",
     "def",

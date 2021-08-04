@@ -1,10 +1,10 @@
 title: "TerraClimate Monthly Surface Dataset"
 description: "High-resolution monthly climate and climatic water balance dataset"
 pangeo_forge_version: "0.4.0"
-pangeo_notebook_version: "?"
+pangeo_notebook_version: "2021.07.17"
 recipes:
   - id: terraclimate
-    object: "?"
+    object: "recipe:recipe"
 provenance:
   providers:
     - name: "Climatology Lab"
@@ -24,5 +24,3 @@ bakery:
   resources:
     memory: "?"
     cpu: "?"
-    # memory: 4096
-    # cpu: 1024
