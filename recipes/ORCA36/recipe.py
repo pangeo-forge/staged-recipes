@@ -3,7 +3,6 @@ from itertools import product
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-
 regions = ["GulfStream", "MidAtl", "MedSea", "Agulhas"]
 regid_dict = {"GulfStream": 1, "MidAtl": 2, "MedSea": 3, "Agulhas": 4}
 varS = ["gridU", "gridV", "gridT"]
