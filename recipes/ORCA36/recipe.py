@@ -9,10 +9,7 @@ regid_dict = {"GulfStream": 1, "MidAtl": 2, "MedSea": 3, "Agulhas": 4}
 varS = ["gridU", "gridV", "gridT"]
 varI = ["gridU", "gridV", "gridW", "gridT"]
 varG = ["bathymetry", "meshmask"]
-season_months = {
-        "fma": "20140201-20140430",
-        "aso": "20130801-20131031"
-}
+season_months = {"fma": "20140201-20140430", "aso": "20130801-20131031"}
 url_base = "ftp://ftp.mercator-ocean.fr/download/users/cbricaud/ORCA36-T404"
 
 
@@ -24,10 +21,7 @@ def make_recipe_surface(region, season):
     ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(
-        file_pattern,
-        target_chunks={"time_counter": 72}
-    )
+    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 72})
 
     return recipe
 
@@ -40,7 +34,7 @@ def make_recipe_interior(region, season):
     ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 1, 'y': 15})
+    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 1, "y": 15})
 
     return recipe
 
