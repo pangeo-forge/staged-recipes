@@ -1,13 +1,14 @@
 """Author: Norland Raphael Hagen - 08-03-2021
 Pangeo-Forge recipe for Terra-Climate data
-Heavily adapted from pangeo-forge readthedocs example (https://pangeo-forge.readthedocs.io/en/latest/tutorials/terraclimate.html#what-makes-it-tricky)"""
+Heavily adapted from pangeo-forge readthedocs example
+(https://pangeo-forge.readthedocs.io/en/latest/tutorials/terraclimate.html)
+"""
 
 
-# Imports
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-from pangeo_forge_recipes.patterns import FilePattern, ConcatDim, MergeDim
 import xarray as xr
 
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # Filename Pattern Inputs
 target_chunks = {"lat": 1024, "lon": 1024, "time": 12}
@@ -31,7 +32,7 @@ variables = [
 
 
 def make_filename(variable, time):
-    return f"http://thredds.northwestknowledge.net:8080/thredds/fileServer/TERRACLIMATE_ALL/data/TerraClimate_{variable}_{time}.nc"
+    return f"http://thredds.northwestknowledge.net:8080/thredds/fileServer/TERRACLIMATE_ALL/data/TerraClimate_{variable}_{time}.nc"  # noqa: E501
 
 
 pattern = FilePattern(
