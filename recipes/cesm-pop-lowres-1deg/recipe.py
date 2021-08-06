@@ -2,13 +2,13 @@ from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
-def make_full_path(variable, time, api_params=""):
+def make_full_path(variable, time):
     """Returns a valid path to the source files
     """
     return (
         f"https://tds.ucar.edu/thredds/fileServer/datazone/campaign/cesm/collections/ASD/"
         f"v5_rel04_BC5_ne30_g16/ocn/proc/tseries/daily/v5_rel04_BC5_ne30_g16.pop.h.nday1."
-        f"{variable}.{time}.nc{api_params}"
+        f"{variable}.{time}.nc"
     )
 
 
@@ -35,10 +35,6 @@ merge_dim = MergeDim("variable", keys=vars)
 
 chunks = {"time": 200}
 
+pattern = FilePattern(make_full_path, concat_dim, merge_dim)
 
-def instantiate_recipe(api_params):
-
-    make_full_path.__defaults__ = (api_params,)
-    pattern = FilePattern(make_full_path, concat_dim, merge_dim)
-
-    return XarrayZarrRecipe(pattern, target_chunks=chunks)
+recipe = XarrayZarrRecipe(pattern, target_chunks=chunks)
