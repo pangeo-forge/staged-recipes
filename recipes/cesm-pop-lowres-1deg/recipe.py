@@ -29,7 +29,7 @@ vars = [
     "XMXL_2",
 ]
 
-concat_dim = ConcatDim("time", keys=["00010101-01661231"])
+concat_dim = ConcatDim("time", keys=["00010101-01661231"], nitems_per_file=60590)
 
 merge_dim = MergeDim("variable", keys=vars)
 
