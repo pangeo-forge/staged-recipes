@@ -30,11 +30,8 @@ vars = [
 ]
 
 concat_dim = ConcatDim("time", keys=["00010101-01661231"], nitems_per_file=60590)
-
 merge_dim = MergeDim("variable", keys=vars)
-
-chunks = {"time": 300}
-
 pattern = FilePattern(make_full_path, concat_dim, merge_dim)
 
+chunks = {"time": 300}
 recipe = XarrayZarrRecipe(pattern, target_chunks=chunks)
