@@ -22,13 +22,14 @@ def make_recipe(region, season, depth):
 
     time_counter = season_months[season]
     vars = varS if depth == "surface_hourly" else varI
+    step = "h" if depth == "surface_hourly" else "d"
     target_chunks = (
         {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 1, "y": 15}
     )
     subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {}
 
-    def make_full_path(variable, time_counter=time_counter, region=region):
-        return url_base + f"/ORCA36-T404_1hAV_{time_counter}_{variable}_{region}.nc"
+    def make_full_path(variable):
+        return url_base + f"/ORCA36-T404_1{step}AV_{time_counter}_{variable}_{region}.nc"
 
     concat_dim = ConcatDim("time_counter", keys=[time_counter])
     merge_dim = MergeDim("variable", keys=vars)
