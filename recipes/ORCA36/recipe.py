@@ -39,7 +39,7 @@ def make_recipe_interior(region, season):
 
 
 def make_recipe_grid(region):
-    input_url_pattern = "/ORCA36-T404_{var}_{reg}.nc"
+    input_url_pattern = url_base + "/ORCA36-T404_{var}_{reg}.nc"
     input_urls = [input_url_pattern.format(reg=region, var=variable) for variable in varG]
     file_pattern = pattern_from_file_sequence(input_urls, "mock_concat_dim", nitems_per_file=1)
 
