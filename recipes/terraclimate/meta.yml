@@ -1,7 +1,7 @@
 title: "TerraClimate Monthly Surface Dataset"
 description: "High-resolution monthly climate and climatic water balance dataset"
 pangeo_forge_version: "0.4.0"
-pangeo_notebook_version: "2021.07.17"
+pangeo_notebook_version: "2021.06.05"
 recipes:
   - id: terraclimate
     object: "recipe:recipe"
