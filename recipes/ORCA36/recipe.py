@@ -20,17 +20,16 @@ depths = ["surface_hourly", "interior_daily"]
 
 def make_recipe(region, season, depth):
 
+    time_counter = season_months[season]
     vars = varS if depth == "surface_hourly" else varI
     target_chunks = (
         {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 1, "y": 15}
     )
 
-    def make_full_path(time_counter, variable, region=region):
+    def make_full_path(variable, time_counter=time_counter, region=region):
         return url_base + f"/ORCA36-T404_1hAV_{time_counter}_{variable}_{region}.nc"
 
-    months = season_months[season]
-
-    concat_dim = ConcatDim("time_counter", keys=months)
+    concat_dim = ConcatDim("time_counter", keys=[time_counter])
     merge_dim = MergeDim("variable", keys=vars)
     file_pattern = FilePattern(make_full_path, concat_dim, merge_dim)
 
@@ -50,7 +49,7 @@ def make_recipe_grid(region):
 
 recipes = {
     f"Region{regid_dict[r]:02}/{d}/{s}": make_recipe(r, s, d)
-    for r, s, d in product(regions, season_months, depths)
+    for r, s, d in product(regions, season_months.keys(), depths)
 }
 
 grids = {f"Region{regid_dict[r]:02}/grid": make_recipe_grid(r) for r in regions}
