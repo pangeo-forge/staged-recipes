@@ -28,7 +28,7 @@ def make_recipe(region, season, depth):
     )
     subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {}
 
-    def make_full_path(variable):
+    def make_full_path(time_counter, variable):
         return url_base + f"/ORCA36-T404_1{step}AV_{time_counter}_{variable}_{region}.nc"
 
     concat_dim = ConcatDim("time_counter", keys=[time_counter])
