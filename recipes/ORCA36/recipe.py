@@ -25,6 +25,7 @@ def make_recipe(region, season, depth):
     target_chunks = (
         {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 1, "y": 15}
     )
+    subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {}
 
     def make_full_path(variable, time_counter=time_counter, region=region):
         return url_base + f"/ORCA36-T404_1hAV_{time_counter}_{variable}_{region}.nc"
@@ -33,7 +34,9 @@ def make_recipe(region, season, depth):
     merge_dim = MergeDim("variable", keys=vars)
     file_pattern = FilePattern(make_full_path, concat_dim, merge_dim)
 
-    recipe = XarrayZarrRecipe(file_pattern, target_chunks=target_chunks)
+    recipe = XarrayZarrRecipe(
+        file_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
+    )
 
     return recipe
 
