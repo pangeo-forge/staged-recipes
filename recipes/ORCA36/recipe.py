@@ -26,7 +26,7 @@ def make_recipe(region, season, depth):
     target_chunks = (
         {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 1, "y": 15}
     )
-    subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {}
+    subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {"time_counter": 8}
 
     def make_full_path(time_counter, variable):
         return url_base + f"/ORCA36-T404_1{step}AV_{time_counter}_{variable}_{region}.nc"
