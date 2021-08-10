@@ -12,6 +12,10 @@ season_months = {"fma": "20140201-20140430", "aso": "20130801-20131031"}
 url_base = "ftp://ftp.mercator-ocean.fr/download/users/cbricaud/ORCA36-T404"
 
 
+def make_full_path(yymm, var, reg):
+    return url_base + f"/ORCA36-T404_1hAV_{yymm}_{var}_{reg}.nc"
+
+
 def make_recipe_surface(region, season):
     input_url_pattern = url_base + "/ORCA36-T404_1hAV_{yymm}_{var}_{reg}.nc"
     months = season_months[season]
