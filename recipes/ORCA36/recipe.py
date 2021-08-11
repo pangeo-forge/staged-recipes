@@ -40,12 +40,13 @@ def make_recipe(region, season, depth):
     return recipe
 
 
-def make_recipe_grid(region):
+def make_recipe_grid(region, var):
     input_url_pattern = url_base + "/ORCA36-T404_{var}_{reg}.nc"
-    input_urls = [input_url_pattern.format(reg=region, var=variable) for variable in varG]
+    input_urls = [input_url_pattern.format(reg=region, var=var)]
     file_pattern = pattern_from_file_sequence(input_urls, "mock_concat_dim", nitems_per_file=1)
 
-    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"y": 15})
+    xarray_open_kwargs = {"engine": "scipy"} if var == "bathymetry" else {}
+    recipe = XarrayZarrRecipe(file_pattern, xarray_open_kwargs=xarray_open_kwargs)
     return recipe
 
 
@@ -54,6 +55,9 @@ recipes = {
     for r, s, d in product(regions, season_months.keys(), depths)
 }
 
-grids = {f"Region{regid_dict[r]:02}/grid": make_recipe_grid(r) for r in regions}
+grids = {
+    f"Region{regid_dict[r]:02}/grid/{v}": make_recipe_grid(r, v)
+    for r, v in product(regions, varG)
+}
 
 recipes.update(grids)
