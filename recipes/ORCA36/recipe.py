@@ -23,9 +23,7 @@ def make_recipe(region, season, depth):
     time_counter = season_months[season]
     vars = varS if depth == "surface_hourly" else varI
     step = "h" if depth == "surface_hourly" else "d"
-    target_chunks = (
-        {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 2}
-    )
+    target_chunks = {"time_counter": 72} if depth == "surface_hourly" else {"time_counter": 2}
     subset_inputs = {"time_counter": 4} if depth == "surface_hourly" else {"time_counter": 8}
 
     def make_full_path(time_counter, variable):
