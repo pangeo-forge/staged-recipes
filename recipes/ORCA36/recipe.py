@@ -56,8 +56,7 @@ recipes = {
 }
 
 grids = {
-    f"Region{regid_dict[r]:02}/grid/{v}": make_recipe_grid(r, v)
-    for r, v in product(regions, varG)
+    f"Region{regid_dict[r]:02}/grid/{v}": make_recipe_grid(r, v) for r, v in product(regions, varG)
 }
 
 recipes.update(grids)
