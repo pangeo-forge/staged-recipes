@@ -110,6 +110,6 @@ def preproc(ds):
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
     target_chunks=target_chunks,
-    subset_inputs={"time": 8},
+    subset_inputs={"time": 24},
     process_chunk=preproc,
 )
