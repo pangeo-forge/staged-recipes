@@ -6,15 +6,8 @@ import xarray as xr
 
 
 class NetCDFSubsets():
-
     def __init__(
-        self,
-        cache_fs,
-        cache_dir,
-        var_name,
-        target_bins,
-        concat_dim_name,
-        concat_dim_length,
+        self, cache_fs, cache_dir, var_name, target_bins, concat_dim_name, concat_dim_length,
     ):
         self.cache_fs = cache_fs
         self.cache_dir = cache_dir
@@ -53,7 +46,6 @@ class NetCDFSubsets():
         return bins, datasets
 
     def _make_target_paths(self, bins):
-
         def format_filename(interval_object, counter, variable):
             out = str(interval_object).replace("(", "")
             if "-" in out:  # only relevant for the first bin
