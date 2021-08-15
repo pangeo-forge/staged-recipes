@@ -5,7 +5,7 @@ import numpy as np
 import xarray as xr
 
 
-class NetCDFSubsets():
+class NetCDFSubsets:
     def __init__(
         self, cache_fs, cache_dir, var_name, target_bins, concat_dim_name, concat_dim_length,
     ):
