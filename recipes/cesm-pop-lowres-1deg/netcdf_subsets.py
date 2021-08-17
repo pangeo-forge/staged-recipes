@@ -19,7 +19,7 @@ class NetCDFSubsets:
     def _fn_from_var(self):
         """Assumes one netCDF per variable in cache"""
         for filename in self.cache_fs.ls(self.cache_dir):
-            if self.var_name.lower() in filename:
+            if f"{self.var_name.lower()}." in filename:
                 print(f"Filename for {self.var_name} is {filename}")
                 return filename
 
