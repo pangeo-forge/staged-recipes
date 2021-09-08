@@ -1,5 +1,5 @@
 title: "Integrated Multi-satellite Retrievals for GPM"
-description: "Integrated Multi-satellite Retrievals Global Precipition Model (GPM), every half hour, final product. Analysis-ready Zarr datasets derived from NASA HDF5"
+description: "Integrated Multi-satellite Retrievals Global Precipition Measurement (GPM), every half hour, final product. Analysis-ready Zarr datasets derived from NASA HDF5"
 pangeo_forge_version: "0.5.0"
 pangeo_notebook_version: "2021.07.17"
 recipes:
