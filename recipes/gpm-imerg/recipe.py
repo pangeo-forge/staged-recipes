@@ -28,7 +28,7 @@ pattern = FilePattern(make_filename, time_concat_dim)
 
 recipe = XarrayZarrRecipe(
     pattern, 
-    xarray_open_kwargs={'group': 'Grid', 'drop_variables': ['time_bnds', 'lon_bnds', 'lat_bnds']},
+    xarray_open_kwargs={'group': 'Grid', 'decode_coords': 'all'},
     fsspec_open_kwargs={'auth': aiohttp.BasicAuth(username, password)},
     inputs_per_chunk=1
 )
