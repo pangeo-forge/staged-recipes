@@ -1,6 +1,7 @@
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 import pandas as pd
+import aiohttp
 
 #TODO: replace with ENV vars
 username = password = 'pangeo@developmentseed.org'
