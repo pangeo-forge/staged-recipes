@@ -21,6 +21,7 @@ def make_filename(time):
     )
     return input_url_pattern
 
+dates = pd.date_range("2000-06-01T00:00:00", "2021-05-31T23:59:59", freq="30min")
 time_concat_dim = ConcatDim("time", dates, nitems_per_file=1)
 pattern = FilePattern(make_filename, time_concat_dim)
 
