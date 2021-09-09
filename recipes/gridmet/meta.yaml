@@ -3,7 +3,7 @@ description: "Analysis-ready Zarr dataset derived from gridMET NetCDF"
 pangeo_forge_version: "0.5.0"
 pangeo_notebook_version: "2021.07.17"
 recipes:
-  - id: noaa-oisst-avhrr-only
+  - id: gridmet
     object: "recipe:recipe"
 provenance:
   providers:
