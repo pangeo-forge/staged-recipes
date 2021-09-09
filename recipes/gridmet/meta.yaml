@@ -1,0 +1,25 @@
+title: "gridMET"
+description: "Analysis-ready Zarr dataset derived from gridMET NetCDF"
+pangeo_forge_version: "0.5.0"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: noaa-oisst-avhrr-only
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Climatology Lab"
+      description: "Climatology Lab UC Merced"
+      roles:
+        - producer
+        - licensor
+      url: http://www.climatologylab.org/gridmet.html
+  license: "CC0"
+maintainers:
+  - name: "Sean Harkins"
+    github: sharkinsspatial
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
+  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
+  resources:
+    memory: 4096
+    cpu: 1024
