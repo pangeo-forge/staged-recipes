@@ -12,7 +12,10 @@ jobs:
         run: |
           echo "$PAYLOAD_CONTEXT"
           if [[ ${{ github.event.client_payload.state }} == "Success" ]]; then
-            echo "EDIT=:white_check_mark:" >> $GITHUB_ENV
+            echo "EDIT=\":white_check_mark: Success!
+            This is line 2.
+            Line 3.\"
+            " >> $GITHUB_ENV
           else
             echo "EDIT=:x:" >> $GITHUB_ENV
           fi
