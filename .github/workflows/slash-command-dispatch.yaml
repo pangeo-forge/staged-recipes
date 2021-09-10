@@ -11,5 +11,5 @@ jobs:
         with:
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
           commands: run-recipe-test
-          permission: admin
+          permission: maintain
           issue-type: pull-request
