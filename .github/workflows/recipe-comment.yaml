@@ -1,0 +1,24 @@
+on: issue_comment
+
+jobs:
+  comment-on-pr:
+    # This job only runs for pull request comments
+    # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issue_comment
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }}  # ... && '/run-recipe-test\n:white_check_mark:' in github.event.issue.comment.body
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo PR number
+        run: |
+          echo "Commenting on PR #${{ github.event.issue.number }}"
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 1
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
+
+            [1]: https://github.com/peter-evans/create-or-update-comment
+          reactions: '+1'
