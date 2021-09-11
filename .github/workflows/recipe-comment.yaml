@@ -4,20 +4,17 @@ on:
     types: [created, edited]
 
 jobs:
-  notebook-links:
+  binder-link:
     runs-on: ubuntu-latest
     outputs:
-      static-link: ${{ steps.static.outputs.link }}
-      binder-link: ${{ steps.binder.outputs.link }}
+      link: ${{ steps.binder.outputs.link }}
     steps:
-      - id: static
-        run: echo "::set-output name=link::'https://a-static-link.com'"
       - id: binder
-        run: echo "::set-output name=link::'https://a-binder-link.com'"
+        run: echo "::set-output name=link::[![Binder](https://binder.pangeo.io/badge_logo.svg)](https://pangeo-forge.org)"
 
   comment-on-pr:
     runs-on: ubuntu-latest
-    needs: notebook-links
+    needs: binder-link
     steps:
       - name: Create comment
         if: |
@@ -27,5 +24,4 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             ${{ contains(github.event.comment.body, '/run-recipe-test') && endsWith(github.event.comment.body, ':white_check_mark:') }}
-            ${{needs.notebook-links.outputs.static-link}}
-            ${{needs.notebook-links.outputs.binder-link}}
+            ${{needs.binder-link.outputs.link}}
