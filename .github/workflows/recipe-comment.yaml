@@ -8,9 +8,9 @@ jobs:
     steps:
       - name: Create comment
         if: |
-          github.event.issue.pull_request && endsWith(github.event.comment.body, ':white_check_mark:')
+          github.event.issue.pull_request && contains(github.event.comment.body, '/run-recipe-test') && endsWith(github.event.comment.body, ':white_check_mark:')
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            ${{ endsWith(github.event.comment.body, ':white_check_mark:') }}
+            ${{ contains(github.event.comment.body, '/run-recipe-test') && endsWith(github.event.comment.body, ':white_check_mark:') }}
