@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create comment
-        # if: ${{ github.event.issue.pull_request }}  # ... && '/run-recipe-test\n:white_check_mark:' in github.event.issue.comment.body
+        if: ${{ github.event.issue.pull_request }}  # ... && '/run-recipe-test\n:white_check_mark:' in github.event.issue.comment.body
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
