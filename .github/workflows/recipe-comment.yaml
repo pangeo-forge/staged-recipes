@@ -1,18 +1,16 @@
+name: Recipe Comment
 on:
   issue_comment:
-      types: [created, edited]
-
+    types: [created, edited]
 jobs:
   comment-on-pr:
-    # This job only runs for pull request comments
-    # See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issue_comment
     runs-on: ubuntu-latest
     steps:
       - name: Create comment
         # if: ${{ github.event.issue.pull_request }}  # ... && '/run-recipe-test\n:white_check_mark:' in github.event.issue.comment.body
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: 1
+          issue-number: ${{ github.event.issue.number }}
           body: |
             This is a multi-line test comment
             - With GitHub **Markdown** :sparkles:
