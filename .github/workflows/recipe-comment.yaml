@@ -9,9 +9,12 @@ jobs:
     outputs:
       target-path: ${{ steps.parse-yaml.outputs.target-path }}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - id: changed-files
         run: |
-          echo "::set-output name=all::$(git diff --name-only origin/master HEAD | xargs)"
+          echo "::set-output name=all::$(git diff --name-only ${{ github.event.pull_request.base.ref }} ${{ github.event.pull_request.base.sha }} | xargs)"
       - id: locate-meta
         run: |
           for changed_file in ${{ steps.changed-files.outputs.all }}; do
