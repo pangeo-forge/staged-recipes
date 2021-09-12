@@ -16,7 +16,7 @@ jobs:
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
       - id: changed-files
         # TODO: Change branch name `update-workflows` to correct default branch, e.g. `master`
-        run: echo "::set-output name=all::$(git diff --name-only update-workflows HEAD | xargs)"
+        run: echo "::set-output name=all::$(git diff --name-only origin/update-workflows HEAD | xargs)"
       - id: locate-meta
         run: |
           for changed_file in ${{ steps.changed-files.outputs.all }}; do
