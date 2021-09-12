@@ -4,13 +4,37 @@ on:
     types: [created, edited]
 
 jobs:
+  get-target-path:
+    runs-on: ubuntu-latest
+    outputs:
+      target-path: ${{ steps.parse-yaml.outputs.target-path }}
+    steps:
+      - id: changed-files
+        run: |
+          echo "::set-output name=all::$(git diff --name-only origin/master HEAD | xargs)"
+      - id: locate-meta
+        run: |
+          for changed_file in ${{ steps.changed-files.outputs.all }}; do
+            if [[ ${changed_file} =~ ^.*recipes\/.*meta\.(yml|yaml)$ ]];
+            then
+              echo "::set-output name=META_YAML::${changed_file}";
+              exit 0
+            fi
+          done
+          exit 1 # Fail - meta.yaml required
+      - id: parse-yaml
+        # This is a placeholder for now, and not actually related to first two steps
+        run: echo "::set-output name=target-path::s3://Pangeo/pangeo-forge/noaa_oisst/v2.1-avhrr.zarr"
+
   push-notebook:
     runs-on: ubuntu-latest
+    needs: get-target-path
     outputs:
       repo-link: ${{ steps.repo-link.outputs.link }}
     steps:
-      #- id: push-test-notebook
-      #  run: push-test-notebook.sh --PR=${{ github.event.issue.number }} --run-id=${{ github.event.comment.id }}
+      - id: push-test-notebook
+        run: |
+          python scripts/push_notebook.py ${{ github.event.issue.number }} ${{ github.event.comment.id }} ${{ needs.get-target-path.outputs.target-path }}
       - id: repo-link
         run: echo "::set-output name=link::https://binder.pangeo.io/v2/gh/pangeo-forge/recipe-test-notebooks/main?filepath=${{ github.event.issue.number }}%2F${{ github.event.comment.id }}.ipynb"
 
