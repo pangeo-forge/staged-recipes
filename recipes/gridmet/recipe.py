@@ -51,4 +51,5 @@ recipe = XarrayZarrRecipe(
     process_input=preproc,
     subset_inputs={"time": 3},
     cache_inputs=True,
+    copy_input_to_local_file=True
 )
