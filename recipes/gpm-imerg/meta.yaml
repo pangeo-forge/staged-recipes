@@ -19,8 +19,8 @@ maintainers:
     orcid: "0000-0003-2024-6801"
     github: wildintellect
 bakery:
-  id: "devseed.bakery.development.aws.us-west-2" # must come from a valid list of bakeries
-  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
+  id: "devseed.bakery.development.azure.westeurope"
+  target: pangeof-bakery-flow-cache-container
   resources:
-    memory: 4096
+    memory: 5000
     cpu: 1024
