@@ -1,0 +1,26 @@
+title: "Integrated Multi-satellite Retrievals for GPM"
+description: "Integrated Multi-satellite Retrievals Global Precipition Measurement (GPM), every half hour, final product. Analysis-ready Zarr datasets derived from NASA HDF5"
+pangeo_forge_version: "0.5.0"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: gpm-imerge-hhr
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NASA PPS"
+      description: "National Aeronautics and Space Administration Precipitation Processing Center"
+      roles:
+        - producer
+        - licensor
+      url: https://gpm.nasa.gov
+  license: "Public Domain"
+maintainers:
+  - name: "Alex Mandel"
+    orcid: "0000-0003-2024-6801"
+    github: wildintellect
+bakery:
+  id: "devseed.bakery.development.azure.westeurope"
+  target: pangeof-bakery-flow-cache-container
+  resources:
+    memory: 5000
+    cpu: 1024
