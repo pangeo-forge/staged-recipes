@@ -7,8 +7,8 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 def gen_url(time, variable):
     if int(time) <= 4:  # fma/winter data was corrected
         base = (
-            "https://swiftbrowser.dkrz.de/public/dkrz_035d8f6ff058403bb42f8302e6badfbc/"
-            "SWOT_intercomparison2/"
+            "https://swiftbrowser.dkrz.de/publicview_filemanager.jnlp"
+            "/0/dkrz_035d8f6ff058403bb42f8302e6badfbc/SWOT_intercomparison2/"
         )
     else:
         base = (
