@@ -5,16 +5,24 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
 def gen_url(time, variable):
-    base = "https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/SWOT_intercomparison/"
+    if int(time) <= 4:  # fma/winter data was corrected
+        base = (
+            "https://swiftbrowser.dkrz.de/public/dkrz_035d8f6ff058403bb42f8302e6badfbc/"
+            "SWOT_intercomparison2/"
+        )
+    else:
+        base = (
+            "https://swift.dkrz.de/v1/dkrz_035d8f6ff058403bb42f8302e6badfbc/SWOT_intercomparison/"
+        )
     return base + f"2012-{time}_{variable}_cubic.nc"
 
 
 surf_ocean_vars = ["dflux", "ssh", "sss", "sst", "tx_sur", "ty_sur", "u_surf", "v_surf"]
-# int_ocean_vars = []
+int_ocean_vars = ["3D_" + var for var in ("salt", "temp", "u", "v", "w")]
 
 var_dict = {
     "surf": {"vars": surf_ocean_vars},
-    # "int": {"vars": int_ocean_vars},
+    "int": {"vars": int_ocean_vars},
 }
 
 
