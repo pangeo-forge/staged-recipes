@@ -4,7 +4,6 @@ Heavily adapted from pangeo-forge readthedocs example
 (https://pangeo-forge.readthedocs.io/en/latest/tutorials/terraclimate.html)
 """
 
-
 import xarray as xr
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
