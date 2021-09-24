@@ -23,7 +23,7 @@ jobs:
         id: changed-files
         # Set outputs using the command.
         run: |
-          echo "::set-output name=all::$(git diff --name-only origin/master HEAD | xargs)"
+          echo "::set-output name=all::$(git diff --name-only origin/master...HEAD | xargs)"
 
       - name: Locate pr meta.yaml
         id: meta
