@@ -1,0 +1,26 @@
+title: "E-OBS"
+description: "E-OBS  is a high resolution gridded climate dataset covering Europe and Northern Africa. This dataset is version 23.1e with a 0.1 degree spatial resolution. Variables available are: , TG: daily mean temperature, TN: daily minimum temperature , TX: daily maximum temperature, RR: daily precipitation sum, PP: daily mean sea level pressure, HU: relative humidity, FG: daily mean wind speed, QQ: global radiation "
+pangeo_forge_version: "0.5.0"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: EOBS
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Copernicus Climate Change Service"
+      description: "We acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.eu) and the Copernicus Climate Change Service, and the data providers in the ECA&D project (https://www.ecad.eu) Cornes, R., G. van der Schrier, E.J.M. van den Besselaar, and P.D. Jones. 2018: An Ensemble Version of the E-OBS Temperature and Precipitation Datasets, J. Geophys. Res. Atmos., 123. doi:10.1029/2017JD028200"
+      roles:
+        - producer
+        - licensor
+      url: https://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php#datafiles
+  license: "https://www.ecad.eu/documents/ECAD_datapolicy.pdf"
+maintainers:
+  - name: "Raphael Hagen"
+    orcid: "0000-0003-1994-1153"
+    github: norlandrhagen
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"
+  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
+  resources:
+    memory: 4096
+    cpu: 1024
