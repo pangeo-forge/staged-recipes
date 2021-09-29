@@ -1,14 +1,13 @@
 from itertools import product
 
+import pandas as pd
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-import pandas as pd
-
 
 regions = [1, 2, 3]
 season_months = {
-    'fma': pd.date_range("2010-02", "2010-05", freq="M"),
-    'aso': pd.date_range("2009-08", "2009-10", freq="M")
+    "fma": pd.date_range("2010-02", "2010-05", freq="M"),
+    "aso": pd.date_range("2009-08", "2009-11", freq="M"),
 }
 
 url_base = (
@@ -20,14 +19,12 @@ url_base = (
 def make_recipe_surface(region, season):
     input_url_pattern = url_base + "/Surface/eNATL60/Region{reg:02d}-surface-hourly_{yymm}.nc"
     months = season_months[season]
-    input_urls = [input_url_pattern.format(reg=region, yymm=date.strftime("%Y-%m"))
-                  for date in months]
+    input_urls = [
+        input_url_pattern.format(reg=region, yymm=date.strftime("%Y-%m")) for date in months
+    ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(
-        file_pattern,
-        target_chunks={'time_counter': 72}
-    )
+    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 72})
 
     return recipe
 
@@ -35,21 +32,23 @@ def make_recipe_surface(region, season):
 def make_recipe_interior(region, season):
     input_url_pattern = url_base + "/Interior/eNATL60/Region{reg:02d}-interior-daily_{yymm}.nc"
     months = season_months[season]
-    input_urls = [input_url_pattern.format(reg=region, yymm=date.strftime("%Y-%m"))
-                  for date in months]
+    input_urls = [
+        input_url_pattern.format(reg=region, yymm=date.strftime("%Y-%m")) for date in months
+    ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(
-        file_pattern,
-        target_chunks={'time_counter': 1, 'y': 15},
-    )
+    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 1, "y": 15},)
     return recipe
 
 
-recipes = {f'eNATL60/Region{reg:02d}/surface_hourly/{season}': make_recipe_surface(reg, season)
-           for reg, season in product(regions, season_months)}
+recipes = {
+    f"eNATL60/Region{reg:02d}/surface_hourly/{season}": make_recipe_surface(reg, season)
+    for reg, season in product(regions, season_months)
+}
 
 recipes.update(
-    {f'eNATL60/Region{reg:02d}/interior_daily/{season}': make_recipe_interior(reg, season)
-     for reg, season in product(regions, season_months)}
+    {
+        f"eNATL60/Region{reg:02d}/interior_daily/{season}": make_recipe_interior(reg, season)
+        for reg, season in product(regions, season_months)
+    }
 )
