@@ -24,7 +24,11 @@ def make_recipe_surface(region, season):
     ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 72})
+    target_chunks = {"time_counter": 72}
+    subset_inputs = {"time_counter": 3}
+    recipe = XarrayZarrRecipe(
+        file_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
+    )
 
     return recipe
 
