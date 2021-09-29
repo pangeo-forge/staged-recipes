@@ -37,7 +37,11 @@ def make_recipe_interior(region, season):
     ]
     file_pattern = pattern_from_file_sequence(input_urls, "time_counter")
 
-    recipe = XarrayZarrRecipe(file_pattern, target_chunks={"time_counter": 1, "y": 15},)
+    target_chunks = {"time_counter": 1, "y": 15}
+    subset_inputs = {"time_counter": 13}
+    recipe = XarrayZarrRecipe(
+        file_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
+    )
     return recipe
 
 
