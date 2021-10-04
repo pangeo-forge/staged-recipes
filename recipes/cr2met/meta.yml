@@ -1,5 +1,5 @@
 title: "CR2MET"
-description: "CR2MET V2 is a Chilean climate dataset ranging from 1979 to 2018. It contains daily 0.05° gridded near-surface precipitation and temperature data."
+description: "CR2MET V2 is a Chilean climate dataset ranging from 1979 to 2020. It contains daily 0.05° gridded near-surface precipitation and temperature data."
 pangeo_forge_version: "0.5.0"
 pangeo_notebook_version: "2021.07.17"
 recipes:
