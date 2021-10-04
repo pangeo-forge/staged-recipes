@@ -1,0 +1,26 @@
+title: "CR2MET"
+description: "CR2MET V2 is a Chilean climate dataset ranging from 1979 to 2018. It contains daily 0.05° gridded near-surface precipitation and temperature data."
+pangeo_forge_version: "0.5.0"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: CR2MET
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Chilean Center for Climate and Resilience Research"
+      description: "Boisier, J. P., Alvarez-Garretón, C., Cepeda, J., Osses, A., Vásquez, N., and Rondanelli, R., “CR2MET: A high-resolution precipitation and temperature dataset for hydroclimatic research in Chile”, p. 19739, 2018."
+      roles:
+        - producer
+        - licensor
+      url: https://www.cr2.cl/downloads/cr2met/
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Raphael Hagen"
+    orcid: "0000-0003-1994-1153"
+    github: norlandrhagen
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"
+  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
+  resources:
+    memory: 4096
+    cpu: 1024

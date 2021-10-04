@@ -1,13 +1,13 @@
 """Author: Norland Raphael Hagen - 08-03-2021
-Pangeo-Forge recipe for cr2met data (cr2met v2 1979-2020: Chilean Center for Climate and Resilience Research - Gridded daily precip and temperature. )
+Pangeo-Forge recipe for cr2met data (cr2met v2 1979-2020: Chilean Center for Climate and Resilience Research - Gridded daily precipitation and temperature. )# noqa: E501
 """  # noqa: E501
 
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-# Filename Pattern Inputs
-target_chunks = {"lat": 800, "lon": 220, "time": 15096}
+# Filename Pattern Inputs - With all 5 variables (pr, pr_sd, t2m, tmin and tmax), this should yield ~100Mb slices. # noqa: E501
+target_chunks = {"lat": 800, "lon": 220, "time": 29}
 
 variables = ["pr", "t2m", "tmax", "tmin"]
 
@@ -29,7 +29,9 @@ pattern = FilePattern(
 )
 
 
-# Recipe Inputs
+# Recipe Inputs - Total dataset size ~53.14Gb. subset_inputs of 107 yields about 497Mb input chunks
 recipe = XarrayZarrRecipe(
-    file_pattern=pattern, target_chunks=target_chunks, subset_inputs={"time": 136}
+    file_pattern=pattern, target_chunks=target_chunks, subset_inputs={"time": 107}
 )
+
+recipe = recipe.copy_pruned()
