@@ -13,11 +13,10 @@ provenance:
         - producer
         - licensor
       url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
-   license: "CC-BY-4.0"
+  license: "CC-BY-4.0"
 maintainers:
   - name: "Takaya Uchida"
     orcid: "0000-0002-8654-6009"
     github: roxyboy
 bakeries:
   - id: "pangeo-aws-west-1"  # must come from a valid list of bakeries
-
