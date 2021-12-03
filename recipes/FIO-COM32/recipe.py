@@ -55,7 +55,7 @@ recipes = {
 
 recipes.update(
     {
-         f"eNATL60/Region{reg:02d}/surface_flux/{seas}": make_recipe_surface(reg, seas, var)
+         f"FIO-COM32/Region{reg:02d}/surface_flux_hourly/{seas}": make_recipe_surface(reg, seas, var)
          for reg, seas, var in product(regions, seasons, surf_flux)
     }
 )
