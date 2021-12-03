@@ -19,8 +19,8 @@ url_base = (
 def make_recipe_surface(region, season, variable):
     input_url_pattern = url_base + "Region{reg:02d}-hourly-{var}.{seas}.nc"
     input_urls = [
-               input_url_pattern.format(reg=region, var, seas) for var,seas in product(variable,season)
-            ]
+            input_url_pattern.format(reg=region, var=variable, seas=season)
+                ]
     file_pattern = pattern_from_file_sequence(input_urls, "time")
 
     target_chunks = {"time": 72}
@@ -35,8 +35,8 @@ def make_recipe_surface(region, season, variable):
 def make_recipe_interior(region, season, variable):
     input_url_pattern = url_base + "Region{reg:02d}-daily-{var}.{seas}.nc"
     input_urls = [
-                input_url_pattern.format(reg=region, var, seas) for var,seas in product(variable,season)
-            ]
+            input_url_pattern.format(reg=region, var=variable, seas=season)
+                ]
     file_pattern = pattern_from_file_sequence(input_urls, "time")
 
     target_chunks = {"time": 1}
@@ -49,20 +49,20 @@ def make_recipe_interior(region, season, variable):
 
 
 recipes = {
-         f"FIO-COM32/Region{reg:02d}/surface_hourly/{season}": make_recipe_surface(reg, seas, var)
+         f"FIO-COM32/Region{reg:02d}/surface_hourly/{seas}": make_recipe_surface(reg, seas, var)
          for reg, seas, var in product(regions, seasons, surf_vars)
 }
 
 recipes.update(
     {
-         f"eNATL60/Region{reg:02d}/surface_flux/{season}": make_recipe_surface(reg, seas, var)
+         f"eNATL60/Region{reg:02d}/surface_flux/{seas}": make_recipe_surface(reg, seas, var)
          for reg, seas, var in product(regions, seasons, surf_flux)
     }
 )
 
 recipes.update(
     {
-         f"FIO-COM32/Region{reg:02d}/interior_daily/{season}": make_recipe_interior(reg, seas, var)
+         f"FIO-COM32/Region{reg:02d}/interior_daily/{seas}": make_recipe_interior(reg, seas, var)
          for reg, seas, var in product(regions, seasons, int_vars)
     }
 )
