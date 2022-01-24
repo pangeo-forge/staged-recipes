@@ -1,12 +1,13 @@
-import irods_fsspec
 import os
+
+import irods_fsspec
 
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 irods_fsspec.register()  # register irods:// handler
 
-years = range(120, 201)
+years = range(120, 122)
 
 variable = "atmos_daily"
 
@@ -23,5 +24,6 @@ input_urls = [
 pattern = pattern_from_file_sequence(input_urls, "time")
 recipe = XarrayZarrRecipe(
     pattern,
+    xarray_open_kwargs={"engine": "netcdf4"},  # Needed for local execution.
     target_chunks={"time": 120},
 )
