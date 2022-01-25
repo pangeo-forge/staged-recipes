@@ -7,7 +7,7 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 irods_fsspec.register()  # register irods:// handler
 
-years = range(120, 122)
+years = range(120, 201)
 
 variable = "atmos_daily"
 
