@@ -1,2 +1,22 @@
-title:
-SODA 3.4.2 ICE
+title: "SODA 3.4.2 ICE"
+description: "SODA: A reanalysis of ocean climate (ICE)"
+pangeo_forge_version: "0.6.1"  # the latest bakery image we have
+pangeo_notebook_version: "2022.07.17" # the latest bakery image we have
+recipes:
+  - id: soda-342-ice
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "UMD Atmos"
+      description: "Department of Atmospheric and Oceanic Science, University of Maryland"  # is this correct?
+      roles:
+        - producer
+        - licensor
+      url: https://www.soda.umd.edu
+  license: "CC-BY-4.0"  # is this correct?
+maintainers:
+  - name: "Charles Stern"
+    orcid: "n/a"  # i should get one of these
+    github: cisaacstern
+bakery:
+  id: "columba-staging"  # must come from a valid list of bakeries
