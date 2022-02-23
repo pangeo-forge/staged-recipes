@@ -4,7 +4,7 @@ pangeo_forge_version: "0.6.1"  # the latest bakery image we have
 pangeo_notebook_version: "2022.07.17" # the latest bakery image we have
 recipes:
   - id: soda-342-ice
-    object: "recipe:recipe"
+    object: "soda342_ice:recipe"
 provenance:
   providers:
     - name: "UMD Atmos"
