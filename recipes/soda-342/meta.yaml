@@ -19,4 +19,4 @@ maintainers:
     orcid: "n/a"  # i should get one of these
     github: cisaacstern
 bakery:
-  id: "columba-staging"  # must come from a valid list of bakeries
+  id: "columbia-staging"  # must come from a valid list of bakeries
