@@ -1,7 +1,7 @@
 name: Create recipe runs
 
 on:
-  pull_request:
+  pull_request_target:
     branches: master
     paths:
       - 'recipes/**'
