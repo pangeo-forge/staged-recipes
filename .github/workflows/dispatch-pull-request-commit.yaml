@@ -1,0 +1,23 @@
+name: Create recipe runs
+
+on:
+  pull_request:
+    branches: master
+    paths:
+      - 'recipes/**'
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    env:
+      FEEDSTOCK_SPEC: "${{ github.repository }}"
+      HEAD_SHA: "${{ github.sha }}"
+      PR_NUMBER: "${{ github.event.pull_request.number }}"
+    steps:
+      - name: dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repository: pangeo-forge/registrar
+          event-type: pull-request-commit
+          client-payload: '{"feedstock_spec": "${{ env.FEEDSTOCK_SPEC }}", "head_sha": "${{ env.HEAD_SHA }}", "pr_number": "${{ env.PR_NUMBER }}"}'
