@@ -15,7 +15,8 @@ For example:
 
 ```
 recipes/
- └──your_dataset_name/
+ 
+ └──your_feedstock_name/
      ├──recipe.py
      └──meta.yml
 ```
