@@ -6,7 +6,7 @@ Looking to submit a recipe? Check out [the Pangeo Forge sandbox](https://github.
 * an interactive coding environment with the examples is available here https://mybinder.org/v2/gh/pangeo-forge/sandbox/binder
 
 ## Organization
-When you add your recipe module and `meta.yml` in this folder, please do so in a new folder.
+When you add your recipe module and `meta.yaml` in this folder, please do so in a new folder.
 
 For example:
 ```
