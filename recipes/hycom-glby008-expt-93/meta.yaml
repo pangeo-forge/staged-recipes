@@ -1,5 +1,7 @@
 title: "HYCOM GLBy0.08 expt_93.0 hindcast"
 description: "Analysis-ready Zarr datasets derived from HYCOM GLBy0.08 expt93.0 OpenDap Server"
+pangeo_forge_version: "0.8.2"  # latest release
+pangeo_notebook_version: "2022.02.04"  # latest release
 recipes:
   - id: hycom-glby008-expt-93
     object: "recipe:recipe"
@@ -13,7 +15,10 @@ provenance:
         - producer
         - licensor
       url: https://www.hycom.org/
+  license: "<license type here>"
 maintainers:
   - name: Alex Kerney
     github: abkfenris
     orcid: 0000-0002-0484-9306
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
