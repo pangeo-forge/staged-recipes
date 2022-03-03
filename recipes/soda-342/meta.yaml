@@ -16,7 +16,7 @@ provenance:
   license: "CC-BY-4.0"  # is this correct?
 maintainers:
   - name: "Charles Stern"
-    orcid: "n/a"  # i should get one of these
+    orcid: "0000-0002-4078-0852"
     github: cisaacstern
 bakery:
   id: "columbia-staging"  # must come from a valid list of bakeries
