@@ -15,7 +15,7 @@ provenance:
         - producer
         - licensor
       url: https://www.hycom.org/
-  license: "<license type here>"
+  license: Freely available
 maintainers:
   - name: Alex Kerney
     github: abkfenris
