@@ -2,6 +2,7 @@ import pandas as pd
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
+import xarray as xr
 
 
 # Data is spread across three NetCDF files
@@ -30,15 +31,22 @@ recipe = XarrayZarrRecipe(
 )
 
 
+dap_url = "http://tds.hycom.org/thredds/dodsC/GLBy0.08/expt_93.0"
+
+
 def dap_format_fn(time):
     # Need a concat dim even if we will ignore it...
-    return "http://tds.hycom.org/thredds/dodsC/GLBy0.08/expt_93.0"
+    return dap_url
+
+
+with xr.open_dataset(dap_url, drop_variables=["tau"]) as ds:
+    time_length = len(ds["time"])
 
 
 dap_pattern = FilePattern(dap_format_fn, ConcatDim("time", ["1"]), is_opendap=True)
 dap_recipe = XarrayZarrRecipe(
     dap_pattern,
-    subset_inputs={"time": 1, "depth": 1, "lon": 500, "lat": 500},
+    subset_inputs={"time": time_length, "depth": 10},
     target_chunks={"time": 1, "depth": 1, "lon": 500, "lat": 500},
     xarray_open_kwargs={"drop_variables": ["tau"]},
 )
