@@ -19,7 +19,7 @@ jobs:
       - name: dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.PANGEO_FORGE_BOT_TOKEN }}
+          token: ${{ secrets.PAT }}
           repository: pangeo-forge/registrar
           event-type: create-feedstock
           client-payload: '{"pr_number": "${{ env.PR_NUMBER }}", "is_dev": "${{ env.IS_DEV }}"}'
