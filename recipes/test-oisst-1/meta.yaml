@@ -1,4 +1,4 @@
-title: "NOAA Optimum Interpolated SST"
+title: "NOAA Optimum Interpolated SST "
 description: "Analysis-ready Zarr datasets derived from NOAA OISST NetCDF"
 pangeo_forge_version: "0.5.0"
 pangeo_notebook_version: "2021.07.17"
