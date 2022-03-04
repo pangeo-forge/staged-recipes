@@ -3,7 +3,7 @@ import pandas as pd
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-start_date = "1981-09-01"
+start_date = "1981-09-02"
 
 
 def format_function(time):
