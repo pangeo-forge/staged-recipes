@@ -1,0 +1,26 @@
+title: "NOAA Optimum Interpolated SST"
+description: "Analysis-ready Zarr datasets derived from NOAA OISST NetCDF"
+pangeo_forge_version: "0.5.0"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: noaa-oisst-avhrr-only
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NOAA NCEI"
+      description: "National Oceanographic & Atmospheric Administration National Centers for Environmental Information"
+      roles:
+        - producer
+        - licensor
+      url: https://www.ncdc.noaa.gov/oisst
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Ryan Abernathey"
+    orcid: "0000-0001-5999-4917"
+    github: rabernat
+bakery:
+  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
+  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
+  resources:
+    memory: 4096
+    cpu: 1024
