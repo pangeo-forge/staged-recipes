@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+      - 'recipes/**'
     types: [closed]
 
 jobs:
