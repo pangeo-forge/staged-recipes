@@ -16,6 +16,6 @@ def format_function(time):
     return input_url_pattern.format(day=day)
 
 
-dates = pd.date_range(start_date, "1981-09-25", freq="D")
+dates = pd.date_range(start_date, "1981-09-26", freq="D")
 pattern = FilePattern(format_function, ConcatDim("time", range(len(dates)), 1))
 recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=20, cache_inputs=True)
