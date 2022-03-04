@@ -39,8 +39,10 @@ def dap_format_fn(time):
     return dap_url
 
 
-with xr.open_dataset(dap_url, drop_variables=["tau"]) as ds:
-    time_length = len(ds["time"])
+# with xr.open_dataset(dap_url, drop_variables=["tau"]) as ds:
+#     time_length = len(ds["time"])
+
+time_length = 9473
 
 
 dap_pattern = FilePattern(dap_format_fn, ConcatDim("time", ["1"]), is_opendap=True)
