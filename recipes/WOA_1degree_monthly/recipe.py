@@ -40,7 +40,7 @@ variable_merge_dim = patterns.MergeDim("variable", keys=["temperature",
 
 month_concat_dim = patterns.ConcatDim("time", keys=list(range(1, 13)), nitems_per_file=1)
 
-pattern = patterns.FilePattern(format_function, variable_merge_dim, month_concat_dim)
+pattern = patterns.FilePattern(make_url, variable_merge_dim, month_concat_dim)
 
 def fix_encoding_and_attrs(ds, fname):
     ds.time.attrs['calendar'] = '360_day'
