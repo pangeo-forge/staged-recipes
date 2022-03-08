@@ -1,5 +1,6 @@
 # Recipe for WOA 1degree data 
 # Data description: https://www.ncei.noaa.gov/sites/default/files/2020-04/woa18documentation.pdf 
+import xarray as xr
 
 from pangeo_forge_recipes import patterns
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
