@@ -30,9 +30,9 @@ def make_url(variable, time):
 
 variable_merge_dim = patterns.MergeDim("variable", keys=["temperature", 
                                                          "salinity",
-                                                         #"density",
-                                                         #"oxygen", 
-                                                         #"AOU", 
+                                                         "density",
+                                                         "oxygen", 
+                                                         "AOU", 
                                                          #"phosphate", # these following variables do not have data to 1500m in monthly
                                                          #"nitrate", 
                                                          #"silicate", 
@@ -52,5 +52,6 @@ def fix_encoding_and_attrs(ds, fname):
 recipe = XarrayZarrRecipe(
     pattern,
     xarray_open_kwargs={'decode_times': False},
-    process_input=fix_encoding_and_attrs
+    process_input=fix_encoding_and_attrs,
+    target_chunks={"time": 12}
 )
