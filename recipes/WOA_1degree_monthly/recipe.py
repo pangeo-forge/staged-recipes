@@ -30,9 +30,9 @@ def make_url(variable, time):
 
 variable_merge_dim = patterns.MergeDim("variable", keys=["temperature", 
                                                          "salinity",
-                                                         "density",
-                                                         "oxygen", 
-                                                         "AOU", 
+                                                         #"density",
+                                                         #"oxygen", 
+                                                         #"AOU", 
                                                          #"phosphate", # these following variables do not have data to 1500m in monthly
                                                          #"nitrate", 
                                                          #"silicate", 
