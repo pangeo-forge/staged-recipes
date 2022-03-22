@@ -2,7 +2,7 @@ title: "NOAA Coastwatch Geo-Polar SST"
 description: "NOAA Geo-Polar Blended Global Sea Surface Temperature Analysis (Level 4)"
 pangeo_forge_version: "0.6.2"
 recipes:
-  - id: noaa-geopolar-sst
+  - id: noaa-coastwatch-geopolar-sst
     object: "recipe:recipe"
 provenance:
   providers:
