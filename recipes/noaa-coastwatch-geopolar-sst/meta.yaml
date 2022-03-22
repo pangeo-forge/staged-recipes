@@ -13,7 +13,7 @@ provenance:
         - producer
         - processor
       url: https://coastwatch.noaa.gov/cw/satellite-data-products/sea-surface-temperature/sea-surface-temperature-near-real-time-geopolar-blended.html
-    license: "CC-BY-4.0"
+  license: "CC-BY-4.0"
 maintainers:
   - name: "Rachel Wegener"
     github: "rwegener2"
