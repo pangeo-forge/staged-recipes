@@ -36,4 +36,4 @@ def make_url(time):
 time_concat_dim = ConcatDim("time", dates, nitems_per_file=1)
 pattern = FilePattern(make_url, time_concat_dim)
 
-recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=4)
+recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=4, subset_inputs={"lat": 2})
