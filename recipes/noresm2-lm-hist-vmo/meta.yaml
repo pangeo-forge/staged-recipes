@@ -1,0 +1,22 @@
+title: "CMIP6 NorESM2-LM historical vmo"
+description: "Analysis-ready Zarr datasets derived from ESGF provided NetCDF files of ocean mass y transport"
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.07.17"
+recipes:
+  - id: noresm2-lm-hist-vmo
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NorESM Climate modeling Consortium"
+      description: "CICERO (Center for International Climate and Environmental Research, Oslo 0349), MET-Norway (Norwegian Meteorological Institute, Oslo 0313), NERSC (Nansen Environmental and Remote Sensing Center, Bergen 5006), NILU (Norwegian Institute for Air Research, Kjeller 2027), UiB (University of Bergen, Bergen 5007), UiO (University of Oslo, Oslo 0313) and UNI (Uni Research, Bergen 5008), Norway."
+      roles:
+        - producer
+        - licensor
+      url: https://www.ncdc.noaa.gov/oisst
+  license: "Creative Commons Attribution ShareAlike 4.0 International License"
+maintainers:
+  - name: "Dianne Deauna"
+    orcid: "0000-0002-0733-9440"
+    github: jdldeuana
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
