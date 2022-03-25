@@ -11,7 +11,6 @@ dates = pd.date_range("1850-01", "2010-01", freq="10YS")
 
 time_concat_dim = ConcatDim("time", keys=dates)
 
-
 def make_url(time):
     """With a start date as input, return a url terminating in
     ``{start}-{end}.nc`` where end is 10 years after the start
@@ -35,17 +34,7 @@ def make_url(time):
 
 pattern = FilePattern(make_url, time_concat_dim)
 
-# Decide on chunk size by downloading local copy of 1 file
-local_path = "vmo_Omon_NorESM2-LM_historical_r1i1p1f1_gr_185001-185912.nc"
-ds = xr.open_dataset(local_path)
-
-ntime = len(ds.time)       # the number of time slices
-chunksize_optimal = 125e6  # desired chunk size in bytes
-ncfile_size = ds.nbytes    # the netcdf file size
-chunksize = max(int(ntime* chunksize_optimal/ ncfile_size),1)
-
-target_chunks = ds.dims.mapping
-target_chunks['time'] = chunksize
+target_chunks = {'time': 3, 'bnds': 2, 'lev': 70, 'j': 385, 'i': 360, 'vertices': 4}
 
 # the netcdf lists some of the coordinate variables as data variables. This is a fix which we want to apply to each chunk.
 def set_bnds_as_coords(ds):
