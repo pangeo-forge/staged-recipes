@@ -5,7 +5,7 @@ from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 import zarr
 
-BASE_URL = 'http://noresg.nird.sigma2.no/thredds/fileServer/esg_dataroot/cmor/CMIP6/CMIP/NCC/NorESM2-LM/historical/r1i1p1f1/Omon/vmo/gr/v20190815/vmo_Omon_NorESM2-LM_historical_r1i1p1f1_gr_'
+BASE_URL = 'http://esgf-data3.ceda.ac.uk/thredds/fileServer/esg_cmip6/CMIP6/CMIP/NCC/NorESM2-LM/historical/r1i1p1f1/Omon/vmo/gr/v20190815/vmo_Omon_NorESM2-LM_historical_r1i1p1f1_gr_'
 
 dates = pd.date_range("1850-01", "2010-01", freq="10YS")
 
