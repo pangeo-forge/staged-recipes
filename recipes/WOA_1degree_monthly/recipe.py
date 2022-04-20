@@ -53,5 +53,6 @@ recipe = XarrayZarrRecipe(
     pattern,
     xarray_open_kwargs={'decode_times': False},
     process_input=fix_encoding_and_attrs,
-    target_chunks={"time": 12}
+    target_chunks={"time": 12},
+    inputs_per_chunk=12,
 )
