@@ -1,0 +1,41 @@
+# Name for dataset. User chosen.
+title: "WOA 2018 1 degree monthly"
+# Description of dataset.  User chosen, roughly 1 sentence in length.
+description: "1 Degree monthly climatology from WOA" 
+# Version of pangeo_forge_recipes library that was used 
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
+# The recipes section tells Pangeo Cloud where to find the recipes within your PR.
+# Many recipe PRs will have just 1 recipe, in which case this section will look similar to the example below.
+# If your PR contains multiple recipes, you may add additional elements to the list below.
+recipes:
+  # User chosen name for recipe. Likely similiar to dataset name, ~25 characters in length
+  - id: woa18-1deg-monthly
+    # The `object` below tells Pangeo Cloud specifically where your recipe instance(s) are located and uses the format <filename>:<object_name>
+    # <filename> is name of .py file where the Python recipe object is defined.
+    # For example, if <filename> is given as "recipe", Pangeo Cloud will expect a file named `recipe.py` to exist in your PR.
+    # <object_name> is the name of the recipe object (i.e. Python class instance) _within_ the specified file.
+    # For example, if you have defined `recipe = XarrayZarrRecipe(...)` within a file named `recipe.py`, then your  `object` below would be `"recipe:recipe"`
+    object: "recipe:recipe"
+provenance:
+  # Data provider object.  Follow STAC spec.
+  # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#provider-object
+  providers:
+    - name: "NOAA NCEI"
+      description: "National Oceanographic & Atmospheric Administration National Centers for Environmental Information"
+      roles:
+        - producer
+        - licensor
+      url: https://www.ncdc.noaa.gov/oisst
+  # This is a required field for provider. Follow STAC spec
+  # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
+  license: "CC-BY-4.0"
+maintainers:
+  # Information about recipe creator. name and github are required
+  - name: "Dhruv Balwada"
+    orcid: "0000-0001-6632-0187"
+    github: dhruvbalwada
+# The specific bakery (i.e. cloud infrastructure) that your recipe will run on.
+# Available bakeries can be found on the Pangeo Forge website https://pangeo-forge.org/dashboard/bakeries
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
