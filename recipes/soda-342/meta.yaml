@@ -1,7 +1,7 @@
 title: "SODA 3.4.2 ICE"
 description: "SODA: A reanalysis of ocean climate (ICE)"
-pangeo_forge_version: "0.6.1"  # the latest bakery image we have
-pangeo_notebook_version: "2022.07.17" # the latest bakery image we have
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
 recipes:
   - id: soda-342-ice
     object: "soda342_ice:recipe"
@@ -19,4 +19,4 @@ maintainers:
     orcid: "0000-0002-4078-0852"
     github: cisaacstern
 bakery:
-  id: "columbia-staging"  # must come from a valid list of bakeries
+  id: "pangeo-ldeo-nsf-earthcube"
