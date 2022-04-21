@@ -3,7 +3,7 @@ title: "WOA 2018 1 degree monthly"
 # Description of dataset.  User chosen, roughly 1 sentence in length.
 description: "1 Degree monthly climatology from WOA" 
 # Version of pangeo_forge_recipes library that was used 
-pangeo_forge_version: "0.8.2"
+pangeo_forge_version: "@prefect-retry"
 pangeo_notebook_version: "2021.12.02"
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
 # Many recipe PRs will have just 1 recipe, in which case this section will look similar to the example below.
