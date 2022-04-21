@@ -1,0 +1,24 @@
+title: "NOAA Coastwatch Geo-Polar SST"
+description: "NOAA Geo-Polar Blended Global Sea Surface Temperature Analysis (Level 4)"
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  - id: noaa-coastwatch-geopolar-sst
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NOAA Coastwatch/OceanWatch"
+      description: "National Oceanographic & Atmospheric Administration Coastwatch/Oceanwatch"
+      roles:
+        - licensor
+        - producer
+        - processor
+      url: https://coastwatch.noaa.gov/cw/satellite-data-products/sea-surface-temperature/sea-surface-temperature-near-real-time-geopolar-blended.html
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Rachel Wegener"
+    github: "rwegener2"
+    orcid: "0000-0001-6092-7703"
+    email: "rwegener@umd.edu"
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
