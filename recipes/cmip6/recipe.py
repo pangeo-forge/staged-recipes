@@ -253,28 +253,29 @@ def urls_from_instance_id(instance_id):
     
     return urls
 
-
-instance_ids = [
-    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429',
-    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429',
-    # 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.thetao.gn.v20190429',
-               ]
+inputs = {
+    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429':{'target_chunks':{'time':360}},
+    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429':{'target_chunks':{'time':6}, 'subset_inputs':{'time':5}},
+}
 
 
-def recipe_from_urls(urls):
+def recipe_from_urls(urls, instance_kwargs):
     pattern = pattern_from_file_sequence(urls, "time")
 
     recipe = XarrayZarrRecipe(
         pattern,
-        target_chunks={"time": 3}, #TODO, this needs to be adjusted per dataset
         xarray_concat_kwargs={"join": "exact"},
+        **instance_kwargs
+        
     )
     return recipe
 
-
 # TODO: ultimately we want this to work with a dictionary (waiting for this feature in pangeo cloud)
-#recipes = {id:recipe_from_urls(urls_from_instance_id(id)) for id in instance_ids}
+#recipes = {iid:recipe_from_urls(urls_from_instance_id(iid), kwargs) for iid,kwargs in inputs.items()}
 
 #but for now define them as explicit variables
-recipe_0 = recipe_from_urls(urls_from_instance_id(instance_ids[0]))
-recipe_1 = recipe_from_urls(urls_from_instance_id(instance_ids[1]))
+iid = 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429'
+recipe_0 = recipe_from_urls(urls_from_instance_id(iid), inputs[iid])
+
+iid = 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429'
+recipe_1 = recipe_from_urls(urls_from_instance_id(iid), inputs[iid])
