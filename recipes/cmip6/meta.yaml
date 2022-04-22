@@ -1,0 +1,24 @@
+title: "CMIP6"
+description: "CMIP6 datasets converted to zarr stores from ESGF files" 
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  - id: test_surface
+    object: "recipe:recipe_0"
+  - id: test_full_depth
+    object: "recipe:recipe_1"
+provenance:
+  providers: #TODO: Ask in the cloud call...
+    - name: "ESGF" 
+      description: "Earth System Grid Federation"
+      roles:
+        - producer
+        - licensor
+      url: https://esgf-node.llnl.gov/projects/cmip6/
+  license: "CC-BY-4.0" #TODO...
+maintainers:
+  - name: "Julius Busecke"
+    orcid: "0000-0001-8571-865X"
+    github: jbusecke
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
