@@ -19,8 +19,4 @@ maintainers:
     orcid: "0000-0003-1994-1153"
     github: norlandrhagen
 bakery:
-  id: "devseed.bakery.development.aws.us-west-2"
-  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
-  resources:
-    memory: 4096
-    cpu: 1024
+  id: "pangeo-ldeo-nsf-earthcube"
