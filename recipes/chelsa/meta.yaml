@@ -4,6 +4,7 @@ title: "CHELSA v2.1"
 description: "Climatologies at high resolution for the Earth's land surface areas" 
 # Version of pangeo_forge_recipes library that was used 
 pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2022.05.02"
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
 # Many recipe PRs will have just 1 recipe, in which case this section will look similar to the example below.
 # If your PR contains multiple recipes, you may add additional elements to the list below.
