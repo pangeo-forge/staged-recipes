@@ -1,8 +1,8 @@
 # Name for dataset. User chosen.
 title: "CHELSA v2.1"
 # Description of dataset.  User chosen, roughly 1 sentence in length.
-description: "Climatologies at high resolution for the Earth's land surface areas" 
-# Version of pangeo_forge_recipes library that was used 
+description: "Climatologies at high resolution for the Earth's land surface areas"
+# Version of pangeo_forge_recipes library that was used
 pangeo_forge_version: "0.8.2"
 pangeo_notebook_version: "2022.05.02"
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
