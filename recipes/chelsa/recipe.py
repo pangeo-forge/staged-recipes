@@ -37,5 +37,5 @@ pattern = FilePattern(
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
     inputs_per_chunk=1,
-    xarray_open_kwargs={"engine": "rasterio"}, 
+    xarray_open_kwargs={"engine": "rasterio"},
 )
