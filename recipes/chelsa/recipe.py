@@ -1,9 +1,8 @@
 import numpy as np
-
-from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
+from pangeo_forge_recipes.patterns import ConcatDim, MergeDim, FilePattern
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-months = np.arange(1,13)
+months = np.arange(1,13) 
 variables = ['cmi',
             'hurs',
             'pet',
@@ -37,6 +36,7 @@ pattern = FilePattern(
 
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
-    inputs_per_chunk=1,
-    xarray_open_kwargs={"engine": "rasterio"},
+    inputs_per_chunk=1 
 )
+
+run_function = recipe.to_function()
