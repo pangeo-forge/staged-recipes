@@ -38,5 +38,6 @@ recipe = XarrayZarrRecipe(
     file_pattern=pattern,
     inputs_per_chunk=1,
     xarray_open_kwargs={"engine": "rasterio"},
-    copy_input_to_local_file=True
+    copy_input_to_local_file=True,
+    subset_inputs={"x": 6},
 )
