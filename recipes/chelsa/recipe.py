@@ -39,6 +39,6 @@ recipe = XarrayZarrRecipe(
     inputs_per_chunk=1,
     xarray_open_kwargs={"engine": "rasterio"},
     copy_input_to_local_file=True,
-    subset_inputs={'x':6, 'y': 4},
+    subset_inputs={'y': 4},
     target_chunks={'y': 5220, 'x': 5400}
 )
