@@ -11,7 +11,6 @@ variables = ['cmi',
             'tas',
             'tasmax',
             'tasmin',
-            'tcc',
             'vpd'
            ]
 
