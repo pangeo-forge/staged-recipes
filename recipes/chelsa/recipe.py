@@ -27,6 +27,14 @@ def make_url(variable, month):
         f'climatologies/1981-2010/{variable}/CHELSA_{variable_filename}_{month:02}_1981-2010_V.2.1.tif'
     )
 
+def rename_vars(ds, url):
+    '''
+    Add unique identifier to variables names.
+    '''
+    varname = url.split('_')[-4]
+    
+    return ds.rename_vars({v: f"{varname}_{v}" for v in ds.data_vars})
+
 pattern = FilePattern(
     make_url,
     ConcatDim(name='month', keys=months, nitems_per_file=1),
@@ -38,6 +46,7 @@ recipe = XarrayZarrRecipe(
     inputs_per_chunk=1,
     xarray_open_kwargs={"engine": "rasterio"},
     copy_input_to_local_file=True,
+    process_input=rename_vars,
     subset_inputs={'y': 4},
     target_chunks={'y': 5220, 'x': 5400}
 )
