@@ -5,7 +5,9 @@ from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
 # MPI, pers comms with Nils Brüggemann,
 # links https://swiftbrowser.dkrz.de/public/dkrz_07387162e5cd4c81b1376bd7c648bb60/mpiom_fx/?show_all
-#
+
+# NCC: pers comms with Aleksi Nummelin
+# link http://ns9560k.web.sigma2.no/inputdata/
 
 url_dict = {
     "GFDL-ESM4": (
@@ -19,6 +21,12 @@ url_dict = {
     "MPI-ESM1-2-LR": (
         "{mock_concat}https://swift.dkrz.de/v1/dkrz_07387162e5cd4c81b1376bd7c648bb60/"
         "mpiom_fx/pool/data/MPIOM/input/r0013/TP04/TP04L40_fx.nc"
+    ),
+    "NorESM2-MM": (
+        "http://ns9560k.web.sigma2.no/inputdata/ocn/blom/grid/grid_tnx1v4_20170622.nc"
+    ),  # testing if I need the mock_concat for http links
+    "NorESM2-LM": (
+        "{mock_concat}http://ns9560k.web.sigma2.no/inputdata/ocn/blom/grid/grid_tnx1v4_20170622.nc"
     ),
     # "another_grid_key": (
     #   "{mock_concat}ftp://another_grid_source_file_url"
