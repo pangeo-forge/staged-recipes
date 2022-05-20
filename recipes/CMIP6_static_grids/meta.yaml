@@ -3,7 +3,7 @@ description: "Raw grid files for the native ocean grids"
 pangeo_forge_version: "0.8.2"
 pangeo_notebook_version: "2021.12.02"
 recipes:
-  - id:
+  dict_object: "recipe:recipes"
 provenance:
   # @ Charles this one is difficult. I collected them all manually, and this information varies for each dataset!
   # What do you think we should do here
