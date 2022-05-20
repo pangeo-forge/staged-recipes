@@ -1,10 +1,24 @@
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
+# Sources:
+
+# MPI, pers comms with Nils Brüggemann,
+# links https://swiftbrowser.dkrz.de/public/dkrz_07387162e5cd4c81b1376bd7c648bb60/mpiom_fx/?show_all
+#
+
 url_dict = {
     "GFDL-ESM4": (
         "{mock_concat}ftp://ftp.gfdl.noaa.gov/"
         "perm/Alistair.Adcroft/MOM6-testing/OM4_05/ocean_hgrid.nc"
+    ),
+    "MPI-ESM1-2-HR": (
+        "{mock_concat}https://swift.dkrz.de/v1/dkrz_07387162e5cd4c81b1376bd7c648bb60/"
+        "mpiom_fx/pool/data/MPIOM/input/r0013/GR15/GR15L40_fx.nc"
+    ),
+    "MPI-ESM1-2-LR": (
+        "{mock_concat}https://swift.dkrz.de/v1/dkrz_07387162e5cd4c81b1376bd7c648bb60/"
+        "mpiom_fx/pool/data/MPIOM/input/r0013/TP04/TP04L40_fx.nc"
     ),
     # "another_grid_key": (
     #   "{mock_concat}ftp://another_grid_source_file_url"
