@@ -1,0 +1,23 @@
+title: "CMIP6 Static Ocean Grids"
+description: "Raw grid files for the native ocean grids"
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  - id:
+provenance:
+  # @ Charles this one is difficult. I collected them all manually, and this information varies for each dataset!
+  # What do you think we should do here
+  providers: #TODO: Ask in the cloud call...
+    - name: "misc"
+      description: "TBD"
+      roles:
+        - producer
+        - licensor
+      url: https://notsure.com
+  license: "TBD" #TODO...
+maintainers:
+  - name: "Julius Busecke"
+    orcid: "0000-0001-8571-865X"
+    github: jbusecke
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
