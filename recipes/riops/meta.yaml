@@ -1,0 +1,22 @@
+title: "RIOPS"
+description: "Regional Ice Ocean Prediction System (RIOPS) data available on the Meteorological Service of Canada (MSC) Datamart"
+pangeo_forge_version: "0.8.2"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  - id: riops
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "ECCC"
+      description: "Environment and Climate Change Canada"
+      roles:
+        - producer
+        - licensor
+      url: https://dd.weather.gc.ca/model_riops/
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "James Munroe"
+    orcid: "0000-0002-4078-0852"
+    github: jmunroe
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
