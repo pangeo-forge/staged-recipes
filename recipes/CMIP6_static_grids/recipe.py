@@ -53,10 +53,8 @@ xr_open_kwargs_dict = {
 def make_recipe(grid_key):
     make_full_path.__defaults__ = (grid_key,)
     filepattern = FilePattern(make_full_path, time_concat_dim)
-    pp = preprocess_dict[grid_key] if grid_key in preprocess_dict.keys() else None
-    xarray_open_kwargs = (
-        xr_open_kwargs_dict[grid_key] if grid_key in xr_open_kwargs_dict.keys() else {}
-    )
+    pp = preprocess_dict.get(grid_key, None)
+    xarray_open_kwargs = xr_open_kwargs_dict.get(grid_key, {})
     return XarrayZarrRecipe(filepattern, process_input=pp, xarray_open_kwargs=xarray_open_kwargs)
 
 
