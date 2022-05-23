@@ -23,7 +23,7 @@ url_dict = {
         "mpiom_fx/pool/data/MPIOM/input/r0013/TP04/TP04L40_fx.nc"
     ),
     "NorESM2-MM": (
-        "http://ns9560k.web.sigma2.no/inputdata/ocn/blom/grid/grid_tnx1v4_20170622.nc"
+        "{mock_concat}http://ns9560k.web.sigma2.no/inputdata/ocn/blom/grid/grid_tnx1v4_20170622.nc"
     ),  # testing if I need the mock_concat for http links
     "NorESM2-LM": (
         "{mock_concat}http://ns9560k.web.sigma2.no/inputdata/ocn/blom/grid/grid_tnx1v4_20170622.nc"
@@ -48,21 +48,33 @@ def gfdl_pp_func(ds, fname):
 
 
 preprocess_dict = {
-    "GFDL-ESM4": gfdl_pp_func,
+    # "GFDL-ESM4": gfdl_pp_func,
     # "another_grid_key": "another_grid_pp_func"
 }
 
 xr_open_kwargs_dict = {
-    "GFDL-ESM4": {"engine": "scipy"},
+    # "another_grid_key": "{xarray_open_kwargs for that grid_key}"
+}
+
+filepattern_kwargs_dict = {
+    "GFDL-ESM4": {"file_type": "netcdf3"},
+    "MPI-ESM1-2-HR": {"file_type": "netcdf3"},
+    "MPI-ESM1-2-LR": {"file_type": "netcdf3"},
+    "NorESM2-MM": {"file_type": "netcdf3"},
+    "NorESM2-LM": {"file_type": "netcdf3"},
     # "another_grid_key": "{xarray_open_kwargs for that grid_key}"
 }
 
 
 def make_recipe(grid_key):
     make_full_path.__defaults__ = (grid_key,)
-    filepattern = FilePattern(make_full_path, time_concat_dim)
+
     pp = preprocess_dict.get(grid_key, None)
     xarray_open_kwargs = xr_open_kwargs_dict.get(grid_key, {})
+    fp_kwargs = filepattern_kwargs_dict.get(grid_key, {})
+
+    filepattern = FilePattern(make_full_path, time_concat_dim, **fp_kwargs)
+
     return XarrayZarrRecipe(filepattern, process_input=pp, xarray_open_kwargs=xarray_open_kwargs)
 
 
