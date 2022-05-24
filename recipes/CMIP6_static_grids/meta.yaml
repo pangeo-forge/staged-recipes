@@ -1,6 +1,6 @@
 title: "CMIP6 Static Ocean Grids"
 description: "Raw grid files for the native ocean grids"
-pangeo_forge_version: "0.8.2"
+pangeo_forge_version: "0.8.3"
 pangeo_notebook_version: "2021.12.02"
 recipes:
   dict_object: "recipe:recipes"
