@@ -1,0 +1,32 @@
+title: "CMIP6 Static Ocean Grids"
+description: "Grid mesh files for the native ocean grids of CMIP6 models"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  dict_object: "recipe:recipes"
+provenance:
+  # @ Charles this one is difficult. I collected them all manually, and this information varies for each dataset!
+  # What do you think we should do here
+  providers: #TODO: Ask in the cloud call...
+    - name: "NOAA-GFDL"
+      roles: 
+       - host
+      description: Provides grid files for GFDL-ESM4
+      url: https://data1.gfdl.noaa.gov
+    - name: "NCC"
+      roles: 
+       - host
+      url: "http://ns9560k.web.sigma2.no/inputdata/"
+      description: Provided grid files for NorESM2-MM/NorESM2-LM
+    - name: "MPI"
+      roles: 
+       - host
+      url: https://swiftbrowser.dkrz.de/public/dkrz_07387162e5cd4c81b1376bd7c648bb60/mpiom_fx/?show_all
+      description: Provides grid files for MPI-ESM1-2-HR/MPI-ESM1-2-LR
+  license: "TBD" #TODO...
+maintainers:
+  - name: "Julius Busecke"
+    orcid: "0000-0001-8571-865X"
+    github: jbusecke
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
