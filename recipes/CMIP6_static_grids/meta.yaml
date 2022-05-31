@@ -12,6 +12,7 @@ provenance:
       roles: 
        - host
       description: Provides grid files for GFDL-ESM4
+      url: https://data1.gfdl.noaa.gov
     - name: "NCC"
       roles: 
        - host
