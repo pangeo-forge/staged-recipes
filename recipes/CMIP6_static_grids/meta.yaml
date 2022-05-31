@@ -12,7 +12,6 @@ provenance:
       roles: 
        - host
       description: Provides grid files for GFDL-ESM4
-      url: ftp://ftp.gfdl.noaa.gov/perm/Alistair.Adcroft/MOM6-testing/
     - name: "NCC"
       roles: 
        - host
