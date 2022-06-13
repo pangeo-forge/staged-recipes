@@ -1,0 +1,21 @@
+title: "NSIDC NASA Team SIC"
+description: "daily gap-filled sea ice concentration (SIC) regridded to 1 degree tri-polar (SPEAR-med)"
+pangeo_forge_version: "0.8.3"
+recipes:
+  - id: nsidc-daily-sic
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NSIDC"
+      description: "National Snow and Ice Data Center"
+      roles:
+        - producer
+        - licensor
+      url: https://nsidc.org/data/NSIDC-0051/versions/1
+  license: "AGPL-3.0-or-later"
+maintainers:
+  - name: "William Gregory"
+    orcid: "0000-0001-8176-1642"
+    github: William-gregory
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
