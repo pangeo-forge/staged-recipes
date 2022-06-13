@@ -1,0 +1,22 @@
+title: "SIC DA increments"
+description: "sea ice concentration (SIC) data assimilation (DA) increments from perturbed model physics run F02"
+pangeo_forge_version: "0.8.3"
+recipes:
+  - id: sic-incs
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NOAA GFDL"
+      description: "National Oceanic and Atmospheric Administration (NOAA) Geophysical Fluid Dynamics Laboratory (GFDL)"
+      roles:
+        - producer
+        - licensor
+      url: 
+  license: ""
+maintainers:
+  - name: "William Gregory"
+    orcid: "0000-0001-8176-1642"
+    github: William-gregory
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
+
