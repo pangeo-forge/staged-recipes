@@ -1,6 +1,7 @@
 title: "GFDL SIC DA"
 description: "model ensemble mean state vectors and diagnostics, and input observations from SPEAR sea ice concentration (SIC) data assimilation (DA) run"
-pangeo_forge_version: "0.8.2"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2021.12.02"
 recipes:
   - id: sic-da
     object: "recipe:recipe"
