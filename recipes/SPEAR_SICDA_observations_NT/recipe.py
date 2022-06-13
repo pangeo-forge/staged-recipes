@@ -6,7 +6,7 @@ dates = [str(x) for x in range(1982,2018)]
 def make_url(time):
     return "ftp://ftp.gfdl.noaa.gov/pub/William.Gregory/SIC_observations_NT/nt_"+time+"_v01_n_neareststod_spear.nc"
 
-time_concat_dim = ConcatDim("time", dates, nitems_per_file=365)
+time_concat_dim = ConcatDim("time", dates)
 pattern = FilePattern(make_url, time_concat_dim, file_type='netcdf3')
 
-recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=2)
+recipe = XarrayZarrRecipe(pattern, target_chunks={'time':60})
