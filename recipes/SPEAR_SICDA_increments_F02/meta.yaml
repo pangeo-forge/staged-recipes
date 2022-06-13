@@ -1,5 +1,5 @@
 title: "SIC DA increments"
-description: "sea ice concentration (SIC) data assimilation (DA) increments from perturbed model physics run F02"
+description: "sea ice concentration (SIC) data assimilation (DA) increments from perturbed model physics run F02 (https://doi.org/10.1175/JCLI-D-20-0469.1)"
 pangeo_forge_version: "0.8.3"
 recipes:
   - id: sic-incs
@@ -11,8 +11,8 @@ provenance:
       roles:
         - producer
         - licensor
-      url: 
-  license: ""
+      url: https://doi.org/10.1175/JCLI-D-20-0469.1
+  license: "proprietary"
 maintainers:
   - name: "William Gregory"
     orcid: "0000-0001-8176-1642"
