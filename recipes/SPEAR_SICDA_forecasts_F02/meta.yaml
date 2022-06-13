@@ -1,0 +1,21 @@
+title: "SICDA daily forecasts"
+description: "daily forecasts of various model states from sea ice concentration (SIC) data assimilation (DA) run (https://doi.org/10.1175/JCLI-D-20-0469.1)"
+pangeo_forge_version: "0.8.3"
+recipes:
+  - id: sicda-forecasts
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NOAA GFDL"
+      description: "National Oceanic and Atmospheric Administration (NOAA) Geophysical Fluid Dynamics Laboratory (GFDL)"
+      roles:
+        - producer
+        - licensor
+      url: https://doi.org/10.1175/JCLI-D-20-0469.1
+  license: "proprietary"
+maintainers:
+  - name: "William Gregory"
+    orcid: "0000-0001-8176-1642"
+    github: William-gregory
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
