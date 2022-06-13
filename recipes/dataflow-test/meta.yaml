@@ -1,0 +1,22 @@
+title: Dataflow Test Recipe
+description: "Test for Dataflow deployment." 
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.05.02"
+recipes:
+ - id: dataflow-test
+   object: "recipe:recipe"
+provenance:
+ providers:
+   - name: NOAA OISST
+     description: "NOAA OISST"
+     roles:
+       - producer
+       - licensor
+     url: https://www.ncei.noaa.gov/products/optimum-interpolation-sst
+ license: "CC-BY-4.0"
+maintainers:
+ - name: "Charles Stern"
+   orcid: "aaa-bbb-ccc"
+   github: cisaacstern
+bakery:
+ id: "pangeo-ldeo-nsf-earthcube"
