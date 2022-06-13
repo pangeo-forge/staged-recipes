@@ -1,6 +1,5 @@
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe, setup_logging
-import xarray as xr
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 dates = [str(x) for x in range(1982,2018)]
 
