@@ -11,7 +11,7 @@ provenance:
       roles:
         - producer
         - licensor
-      url: https://doi.org/10.1175/JCLI-D-20-0469.1 (model) / https://nsidc.org/data/NSIDC-0051/versions/1 (obs)
+      url: https://doi.org/10.1175/JCLI-D-20-0469.1
   license: "various"
 maintainers:
   - name: "William Gregory"
