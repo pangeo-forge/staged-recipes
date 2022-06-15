@@ -3,8 +3,16 @@ description: "model ensemble mean state vectors and diagnostics, and input obser
 pangeo_forge_version: "0.8.3"
 pangeo_notebook_version: "2021.12.02"
 recipes:
-  - id: sic-da
-    object: "recipe:recipe"
+  - id: sic-obs
+    object: "recipe:recipe1"
+  - id: sic-da-forecasts
+    object: "recipe:recipe2"
+  - id: sic-da-increments
+    object: "recipe:recipe3"
+  - id: sic-da-priors
+    object: "recipe:recipe4"
+  - id: sic-da-posteriors
+    object: "recipe:recipe5"
 provenance:
   providers:
     - name: "NOAA GFDL"
