@@ -9,7 +9,7 @@ def make_url1(time):
     return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SIC_observations_NT/nt_"+time+"_v01_n_neareststod_spear.nc"
 
 time_concat_dim1 = ConcatDim("time", dates)
-pattern1 = FilePattern(make_url1, time_concat_dim1)
+pattern1 = FilePattern(make_url1, time_concat_dim1, file_type='netcdf3')
 
 recipe1 = XarrayZarrRecipe(pattern1, target_chunks={'time':60})
 
@@ -29,7 +29,7 @@ def make_url3(record):
     return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SICDA_increments_F02/"+record+".incre_raw.mean.part_size.nc"
 
 time_concat_dim3 = ConcatDim("record", dates)
-pattern3 = FilePattern(make_url3, time_concat_dim3)
+pattern3 = FilePattern(make_url3, time_concat_dim3, file_type='netcdf3')
 
 recipe3 = XarrayZarrRecipe(pattern3, target_chunks={'record':97})
 
@@ -39,7 +39,7 @@ def make_url4(record):
     return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SICDA_priors_F02/"+record+".input_mean.nc"
 
 time_concat_dim4 = ConcatDim("record", dates)
-pattern4 = FilePattern(make_url4, time_concat_dim4)
+pattern4 = FilePattern(make_url4, time_concat_dim4, file_type='netcdf3')
 
 recipe4 = XarrayZarrRecipe(pattern4, target_chunks={'record':97})
 
@@ -49,6 +49,6 @@ def make_url5(record):
     return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SICDA_posteriors_F02/"+record+".output_mean.nc"
 
 time_concat_dim5 = ConcatDim("record", dates)
-pattern5 = FilePattern(make_url5, time_concat_dim5)
+pattern5 = FilePattern(make_url5, time_concat_dim5, file_type='netcdf3')
 
 recipe5 = XarrayZarrRecipe(pattern5, target_chunks={'record':97})
