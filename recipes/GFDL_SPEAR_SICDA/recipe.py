@@ -6,7 +6,7 @@ dates = [str(x) for x in range(1982,2018)]
 ### Data set 1 ###
 
 def make_url1(time):
-    return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SIC_observations_NT/nt_"+time+".ice_daily.ens_mean.nc"
+    return "ftp://ftp.gfdl.noaa.gov/perm/William.Gregory/SIC_observations_NT/nt_"+time+"_v01_n_neareststod_spear.nc"
 
 time_concat_dim1 = ConcatDim("time", dates)
 pattern1 = FilePattern(make_url1, time_concat_dim1)
