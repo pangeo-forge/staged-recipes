@@ -1,6 +1,6 @@
 title: Dataflow Test Recipe
 description: "Test Dataflow, make sure Prefect default still works." 
-pangeo_forge_version: "0.8.3"
+pangeo_forge_version: "0.9.0"
 pangeo_notebook_version: "2022.05.02"
 recipes:
  - id: dataflow-test
