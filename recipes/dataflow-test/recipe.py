@@ -8,10 +8,6 @@ start_date = "1981-09-01"
 
 def format_function(time):
     
-    ## duplicate for beam serialization
-    import pandas as pd
-    start_date = "1981-09-01"
-    ## end duplicate block
     
     base = pd.Timestamp(start_date)
     day = base + pd.Timedelta(days=time)
