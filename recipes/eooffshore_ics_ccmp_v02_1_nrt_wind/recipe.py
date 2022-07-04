@@ -8,7 +8,7 @@ from pangeo_forge_recipes.recipes import setup_logging, XarrayZarrRecipe
 import xarray as xr
 
 
-def ics_wind_speed_direction(ds: xr.DataSet, fname: str) -> xr.DataSet:
+def ics_wind_speed_direction(ds: xr.Dataset, fname: str) -> xr.Dataset:
     """
     Selects a subset for the Irish Continental Shelf (ICS) region, and computes wind speed and
     direction for the u and v components in the specified product. Dask arrays are
