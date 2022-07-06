@@ -3,7 +3,7 @@ description: "1/4 degree daily gap filled sea surface temperature (SST)"
 pangeo_forge_version: "0.8.2"
 pangeo_notebook_version: "2021.12.02"
 recipes:
-  - id: noaa-oisst-avhrr-only
+  - id: vietnguyen-test-recipe
     object: "recipe:recipe"
 provenance:
   providers:
