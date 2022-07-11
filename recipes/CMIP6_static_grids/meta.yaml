@@ -9,17 +9,17 @@ provenance:
   # What do you think we should do here
   providers: #TODO: Ask in the cloud call...
     - name: "NOAA-GFDL"
-      roles: 
+      roles:
        - host
       description: Provides grid files for GFDL-ESM4
       url: https://data1.gfdl.noaa.gov
     - name: "NCC"
-      roles: 
+      roles:
        - host
       url: "http://ns9560k.web.sigma2.no/inputdata/"
       description: Provided grid files for NorESM2-MM/NorESM2-LM
     - name: "MPI"
-      roles: 
+      roles:
        - host
       url: https://swiftbrowser.dkrz.de/public/dkrz_07387162e5cd4c81b1376bd7c648bb60/mpiom_fx/?show_all
       description: Provides grid files for MPI-ESM1-2-HR/MPI-ESM1-2-LR

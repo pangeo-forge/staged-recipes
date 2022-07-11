@@ -1,11 +1,11 @@
 ############################# just copied from esfg.py (TODO: being able to import this, would be nice and clean) ############################################
 """ESGF API Search Results to Pandas Dataframes
 """
-import requests
 import numpy
 import pandas as pd
+import requests
 
-#dummy comment
+# dummy comment
 # copied from Naomis code https://github.com/pangeo-data/pangeo-cmip6-cloud/blob/master/myconfig.py
 target_keys = [
     "activity_id",
@@ -173,6 +173,7 @@ def esgf_search(
 
     return dz
 
+
 ####################################################
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
@@ -187,6 +188,7 @@ node_dict = {
     "ceda": "https://esgf-index1.ceda.ac.uk/esg-search/search",
     "dkrz": "https://esgf-data.dkrz.de/esg-search/search",
 }
+
 
 def urls_from_instance_id(instance_id):
     # get facets from instance_id
@@ -206,17 +208,14 @@ def urls_from_instance_id(instance_id):
     facet_vals = instance_id.split(".")
     if len(facet_vals) != 10:
         raise ValueError(
-            "Please specify a query of the form {"
-            + ("}.{".join(facet_labels).upper())
-            + "}"
+            "Please specify a query of the form {" + ("}.{".join(facet_labels).upper()) + "}"
         )
 
     facets = dict(zip(facet_labels, facet_vals))
 
     if facets["mip_era"] != "CMIP6":
         raise ValueError("Only CMIP6 mip_era supported")
-        
-    
+
     # version doesn't work here
     keep_facets = (
         "activity_id",
@@ -235,7 +234,6 @@ def urls_from_instance_id(instance_id):
         search_node
     ]  # TODO: We might have to be more clever here and search through different nodes. For later.
 
-
     df = esgf_search(search_facets, server=ESGF_site)  # this modifies the dict inside?
 
     # get list of urls
@@ -244,38 +242,40 @@ def urls_from_instance_id(instance_id):
     # sort urls in decending time order (to be able to pass them directly to the pangeo-forge recipe)
     end_dates = [url.split("-")[-1].replace(".nc", "") for url in urls]
     urls = [url for _, url in sorted(zip(end_dates, urls))]
-    
+
     # version is still not working
     # if facets["version"].startswith("v"):
     #    facets["version"] = facets["version"][1:]
 
     # TODO Check that there are no gaps or duplicates.
-    
+
     return urls
 
+
 inputs = {
-    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429':{'target_chunks':{'time':360}},
-    'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429':{'target_chunks':{'time':6}, 'subset_inputs':{'time':5}},
+    "CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429": {
+        "target_chunks": {"time": 360}
+    },
+    "CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429": {
+        "target_chunks": {"time": 6},
+        "subset_inputs": {"time": 5},
+    },
 }
 
 
 def recipe_from_urls(urls, instance_kwargs):
     pattern = pattern_from_file_sequence(urls, "time")
 
-    recipe = XarrayZarrRecipe(
-        pattern,
-        xarray_concat_kwargs={"join": "exact"},
-        **instance_kwargs
-        
-    )
+    recipe = XarrayZarrRecipe(pattern, xarray_concat_kwargs={"join": "exact"}, **instance_kwargs)
     return recipe
 
-# TODO: ultimately we want this to work with a dictionary (waiting for this feature in pangeo cloud)
-#recipes = {iid:recipe_from_urls(urls_from_instance_id(iid), kwargs) for iid,kwargs in inputs.items()}
 
-#but for now define them as explicit variables
-iid = 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429'
+# TODO: ultimately we want this to work with a dictionary (waiting for this feature in pangeo cloud)
+# recipes = {iid:recipe_from_urls(urls_from_instance_id(iid), kwargs) for iid,kwargs in inputs.items()}
+
+# but for now define them as explicit variables
+iid = "CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429"
 recipe_0 = recipe_from_urls(urls_from_instance_id(iid), inputs[iid])
 
-iid = 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429'
+iid = "CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.so.gn.v20190429"
 recipe_1 = recipe_from_urls(urls_from_instance_id(iid), inputs[iid])

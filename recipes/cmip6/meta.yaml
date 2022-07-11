@@ -1,5 +1,5 @@
 title: "CMIP6"
-description: "CMIP6 datasets converted to zarr stores from ESGF files" 
+description: "CMIP6 datasets converted to zarr stores from ESGF files"
 pangeo_forge_version: "0.8.2"
 pangeo_notebook_version: "2021.12.02"
 recipes:
@@ -9,7 +9,7 @@ recipes:
     object: "recipe:recipe_1"
 provenance:
   providers: #TODO: Ask in the cloud call...
-    - name: "ESGF" 
+    - name: "ESGF"
       description: "Earth System Grid Federation"
       roles:
         - producer
