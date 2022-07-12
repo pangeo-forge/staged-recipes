@@ -11,7 +11,7 @@ def make_url1(time):
 time_concat_dim1 = ConcatDim("time", dates)
 pattern1 = FilePattern(make_url1, time_concat_dim1, file_type='netcdf3')
 
-recipe1 = XarrayZarrRecipe(pattern1, target_chunks={'time':365})
+recipe1 = XarrayZarrRecipe(pattern1, target_chunks={'time':365}, open_input_with_kerchunk=True)
 
 ### Data set 2 ###
 
@@ -21,7 +21,7 @@ def make_url2(time):
 time_concat_dim2 = ConcatDim("time", dates)
 pattern2 = FilePattern(make_url2, time_concat_dim2)
 
-recipe2 = XarrayZarrRecipe(pattern2, target_chunks={'time':365,'ct':1})
+recipe2 = XarrayZarrRecipe(pattern2, target_chunks={'time':365,'ct':1}, open_input_with_kerchunk=True)
 
 ### Data set 3 ###
 
@@ -31,7 +31,7 @@ def make_url3(record):
 time_concat_dim3 = ConcatDim("record", dates)
 pattern3 = FilePattern(make_url3, time_concat_dim3, file_type='netcdf3')
 
-recipe3 = XarrayZarrRecipe(pattern3, target_chunks={'record':27})
+recipe3 = XarrayZarrRecipe(pattern3, target_chunks={'record':27}, open_input_with_kerchunk=True)
 
 ### Data set 4 ###
 
@@ -41,7 +41,7 @@ def make_url4(record):
 time_concat_dim4 = ConcatDim("record", dates)
 pattern4 = FilePattern(make_url4, time_concat_dim4, file_type='netcdf3')
 
-recipe4 = XarrayZarrRecipe(pattern4, target_chunks={'record':27})
+recipe4 = XarrayZarrRecipe(pattern4, target_chunks={'record':27}, open_input_with_kerchunk=True)
 
 ### Data set 5 ###
 
@@ -51,4 +51,4 @@ def make_url5(record):
 time_concat_dim5 = ConcatDim("record", dates)
 pattern5 = FilePattern(make_url5, time_concat_dim5, file_type='netcdf3')
 
-recipe5 = XarrayZarrRecipe(pattern5, target_chunks={'record':27})
+recipe5 = XarrayZarrRecipe(pattern5, target_chunks={'record':27}, open_input_with_kerchunk=True)
