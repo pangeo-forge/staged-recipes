@@ -11,6 +11,7 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 url_base = "https://www.ncei.noaa.gov/data/global-precipitation-climatology-project-gpcp-daily/access/"
 years = range(1996, 2022)
 file_list = []
+fs = HTTPFileSystem()
 for year in years:
     file_list += sorted(filter(
         lambda x: x.endswith('.nc'),
