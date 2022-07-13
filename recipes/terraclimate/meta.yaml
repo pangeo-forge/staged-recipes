@@ -11,7 +11,8 @@ recipes:
     object: "recipe:recipe"
 provenance:
   providers:
-    - name: "University of California Merced Climatology Lab"
+    - name: "University of California Merced"
+      description: "University of California Merced Climatology Lab"
       roles:
         - producer
         - licensor
