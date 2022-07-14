@@ -67,7 +67,8 @@ def apply_mask(key, da):
 
 def preproc(ds):
     """custom preprocessing function for terraclimate data"""
-    
+    from builtins import list
+
     rename = {}
 
     station_influence = ds.get("station_influence", None)
