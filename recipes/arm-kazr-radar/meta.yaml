@@ -1,0 +1,25 @@
+title: "ARM KAZR Radar"
+description: >
+  Vertically pointing radar data from the Atmospheric Radiation Measurement (ARM) user facility,
+  from the TRACER field campaign in Houston, Texas.
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: arm-kazr-radar
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "ARM DOE"
+      description: "Atmospheric Radiation Measurement Department of Energy user facility"
+      roles:
+        - host
+        - licensor
+        - producer
+      url: https://adc.arm.gov/discovery/#/results/s::houkazr
+  license: "No constraints on data access or use."
+maintainers:
+  - name: "Max Grover"
+    orcid: "0000-0002-0370-8974"
+    github: mgrover1
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
