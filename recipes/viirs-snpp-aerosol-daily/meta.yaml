@@ -1,0 +1,20 @@
+title: "NASA VIIRS SNPP Deep Blue Aerosol Daily Gridded"
+description: "Analysis-ready Zarr datasets derived from AERDB_D3_VIIRS_SNPP NetCDF"
+pangeo_forge_version: "0.9.0"
+recipes:
+  - id: snpp-viirs-aerosol-daily
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NASA LAADS DAAC"
+      description: "Level-1 and Atmosphere Archive & Distribution System Distributed Active Archive Center"
+      roles:
+        - producer
+        - licensor
+      url: https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/AERDB_D3_VIIRS_SNPP
+  license: "All data products acquired through the Level-1 and Atmosphere Archive & Distribution System (LAADS) Distributed Active Archive Center (DAAC) are provided without any monetary charge, and have no restrictions on subsequent use or redistribution."
+maintainers:
+  - name: "Zachary Griffith"
+    github: zdgriffith
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
