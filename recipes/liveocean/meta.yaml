@@ -11,6 +11,7 @@ recipes:
 provenance:
   providers:
     - name: "Parker MacCready"
+      description: "Parker MacCready, Professor, University of Washington"
       orcid: "0000-0002-8070-8062"
       github: parkermac
       roles:
