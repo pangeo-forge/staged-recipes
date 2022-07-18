@@ -1,29 +1,23 @@
 title: "NANOOS LiveOcean ROMS Model"
 description: >
-  The experimental nowcast and forecast fields displayed here from LiveOcean are produced by 
-  a computer model of NE Pacific coastal ocean circulation. These coastal ocean forecasts are updated 
-  daily. They are an experimental product intended for research use only. For more information please 
-  visit the LiveOcean webpage. 
+  Hourly ocean forecast fields of the NE Pacific, produced by a Regional Ocean Modeling System (ROMS) computer model,
+  updated daily. This is an experimental product intended for research use only. For more information please 
+  visit the LiveOcean webpage: https://faculty.washington.edu/pmacc/LO/LiveOcean.html 
 pangeo_forge_version: "0.9.0"
-pangeo_notebook_version: "2022.07.16"
+pangeo_notebook_version: "2022.07.13" 
 recipes:
   - id: liveocean
     object: "recipe:recipe"
 provenance:
   providers:
-    - name: "University of Washington"
-      description: "University of Washington"
+    - name: "Parker MacCready"
+      orcid: "0000-0002-8070-8062"
+      github: parkermac
       roles:
-        - host
+        - provider
         - licensor
       url: https://faculty.washington.edu/pmacc/LO/LiveOcean.html
-    - name: "University of Washington"
-      description: >
-        University of Washington 
-      roles:
-        - producer
-      url: https://faculty.washington.edu/pmacc/LO/LiveOcean.html
-  license: "No constraints on data access or use."
+  license: "CC0"
 maintainers:
   - name: "Rich Signell"
     orcid: "0000-0003-0682-9613"
