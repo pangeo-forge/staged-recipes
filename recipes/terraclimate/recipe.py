@@ -94,7 +94,7 @@ def preproc(ds):
                 
     return ds
 
-chunks = {"lat": 1024, "lon": 1024, "time": 12}
+chunks = {"lat": 1024, "lon": 1024, "time": 1}
 
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
