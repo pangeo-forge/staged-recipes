@@ -1,6 +1,5 @@
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim, MergeDim
-import xarray as xr
 
 target_chunks = {"lat": 1024, "lon": 1024, "time": 12}
 # only do two years to keep the example small; it's still big!
@@ -31,40 +30,42 @@ pattern = FilePattern(
     MergeDim(name="variable", keys=variables)
 )
 
-mask_opts = {
-    "PDSI": ("lt", 10),
-    "aet": ("lt", 32767),
-    "def": ("lt", 32767),
-    "pet": ("lt", 32767),
-    "ppt": ("lt", 32767),
-    "ppt_station_influence": None,
-    "q": ("lt", 2147483647),
-    "soil": ("lt", 32767),
-    "srad": ("lt", 32767),
-    "swe": ("lt", 10000),
-    "tmax": ("lt", 200),
-    "tmax_station_influence": None,
-    "tmin": ("lt", 200),
-    "tmin_station_influence": None,
-    "vap": ("lt", 300),
-    "vap_station_influence": None,
-    "vpd": ("lt", 300),
-    "ws": ("lt", 200),
-}
-
-def apply_mask(key, da):
-    """helper function to mask DataArrays based on a threshold value"""
-    if mask_opts.get(key, None):
-        op, val = mask_opts[key]
-        if op == "lt":
-            da = da.where(da < val)
-        elif op == "neq":
-            da = da.where(da != val)
-    return da
-
 
 def preproc(ds):
     """custom preprocessing function for terraclimate data"""
+
+    import xarray as xr
+
+    def apply_mask(key, da):
+        """helper function to mask DataArrays based on a threshold value"""
+
+        mask_opts = {
+            "PDSI": ("lt", 10),
+            "aet": ("lt", 32767),
+            "def": ("lt", 32767),
+            "pet": ("lt", 32767),
+            "ppt": ("lt", 32767),
+            "ppt_station_influence": None,
+            "q": ("lt", 2147483647),
+            "soil": ("lt", 32767),
+            "srad": ("lt", 32767),
+            "swe": ("lt", 10000),
+            "tmax": ("lt", 200),
+            "tmax_station_influence": None,
+            "tmin": ("lt", 200),
+            "tmin_station_influence": None,
+            "vap": ("lt", 300),
+            "vap_station_influence": None,
+            "vpd": ("lt", 300),
+            "ws": ("lt", 200),
+        }
+        if mask_opts.get(key, None):
+            op, val = mask_opts[key]
+            if op == "lt":
+                da = da.where(da < val)
+            elif op == "neq":
+                da = da.where(da != val)
+        return da
 
     rename = {}
 
