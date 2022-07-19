@@ -31,8 +31,6 @@ pattern = FilePattern(
     MergeDim(name="variable", keys=variables)
 )
 
-rename_vars = {'PDSI': 'pdsi'}
-
 mask_opts = {
     "PDSI": ("lt", 10),
     "aet": ("lt", 32767),
@@ -77,6 +75,7 @@ def preproc(ds):
 
     var = list(ds.data_vars)[0]
 
+    rename_vars = {'PDSI': 'pdsi'}
     if var in rename_vars:
         rename[var] = rename_vars[var]
 
