@@ -3,7 +3,7 @@ description: >
   Hourly ocean forecast fields of the NE Pacific, produced by a Regional Ocean Modeling System (ROMS) computer model,
   updated daily. This is an experimental product intended for research use only. For more information please 
   visit the LiveOcean webpage: https://faculty.washington.edu/pmacc/LO/LiveOcean.html 
-pangeo_forge_version: "0.8.3"
+pangeo_forge_version: "0.9.0"
 pangeo_notebook_version: "2022.07.13" 
 recipes:
   - id: liveocean
