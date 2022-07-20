@@ -1,7 +1,7 @@
 title: "E-OBS"
 description: "E-OBS  is a high resolution gridded climate dataset covering Europe and Northern Africa. This dataset is version 23.1e with a 0.1 degree spatial resolution. Variables available are: , TG: daily mean temperature, TN: daily minimum temperature , TX: daily maximum temperature, RR: daily precipitation sum, PP: daily mean sea level pressure, HU: relative humidity, FG: daily mean wind speed, QQ: global radiation "
-pangeo_forge_version: "0.5.0"
-pangeo_notebook_version: "2021.07.17"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.06.02"
 recipes:
   - id: EOBS
     object: "recipe:recipe"

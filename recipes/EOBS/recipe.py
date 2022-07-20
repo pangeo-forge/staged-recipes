@@ -6,14 +6,12 @@ from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # Filename Pattern Inputs
-target_chunks = {
-    "lat": 705,
-    "lon": 465,
-    "time": 38,
-}  # ds.isel(time=slice(0,38)).nbytes/1e6 = 99.67 MB
+target_chunks = {"time": 40} 
 dataset_version = "v23.1e"
 grid_res = "0.1"
-variables = ["tg", "tn", "tx", "rr", "pp", "hu", "fg", "qq"]
+variables = ["tg", "tn", "tx", "rr", "pp", "hu"]#, "fg", "qq"] #note: fg and qq are on differant grids
+dataset_version = "v23.1e"
+grid_res = "0.1"
 
 
 def make_filename(time, variable):
@@ -27,5 +25,5 @@ pattern = FilePattern(
 
 # Recipe Inputs
 recipe = XarrayZarrRecipe(
-    file_pattern=pattern, target_chunks=target_chunks, subset_inputs={"time": 136}
+    file_pattern=pattern, target_chunks=target_chunks, subset_inputs={"time": 700}
 )
