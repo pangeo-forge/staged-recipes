@@ -2,8 +2,8 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim, MergeDim
 
 target_chunks = {"lat": 1024, "lon": 1024, "time": 12}
-# only do two years to keep the example small; it's still big!
-years = list(range(1958, 1960))
+# the full 63 year extent is ~ 1.9 TB of data
+years = list(range(1958, 2021))
 variables = [
     "aet",
     "def",
