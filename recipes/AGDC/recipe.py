@@ -34,7 +34,6 @@ pattern = FilePattern(
 # Recipe Inputs
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
-    subset_inputs={"time": 2},
     xarray_open_kwargs={"decode_times": False},
     process_chunk=preproc,
     target_chunks=target_chunks,
