@@ -1,0 +1,139 @@
+name: Proposed Recipe
+description: Propose a new recipe for ingesting data to Pangeo Forge
+title: "Proposed Recipes for [Dataset Name]"
+labels: ["proposed recipe"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to propose a recipe for Pangeo Forge.
+        
+        Before moving forward, consider first searching the [open issues](https://github.com/pangeo-forge/staged-recipes/issues)
+        to see whether your recipe has already been proposed.
+
+        A Recipe has three basic stages:
+        1. Download the source files from the upstream repository in whatever format they are stored.
+        2. Perform any transformations that are needed in order to makeb the data "analysis ready."
+        3. Write out a new dataset in a cloud optimized format
+        
+        The point of this form is to gather information that will help somoene (maybe you!) write this recipe.
+       
+  - type: input
+    id: name
+    attributes:
+      label: Dataset Name
+      description: The official name of the dataset
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Dataset URL
+      description: Link to the official version of the dataset (if it exists)
+      placeholder: "https://"
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        A few sentences describing why this dataset is interesting / important / useful.
+        (Feel free to copy and paste from the website.)
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: >
+         Information about the usage license that comes with the data. If you are the data
+         copyright holder and the data are unpublished, you can choose whatever license you like.
+         Use an official license name from the [SPDX license list](https://spdx.github.io/license-list-data/)
+         or provide a URL link pointing at the official license.
+      value: Unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: format
+    attributes:
+      label: Data Format
+      options:
+        - NetCDF
+        - HDF
+        - OPeNDAP
+        - Zarr
+        - Grib
+        - GeoTIFF / COG
+        - Parquet
+        - CSV / TSV etc.
+        - Other (describe below)
+    validations:
+      required: true
+  - type: input
+    id: format-other
+    attributes:
+      label: Data Format (other)
+      placeholder: Only fill this out if you chose "Other" in the previous question
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Access protocol
+      description: How will Pangeo Forge Cloud access your data?
+      options:
+        - HTTP(S)
+        - FTP
+        - S3
+        - Other cloud storage (GCS, ADLFS)
+        - Globus
+        - scp
+        - Other
+    validations:
+      required: true    
+  - type: textarea
+    id: organization
+    attributes:
+      label: Source File Organization
+      description: Describe how the source files are organized in as much detail as possible.
+      placeholder: E.g. There is one file per day. Each file contains one timestep. There is one directory per year.
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example URLs
+      description: If possible, give some examples of some actual URLs that point to the data
+      placeholder: "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198112/oisst-avhrr-v02r01.19811209.nc"
+      render: shell
+  - type: dropdown
+    id: authorization
+    attributes:
+      label: Authorization
+      description: Is any authorization required to access the data?
+      options:
+        - No; data are fully public
+        - Username / Password
+        - NASA Earthdata Login
+        - API Token
+        - Globus login
+        - Other authorization
+  - type: textarea
+    id: transformation
+    attributes:
+      label: Transformation / Processing
+      description: >
+        Describe below how the files should be combined into one analysis-ready dataset.
+        Are there any transformations or cleaning that should be performed to make the data more "analysis ready"?
+      placeholder: E.g. The files should be concatenated along the time dimension.
+  - type: dropdown
+    id: target-format
+    attributes:
+      label: Target Format
+      options:
+        - Zarr
+        - Reference Filesystem (Kerchunk)
+        - Parquet
+        - Other
+    validations:
+      required: true  
+  - type: textarea
+    id: comments
+    attributes:
+      label: Comments
+      description: Any other comments you wish to share about the dataset.
+        
+    
