@@ -99,5 +99,5 @@ recipe = XarrayZarrRecipe(
     file_pattern=pattern,
     target_chunks=target_chunks,
     process_chunk=preproc,
-    subset_inputs = {"time": 8},
+    subset_inputs = {"time": 12},
 )
