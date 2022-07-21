@@ -9,4 +9,4 @@ def make_full_path(mock_concat):
     return url.format(mock_concat=mock_concat)
 filepattern = FilePattern(make_full_path, time_concat_dim, file_type="netcdf3")
 
-recipe = XarrayZarrRecipe(filepattern)
+recipe = XarrayZarrRecipe(filepattern, copy_input_to_local_file=True)
