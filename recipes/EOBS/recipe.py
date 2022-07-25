@@ -1191,6 +1191,18 @@ _common_grid_lon = [-24.950139509199623,
 def preproc(ds: xr.Dataset) -> xr.Dataset:
     """preprocessing function to reindex two variables to a common grid"""
     
+    _common_date_range = xr.date_range(start='1950-01-01',end='1979-12-31',freq='1D')
+
+    if list(ds.keys())[0] in ['fg']:
+        # Processing Notes:
+        # fg (wind_speed) only extends back to 1980. 
+        # Empty dates from 1950 up to 1980 were prepended onto the dataset.
+
+        _common_date_range = xr.date_range(start='1950-01-01',end='1979-12-31',freq='1D')
+        missing_time_da = xr.DataArray(_common_date_range,dims=['time'])
+        full_time = xr.concat([ds.time, missing_time_da], dim="time")
+        ds = ds.reindex(time=full_time, fill_value=np.nan).sortby("time")
+
     if list(ds.keys())[0] in ['fg','qq']:
         # Processing Note:
         # Two variables in the EOBS dataset: fg (wind_speed) and qq (surface_downwelling_shortwave_flux_in_air) 
@@ -1212,4 +1224,3 @@ pattern = FilePattern(
 recipe = XarrayZarrRecipe(
     file_pattern=pattern, target_chunks=target_chunks, process_chunk=preproc, subset_inputs={"time": 700}
 )
-
