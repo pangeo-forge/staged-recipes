@@ -1,5 +1,6 @@
-title: "E-OBS"
-description: "E-OBS  is a high resolution gridded climate dataset covering Europe and Northern Africa. This dataset is version 23.1e with a 0.1 degree spatial resolution. Variables available are: , TG: daily mean temperature, TN: daily minimum temperature , TX: daily maximum temperature, RR: daily precipitation sum, PP: daily mean sea level pressure, HU: relative humidity, FG: daily mean wind speed, QQ: global radiation "
+title: "E-OBS (TG, TN, TX, RR, HU, PP)"
+description: "E-OBS  is a high resolution gridded climate dataset covering Europe and Northern Africa. This dataset is version 23.1e with a 0.1 degree spatial resolution. 
+Variables available are: TG: daily mean temperature, TN: daily minimum temperature , TX: daily maximum temperature, RR: daily precipitation sum, PP: daily mean sea-level pressure, HU: relative humidity. Note: Variables FG: daily mean wind speed and QQ: global radiation have slightly different spatial gridding and are not included in this combined zarr store."
 pangeo_forge_version: "0.8.3"
 pangeo_notebook_version: "2022.06.02"
 recipes:
@@ -20,3 +21,6 @@ maintainers:
     github: norlandrhagen
 bakery:
   id: "pangeo-ldeo-nsf-earthcube"
+
+
+
