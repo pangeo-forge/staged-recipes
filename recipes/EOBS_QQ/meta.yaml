@@ -1,0 +1,23 @@
+title: "E-OBS (QQ)"
+description: "E-OBS  is a high resolution gridded climate dataset covering Europe and Northern Africa. This dataset is version 23.1e with a 0.1 degree spatial resolution.
+Variables available are: QQ: surface downwelling shortwave flux in air"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: EOBS
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Copernicus Climate Change Service"
+      description: "We acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.eu) and the Copernicus Climate Change Service, and the data providers in the ECA&D project (https://www.ecad.eu) Cornes, R., G. van der Schrier, E.J.M. van den Besselaar, and P.D. Jones. 2018: An Ensemble Version of the E-OBS Temperature and Precipitation Datasets, J. Geophys. Res. Atmos., 123. doi:10.1029/2017JD028200"
+      roles:
+        - producer
+        - licensor
+      url: https://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php#datafiles
+  license: "https://www.ecad.eu/documents/ECAD_datapolicy.pdf"
+maintainers:
+  - name: "Raphael Hagen"
+    orcid: "0000-0003-1994-1153"
+    github: norlandrhagen
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
