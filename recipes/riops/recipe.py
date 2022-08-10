@@ -1,7 +1,5 @@
 from datetime import date, datetime
 
-import pandas as pd
-
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 

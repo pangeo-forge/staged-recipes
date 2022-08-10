@@ -1,7 +1,6 @@
-import fsspec
 from fsspec.implementations.http import HTTPFileSystem
 
-from pangeo_forge_recipes.patterns import FileType, pattern_from_file_sequence
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # The GPCP files use an annoying naming convention which embeds the creation date in the file name.

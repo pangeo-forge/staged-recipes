@@ -1,9 +1,12 @@
-############################# just copied from esfg.py (TODO: being able to import this, would be nice and clean) ############################################
 """ESGF API Search Results to Pandas Dataframes
+
+just copied from esfg.py (TODO: being able to import this, would be nice and clean)
 """
-import numpy
 import pandas as pd
 import requests
+
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # dummy comment
 # copied from Naomis code https://github.com/pangeo-data/pangeo-cmip6-cloud/blob/master/myconfig.py
@@ -175,8 +178,7 @@ def esgf_search(
 
 
 ####################################################
-from pangeo_forge_recipes.patterns import pattern_from_file_sequence
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe
+
 
 # from esgf import (
 #     esgf_search,
@@ -239,7 +241,8 @@ def urls_from_instance_id(instance_id):
     # get list of urls
     urls = df['url'].tolist()
 
-    # sort urls in decending time order (to be able to pass them directly to the pangeo-forge recipe)
+    # sort urls in descending time order to be able to pass them
+    # directly to the pangeo-forge recipe
     end_dates = [url.split('-')[-1].replace('.nc', '') for url in urls]
     urls = [url for _, url in sorted(zip(end_dates, urls))]
 
@@ -270,8 +273,11 @@ def recipe_from_urls(urls, instance_kwargs):
     return recipe
 
 
-# TODO: ultimately we want this to work with a dictionary (waiting for this feature in pangeo cloud)
-# recipes = {iid:recipe_from_urls(urls_from_instance_id(iid), kwargs) for iid,kwargs in inputs.items()}
+# TODO: ultimately we want this to work with a dictionary
+# (waiting for this feature in pangeo cloud)
+# recipes = {
+#     iid: recipe_from_urls(urls_from_instance_id(iid), kwargs) for iid, kwargs in inputs.items()
+# }
 
 # but for now define them as explicit variables
 iid = 'CMIP6.CMIP.CCCma.CanESM5.historical.r1i1p1f1.Omon.zos.gn.v20190429'
