@@ -10,9 +10,9 @@ jobs:
   dispatch:
     runs-on: ubuntu-latest
     env:
-      FEEDSTOCK_SPEC: "${{ github.repository }}"
-      HEAD_SHA: "${{ github.event.pull_request.head.sha }}"
-      PR_NUMBER: "${{ github.event.pull_request.number }}"
+      FEEDSTOCK_SPEC: '${{ github.repository }}'
+      HEAD_SHA: '${{ github.event.pull_request.head.sha }}'
+      PR_NUMBER: '${{ github.event.pull_request.number }}'
       IS_DEV: "${{ contains(github.event.pull_request.labels.*.name, 'dev') }}"
     steps:
       - name: dispatch
