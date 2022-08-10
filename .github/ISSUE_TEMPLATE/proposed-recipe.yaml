@@ -1,13 +1,13 @@
 name: Proposed Recipe
 description: Propose a new recipe for ingesting data to Pangeo Forge
-title: "Proposed Recipes for [Dataset Name]"
-labels: ["proposed recipe"]
+title: 'Proposed Recipes for [Dataset Name]'
+labels: ['proposed recipe']
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to propose a recipe for Pangeo Forge.
-        
+
         Before moving forward, consider first searching the [open issues](https://github.com/pangeo-forge/staged-recipes/issues)
         to see whether your recipe has already been proposed.
 
@@ -15,9 +15,9 @@ body:
         1. Download the source files from the upstream repository in whatever format they are stored.
         2. Perform any transformations that are needed in order to makeb the data "analysis ready."
         3. Write out a new dataset in a cloud optimized format
-        
+
         The point of this form is to gather information that will help somoene (maybe you!) write this recipe.
-       
+
   - type: input
     id: name
     attributes:
@@ -30,7 +30,7 @@ body:
     attributes:
       label: Dataset URL
       description: Link to the official version of the dataset (if it exists)
-      placeholder: "https://"
+      placeholder: 'https://'
   - type: textarea
     id: description
     attributes:
@@ -43,10 +43,10 @@ body:
     attributes:
       label: License
       description: >
-         Information about the usage license that comes with the data. If you are the data
-         copyright holder and the data are unpublished, you can choose whatever license you like.
-         Use an official license name from the [SPDX license list](https://spdx.github.io/license-list-data/)
-         or provide a URL link pointing at the official license.
+        Information about the usage license that comes with the data. If you are the data
+        copyright holder and the data are unpublished, you can choose whatever license you like.
+        Use an official license name from the [SPDX license list](https://spdx.github.io/license-list-data/)
+        or provide a URL link pointing at the official license.
       value: Unknown
     validations:
       required: true
@@ -85,7 +85,7 @@ body:
         - scp
         - Other
     validations:
-      required: true    
+      required: true
   - type: textarea
     id: organization
     attributes:
@@ -97,7 +97,7 @@ body:
     attributes:
       label: Example URLs
       description: If possible, give some examples of some actual URLs that point to the data
-      placeholder: "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198112/oisst-avhrr-v02r01.19811209.nc"
+      placeholder: 'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198112/oisst-avhrr-v02r01.19811209.nc'
       render: shell
   - type: dropdown
     id: authorization
@@ -129,11 +129,9 @@ body:
         - Parquet
         - Other
     validations:
-      required: true  
+      required: true
   - type: textarea
     id: comments
     attributes:
       label: Comments
       description: Any other comments you wish to share about the dataset.
-        
-    
