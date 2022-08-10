@@ -1,0 +1,26 @@
+title: "TerraClimate"
+description: >
+  TerraClimate is a dataset of monthly climate and climatic water balance for global terrestrial surfaces from 1958-2019.
+  These data provide important inputs for ecological and hydrological studies at global scales that require high spatial
+  resolution and time-varying data. All data have monthly temporal resolution and a ~4-km (1/24th degree) spatial resolution.
+  The data cover the period from 1958-2020. We plan to update these data periodically (annually).
+pangeo_forge_version: "0.9.0"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: terraclimate
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "University of California Merced"
+      description: "University of California Merced Climatology Lab"
+      roles:
+        - producer
+        - licensor
+      url: "https://www.climatologylab.org/terraclimate.html"
+  license: "CC-PDDC"
+maintainers:
+  - name: "Ryan Abernathey"
+    orcid: "0000-0001-5999-4917"
+    github: rabernat
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
