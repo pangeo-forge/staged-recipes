@@ -23,7 +23,10 @@ variables = [
 
 
 def make_filename(variable, time):
-    return f'http://thredds.northwestknowledge.net:8080/thredds/fileServer/TERRACLIMATE_ALL/data/TerraClimate_{variable}_{time}.nc'
+    return (
+        'http://thredds.northwestknowledge.net:8080/thredds/fileServer/TERRACLIMATE_ALL/data/'
+        f'TerraClimate_{variable}_{time}.nc'
+    )
 
 
 pattern = FilePattern(
