@@ -1,29 +1,23 @@
 # this is an example from https://github.com/pangeo-forge/noaa-oisst-avhrr-only-feedstock/blob/main/feedstock/meta.yaml
 # it needs updating
 
-title: "NOAA Optimum Interpolated SST"
-description: "Analysis-ready Zarr datasets derived from NOAA OISST NetCDF"
-pangeo_forge_version: "0.5.0"
-pangeo_notebook_version: "2021.07.17"
+title: "Paleo Antarctic Ice Sheet Simulations with PISM"
+description: "Analysis-ready Zarr datasets derived from PISM netcdfs"
+pangeo_forge_version: "0.8.3"
 recipes:
-  - id: noaa-oisst-avhrr-only
+  - id: paleo-pism-stacked
     object: "recipe:recipe"
 provenance:
   providers:
-    - name: "NOAA NCEI"
-      description: "National Oceanographic & Atmospheric Administration National Centers for Environmental Information"
+    - name: "PANGAEA"
+      description: "Data Publisher for Earth & Environmental Science"
       roles:
-        - producer
         - licensor
-      url: https://www.ncdc.noaa.gov/oisst
+      url: https://doi.pangaea.de/10.1594/PANGAEA.940149
   license: "CC-BY-4.0"
 maintainers:
-  - name: "Ryan Abernathey"
-    orcid: "0000-0001-5999-4917"
-    github: rabernat
+  - name: "Jonathan Kingslake"
+    orcid: "0000-0002-2065-9473"
+    github: jkingslake
 bakery:
-  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
-  target: pangeo-forge-aws-bakery-flowcachebucketdasktest4-10neo67y7a924
-  resources:
-    memory: 4096
-    cpu: 1024
+  id: "pangeo-ldeo-nsf-earthcube"  # must come from a valid list of bakeries
