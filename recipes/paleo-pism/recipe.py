@@ -18,3 +18,7 @@ pattern = FilePattern(make_url, enNum_concat_dim)
 # make a recipe using the ConcatDim and FilePattern objects we just made
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1)    # one per chunk because each nc is ~210 MB
+
+
+
+
