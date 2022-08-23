@@ -4,6 +4,7 @@
 title: "Paleo Antarctic Ice Sheet Simulations with PISM"
 description: "Analysis-ready Zarr datasets derived from PISM netcdfs"
 pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.05.24"
 recipes:
   - id: paleo-pism-stacked
     object: "recipe:recipe"
