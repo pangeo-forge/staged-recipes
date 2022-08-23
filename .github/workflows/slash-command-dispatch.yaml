@@ -3,13 +3,14 @@ on:
   issue_comment:
     types: [created]
 jobs:
-  slash-command-dispatch:
+  slashCommandDispatch:
     runs-on: ubuntu-latest
     steps:
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v2
         with:
-          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
-          commands: run-recipe-test
-          permission: maintain
-          issue-type: pull-request
+          token: ${{ secrets.PAT }}
+          repository: pangeo-forge/registrar
+          permission: admin
+          commands: |
+            run
