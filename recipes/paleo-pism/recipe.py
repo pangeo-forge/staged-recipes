@@ -15,6 +15,7 @@ def make_url(id):
 from pangeo_forge_recipes.patterns import FilePattern
 pattern = FilePattern(make_url, id_concat_dim)
 
+import numpy as np
 
 def add_id_as_dim_and_coord(ds, fname):
     id_temp = np.array([fname[31:35]])
