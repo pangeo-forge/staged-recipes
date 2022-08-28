@@ -11,15 +11,17 @@ provenance:
       description: "University of Colorado Boulder"
       roles:
         - producer
-      url: "https://sites.google.com/colorado.edu/citrace"
+      url: https://sites.google.com/colorado.edu/citrace
     - name: "University of Wisconsin-Madison"
       description: "University of Wisconsin-Madison"
       roles:
         - producer
+      url: https://sites.google.com/colorado.edu/citrace
     - name: "Ohio State University"
       description: "Ohio State University"
       roles:
         - producer
+      url: https://sites.google.com/colorado.edu/citrace
     - name: "UCAR/NCAR"
       description: "University Corporation for Atmospheric Research/National Center for Atmospheric Research"
       roles:
