@@ -12,7 +12,7 @@ provenance:
       description: "University of Colorado Boulder"
       roles:
         - producer
-      url: https://sites.google.com/colorado.edu/citrace
+      url: "https://sites.google.com/colorado.edu/citrace"
     - name: "University of Wisconsin-Madison"
         description: "University of Wisconsin-Madison"
         roles:
@@ -26,6 +26,7 @@ provenance:
         roles:
           - curator
           - licensor
+        url: "https://gdex.ucar.edu/dataset/204_ajahn.html"
   license: "Creative Commons Attribution 4.0 International"
 maintainers:
   - name: "Jordan Landers"
