@@ -14,19 +14,19 @@ provenance:
         - producer
       url: "https://sites.google.com/colorado.edu/citrace"
     - name: "University of Wisconsin-Madison"
-        description: "University of Wisconsin-Madison"
-        roles:
-          - producer
+      description: "University of Wisconsin-Madison"
+      roles:
+        - producer
     - name: "Ohio State University"
-        description: "Ohio State University"
-        roles:
-          - producer
+      description: "Ohio State University"
+      roles:
+        - producer
     - name: "UCAR/NCAR"
-        description: "University Corporation for Atmospheric Research/National Center for Atmospheric Research"
-        roles:
-          - curator
-          - licensor
-        url: "https://gdex.ucar.edu/dataset/204_ajahn.html"
+      description: "University Corporation for Atmospheric Research/National Center for Atmospheric Research"
+      roles:
+        - curator
+        - licensor
+      url: "https://gdex.ucar.edu/dataset/204_ajahn.html"
   license: "Creative Commons Attribution 4.0 International"
 maintainers:
   - name: "Jordan Landers"
