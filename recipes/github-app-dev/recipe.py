@@ -23,7 +23,7 @@ pattern = pattern_from_file_sequence(
     "time",
     nitems_per_file=1
 )
-# comment to re-trigger ci - 0
+# comment to re-trigger ci - 01
 recipe = XarrayZarrRecipe(
     pattern,
     inputs_per_chunk=200,
