@@ -1,5 +1,5 @@
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-from pangeo_forge_recipes.patterns import FilePattern, ConcatDim, MergeDim
 
 target_chunks = {"lat": 1024, "lon": 1024, "time": 24}
 # the full 63 year extent is ~ 1.9 TB of data
@@ -91,7 +91,7 @@ def preproc(ds):
 
     if rename:
         ds = ds.rename(rename)
-                
+
     return ds
 
 

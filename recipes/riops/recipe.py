@@ -1,9 +1,11 @@
+from datetime import date, datetime
+
 import pandas as pd
-from datetime import datetime, date
-from pangeo_forge_recipes.patterns import ConcatDim, MergeDim, FilePattern
+
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-# RIOPS is run every 6 hours (at 00, 06, 12, and 18 UTC).  
+# RIOPS is run every 6 hours (at 00, 06, 12, and 18 UTC).
 # but, for the moment, let's use today's date and assume that when this recipe is being run,
 # the 00UTC run for today is already available!
 start_date = date.today()
@@ -30,14 +32,14 @@ def process_input(ds, filename):
     ds = ds.drop('polar_stereographic')
 
     # use an encoding that is valid of hourly data
-    units = f'hours since {start_date.strftime("%Y-%m-%d")} 00:00:00' 
+    units = f'hours since {start_date.strftime("%Y-%m-%d")} 00:00:00'
     ds.time.encoding = {'units': units,
                         'calendar': 'proleptic_gregorian'}
-    
+
     return ds
 
 
-recipe = XarrayZarrRecipe(file_pattern=pattern,  
+recipe = XarrayZarrRecipe(file_pattern=pattern,
                           target_chunks={'time': 1, 'xc':450,'yc':410},
                           process_input=process_input,
                          )

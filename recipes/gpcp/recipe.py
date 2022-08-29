@@ -1,6 +1,7 @@
 import fsspec
 from fsspec.implementations.http import HTTPFileSystem
-from pangeo_forge_recipes.patterns import pattern_from_file_sequence, FileType
+
+from pangeo_forge_recipes.patterns import FileType, pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # The GPCP files use an annoying naming convention which embeds the creation date in the file name.
@@ -17,7 +18,7 @@ for year in years:
         lambda x: x.endswith('.nc'),
         fs.ls(url_base + str(year), detail=False)
     ))
-    
+
 pattern = pattern_from_file_sequence(
     file_list,
     "time",

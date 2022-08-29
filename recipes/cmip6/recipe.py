@@ -1,9 +1,9 @@
 ############################# just copied from esfg.py (TODO: being able to import this, would be nice and clean) ############################################
 """ESGF API Search Results to Pandas Dataframes
 """
-import requests
 import numpy
 import pandas as pd
+import requests
 
 #dummy comment
 # copied from Naomis code https://github.com/pangeo-data/pangeo-cmip6-cloud/blob/master/myconfig.py
@@ -215,8 +215,8 @@ def urls_from_instance_id(instance_id):
 
     if facets["mip_era"] != "CMIP6":
         raise ValueError("Only CMIP6 mip_era supported")
-        
-    
+
+
     # version doesn't work here
     keep_facets = (
         "activity_id",
@@ -244,13 +244,13 @@ def urls_from_instance_id(instance_id):
     # sort urls in decending time order (to be able to pass them directly to the pangeo-forge recipe)
     end_dates = [url.split("-")[-1].replace(".nc", "") for url in urls]
     urls = [url for _, url in sorted(zip(end_dates, urls))]
-    
+
     # version is still not working
     # if facets["version"].startswith("v"):
     #    facets["version"] = facets["version"][1:]
 
     # TODO Check that there are no gaps or duplicates.
-    
+
     return urls
 
 inputs = {
@@ -266,7 +266,7 @@ def recipe_from_urls(urls, instance_kwargs):
         pattern,
         xarray_concat_kwargs={"join": "exact"},
         **instance_kwargs
-        
+
     )
     return recipe
 

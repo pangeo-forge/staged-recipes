@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to propose a recipe for Pangeo Forge.
-        
+
         Before moving forward, consider first searching the [open issues](https://github.com/pangeo-forge/staged-recipes/issues)
         to see whether your recipe has already been proposed.
 
@@ -15,9 +15,9 @@ body:
         1. Download the source files from the upstream repository in whatever format they are stored.
         2. Perform any transformations that are needed in order to makeb the data "analysis ready."
         3. Write out a new dataset in a cloud optimized format
-        
+
         The point of this form is to gather information that will help somoene (maybe you!) write this recipe.
-       
+
   - type: input
     id: name
     attributes:
@@ -85,7 +85,7 @@ body:
         - scp
         - Other
     validations:
-      required: true    
+      required: true
   - type: textarea
     id: organization
     attributes:
@@ -129,11 +129,9 @@ body:
         - Parquet
         - Other
     validations:
-      required: true  
+      required: true
   - type: textarea
     id: comments
     attributes:
       label: Comments
       description: Any other comments you wish to share about the dataset.
-        
-    

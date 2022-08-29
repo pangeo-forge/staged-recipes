@@ -1,5 +1,5 @@
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-from pangeo_forge_recipes.patterns import FilePattern, ConcatDim, MergeDim
 
 # Make FilePattern
 
@@ -21,8 +21,8 @@ def make_filename(variable, time):
     return ("https://tds.ucar.edu/thredds/fileServer/datazone/campaign/cesm/collections/ASD/"
             "hybrid_v5_rel04_BC5_ne120_t12_pop62/atm-regrid/proc/tseries/daily/FV_768x1152.bilinear."
             f"hybrid_v5_rel04_BC5_ne120_t12_pop62.cam.h1.{variable}.00{time}0101-00{time}1231.nc")
-            
-            
+
+
 pattern = FilePattern(
     make_filename,
     ConcatDim(name="time", keys=years),

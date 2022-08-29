@@ -27,4 +27,3 @@ click on this badge:
 
 
 If you're working locally, you'll need to clone https://github.com/pangeo-forge/staged-recipes.
-

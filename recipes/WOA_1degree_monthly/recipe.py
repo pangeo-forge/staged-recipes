@@ -1,5 +1,5 @@
-# Recipe for WOA 1degree data 
-# Data description: https://www.ncei.noaa.gov/sites/default/files/2020-04/woa18documentation.pdf 
+# Recipe for WOA 1degree data
+# Data description: https://www.ncei.noaa.gov/sites/default/files/2020-04/woa18documentation.pdf
 import xarray as xr
 
 from pangeo_forge_recipes import patterns
@@ -28,14 +28,14 @@ def make_url(variable, time):
     return fname
 
 
-variable_merge_dim = patterns.MergeDim("variable", keys=["temperature", 
+variable_merge_dim = patterns.MergeDim("variable", keys=["temperature",
                                                          "salinity",
                                                          "density",
-                                                         "oxygen", 
-                                                         "AOU", 
+                                                         "oxygen",
+                                                         "AOU",
                                                          #"phosphate", # these following variables do not have data to 1500m in monthly
-                                                         #"nitrate", 
-                                                         #"silicate", 
+                                                         #"nitrate",
+                                                         #"silicate",
                                                          #"mld"
                                                         ])
 
