@@ -37,6 +37,6 @@ repos:
     - id: prenotebook
 
 -   repo: https://github.com/myint/rstcheck
-    rev: master
+    rev: main
     hooks:
     -   id: rstcheck
