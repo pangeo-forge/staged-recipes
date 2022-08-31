@@ -1,5 +1,4 @@
 import fsspec
-
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes.reference_hdf_zarr import HDFReferenceRecipe
 
