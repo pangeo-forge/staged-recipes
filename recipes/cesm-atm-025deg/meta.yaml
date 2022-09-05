@@ -1,8 +1,8 @@
 # Name for dataset. User chosen.
  title: "cesm-atm-025deg"
  # Description of dataset.  User chosen, roughly 1 sentence in length.
- description: "Daily atmospheric data from coupled NCAR CESM run hybrid_v5_rel04_BC5_ne120_t12_pop62" 
- # Version of pangeo_forge_recipes library that was used 
+ description: "Daily atmospheric data from coupled NCAR CESM run hybrid_v5_rel04_BC5_ne120_t12_pop62"
+ # Version of pangeo_forge_recipes library that was used
  pangeo_forge_version: "0.8.3"
  pangeo_notebook_version: "2022.05.02"
  # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
