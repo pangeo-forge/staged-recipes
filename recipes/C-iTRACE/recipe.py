@@ -8,7 +8,7 @@ def make_url(time, variable):
     url = 'https://gdex.ucar.edu/dataset/204_ajahn/file/ctrace.decadal.{variable}.nc'.format(variable=variable)
     return url
 
-# there is only one, but notably ~6 Gb file covering the full timeseries
+# there is only one, but notably ~6 GB file covering the full timeseries
 time_concat_dim = ConcatDim("time", [0], nitems_per_file=2200)
 pattern = FilePattern(make_url,
                       time_concat_dim,
