@@ -1,5 +1,5 @@
 """Author: Norland Raphael Hagen - 09-16-2021
-Pangeo-Forge recipe for Australian Gridded Climate Data (AGCD) V2 precipitation, temperature and vapour pressure data"""  # noqa: E501
+Pangeo Forge recipe for Australian Gridded Climate Data (AGCD) V2 precipitation, temperature and vapour pressure data"""  # noqa: E501
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
