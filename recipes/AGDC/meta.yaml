@@ -1,0 +1,22 @@
+title: "Australian Gridded Climate Data (AGCD)"
+description: "The Australian Gridded Climate Data dataset is a 5KM gridded daily product provided by the Australian Bureau of Meteorology. Version 1 contains precipitation, vapour pressure and minimum and maximum temperature. Australian Bureau of Meteorology (2020), Australian Gridded Climate Data ( AGCD )  ; v1.0.0 Snapshot (1900-01-01 to 2020-05-31). Downloaded from NCI on 09-21-2021."
+pangeo_forge_version: "0.9.0"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: AGCD
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Australian Bureau of Meteorology"
+      description: "The Australian Bureau of Meteorology is a government agency providing weather and climate data. (http://www.bom.gov.au/)"
+      roles:
+        - producer
+        - licensor
+      url: https://dapds00.nci.org.au/thredds/catalogs/zv2/catalog.html
+  license: "CC-BY-NC v.4.0"
+maintainers:
+  - name: "Raphael Hagen"
+    orcid: "0000-0003-1994-1153"
+    github: norlandrhagen
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
