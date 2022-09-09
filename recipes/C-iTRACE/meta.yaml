@@ -1,5 +1,5 @@
-title: "C-iTRACE-d18O"
-description: "Coarse resolution, ocean-only simulation from 22ka to present using the isotope-enabled ocean component of CESM1"
+title: "C-iTRACE"
+description: "Coarse resolution, ocean-only simulation of the interval from 22ka to present using the isotope-enabled ocean component of CESM1"
 pangeo_forge_version: "0.9.0"
 pangeo_notebook_version: "2022.06.02"
 recipes:
@@ -11,23 +11,20 @@ provenance:
       description: "University of Colorado Boulder"
       roles:
         - producer
-      url: "https://sites.google.com/colorado.edu/citrace"
+      url: https://sites.google.com/colorado.edu/citrace
     - name: "University of Wisconsin-Madison"
-      description: "University of Wisconsin-Madison"
-      roles:
-        - producer
-      url: "https://sites.google.com/colorado.edu/citrace"
+        description: "University of Wisconsin-Madison"
+        roles:
+          - producer
     - name: "Ohio State University"
-      description: "Ohio State University"
-      roles:
-        - producer
-      url: "https://sites.google.com/colorado.edu/citrace"
+        description: "Ohio State University"
+        roles:
+          - producer
     - name: "UCAR/NCAR"
-      description: "University Corporation for Atmospheric Research/National Center for Atmospheric Research"
-      roles:
-        - curator
-        - licensor
-      url: "https://gdex.ucar.edu/dataset/204_ajahn.html"
+        description: "University Corporation for Atmospheric Research/National Center for Atmospheric Research"
+        roles:
+          - curator
+          - licensor
   license: "Creative Commons Attribution 4.0 International"
 maintainers:
   - name: "Jordan Landers"
