@@ -3,7 +3,7 @@ from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 import xarray as xr
 
 # C-iTRACE covers a number of proxies
-variables = ['d18O', 'ABIO_D14Cocn', 'ABIO_D14Catm', 'CISO_DIC_d13C', 'ND143', 'ND144', 'PD', 'SALT', 'TEMP', 'UVEL', 'VVEL', 'WVEL', 'IAGE', 'MOC']
+variables = ['d18O', 'ABIO_D14Cocn', 'CISO_DIC_d13C', 'ND143', 'ND144', 'PD', 'SALT', 'TEMP', 'UVEL', 'VVEL', 'WVEL', 'IAGE', 'MOC']
 
 
 def make_url(time, variable):
@@ -23,18 +23,13 @@ def postproc(ds):
     times = ds.coords['time'].values
     lats = [ds.coords['TLAT'].values[ik][0] for ik in range(len(ds.coords['TLAT'].values))]
     lons = ds.coords['TLONG'][0].values
+    z_ts = ds.coords['z_t'].values
 
     _ds = xr.Dataset()
     _ds.coords["lat"] = (("lat"), lats)
     _ds.coords["lon"] = (("lon"), lons)
     _ds.coords["time"] = (("time"), times)
-    
-    if "z_t" in ds.coords: 
-        z_ts = ds.coords['z_t'].values
-        _ds.coords["z_t"] = (("z_t"), z_ts)
-    else:
-        _ds = _ds.expand_dims("z_t").assign_coords(z_t=("z_t", [-2]))
-
+    _ds.coords["z_t"] = (("z_t"), z_ts)
 
     for key in ds.attrs.keys():
         _ds.attrs[key] = ds.attrs[key]
