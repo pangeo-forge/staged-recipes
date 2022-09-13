@@ -69,7 +69,6 @@ recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1,
                           subset_inputs={'time':20},
                           target_chunks={'time':1},
                           process_chunk = postproc, 
-                          copy_input_to_local_file=True,
                           xarray_open_kwargs=
                               {'decode_coords':True, 
                                'use_cftime':True, 
