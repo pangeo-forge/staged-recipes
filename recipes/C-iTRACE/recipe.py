@@ -1,6 +1,7 @@
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 import xarray as xr
+import numpy as np
 
 # C-iTRACE covers a number of proxies
 variables = ['d18O', 'ABIO_D14Cocn','ABIO_D14Catm','CISO_DIC_d13C', 'ND143', 
