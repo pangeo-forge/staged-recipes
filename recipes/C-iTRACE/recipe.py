@@ -67,7 +67,7 @@ def postproc(ds):
 # using `target_chunks` instead of specifying `nitems_per_file` in ConcatDim massively decreased run time
 recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1,
                           consolidate_zarr=False,
-                          subset_inputs={'time':20},
+                          subset_inputs={'time':150},
                           target_chunks={'time':1},
                           process_chunk = postproc, 
                           xarray_open_kwargs=
