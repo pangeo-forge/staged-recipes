@@ -1,0 +1,24 @@
+# this is an example from https://github.com/pangeo-forge/noaa-oisst-avhrr-only-feedstock/blob/main/feedstock/meta.yaml
+# it needs updating
+
+title: "Paleo Antarctic Ice Sheet Simulations with PISM"
+description: "Analysis-ready Zarr datasets derived from PISM netcdfs"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.05.24"
+recipes:
+  - id: paleo-pism-stacked
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "PANGAEA"
+      description: "Data Publisher for Earth & Environmental Science"
+      roles:
+        - licensor
+      url: https://doi.pangaea.de/10.1594/PANGAEA.940149
+  license: "CC-BY-4.0"
+maintainers:
+  - name: "Jonathan Kingslake"
+    orcid: "0000-0002-2065-9473"
+    github: jkingslake
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"  # must come from a valid list of bakeries

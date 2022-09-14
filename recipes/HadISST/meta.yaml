@@ -1,0 +1,22 @@
+title: "Hadley Centre Sea Ice and Sea Surface Temperature (HadISST)"
+description: "Analysis-ready Zarr datasets derived from HadISST NetCDF"
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2021.12.02"
+recipes:
+  - id: hadisst
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Met Office Hadley Centre"
+      description: "Met Office Hadley Centre"
+      roles:
+        - producer
+        - licensor
+      url: https://www.metoffice.gov.uk/hadobs/hadisst/index.html
+  license: "TBD" # I need some help encoding this properly (see discussion)
+maintainers:
+  - name: "Julius Busecke"
+    orcid: "0000-0001-8571-865X"
+    github: jbusecke
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
