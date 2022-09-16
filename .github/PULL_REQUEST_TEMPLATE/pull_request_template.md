@@ -4,7 +4,6 @@ about: This template makes sure relevant information is contained in a new recip
 title: [Dataset Name]
 labels: ''
 assignees: ''
-
 ---
 
 <!--
