@@ -174,7 +174,6 @@ class AscatXarrayZarrRecipe(XarrayZarrRecipe):
                 if ds.dims["time"] == 1:
                     file_times.append((ds.time.values[0], input_filename))
         # New pattern with files sorted according to (measurement_)time
-        newlist = [input_filename for _, input_filename in sorted(file_times)]
         self._create_file_pattern(
             file_list=[input_filename for _, input_filename in sorted(file_times)]
         )
