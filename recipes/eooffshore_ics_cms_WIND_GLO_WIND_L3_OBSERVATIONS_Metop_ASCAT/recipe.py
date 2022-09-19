@@ -5,7 +5,7 @@ import operator
 import pandas as pd
 from pangeo_forge_recipes.executors.base import Pipeline, Stage
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
-from pangeo_forge_recipes.recipes import setup_logging, XarrayZarrRecipe
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_recipes.recipes.xarray_zarr import open_input
 from typing import Dict, List
 import xarray as xr
@@ -186,8 +186,6 @@ class AscatXarrayZarrRecipe(XarrayZarrRecipe):
         nrt = self.host.startswith("nrt")
         return f"ftp://{self.host}/Core/{self.service}/KNMI-GLO-WIND_L3-{'REP-' if not nrt else ''}OBS_METOP-{satellite}_ASCAT_12_{satellite_pass}{'_V2' if nrt else ''}/{year}/{month}/GLO-WIND_L3-OBS_METOP-{satellite}_ASCAT_12_{satellite_pass}_{year}{month}{day}.nc"
 
-
-setup_logging()
 
 nrt_recipe = AscatXarrayZarrRecipe(
     file_pattern=None,
