@@ -4,7 +4,7 @@ from datetime import datetime
 from metpy.calc import wind_direction, wind_speed
 import pandas as pd
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
-from pangeo_forge_recipes.recipes import setup_logging, XarrayZarrRecipe
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 import xarray as xr
 
 
@@ -99,8 +99,6 @@ def ics_wind_speed_direction(ds: xr.Dataset, fname: str) -> xr.Dataset:
     return icds
 
 
-setup_logging()
-
 missing_dates = [
     pd.Timestamp(d)
     for d in [
@@ -135,9 +133,12 @@ def make_url(time):
     return url
 
 
+# Daily products with 6-hourly values
+NITEMS_PER_FILE = 4
+
 pattern = FilePattern(
     make_url,
-    ConcatDim(name="time", keys=dates),
+    ConcatDim(name="time", keys=dates, nitems_per_file=NITEMS_PER_FILE),
 )
 
 target_chunks = {"time": 8000, "latitude": -1, "longitude": -1}
@@ -145,5 +146,6 @@ target_chunks = {"time": 8000, "latitude": -1, "longitude": -1}
 recipe = XarrayZarrRecipe(
     file_pattern=pattern,
     target_chunks=target_chunks,
+    inputs_per_chunk=int(target_chunks["time"] / NITEMS_PER_FILE),
     process_input=ics_wind_speed_direction,
 )
