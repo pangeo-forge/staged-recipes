@@ -3,9 +3,9 @@ description: "EOOffshore Project (https://eooffshore.github.io) - Copernicus Mar
 pangeo_forge_version: "0.9.1"
 pangeo_notebook_version: "2022.06.02"
 recipes:
-  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_REP_OBSERVATIONS_012_005_MetOp_ASCAT
+  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_REP_OBSERVATIONS_012_005_Metop_ASCAT
     object: "recipe:rep_recipe"
-  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_NRT_OBSERVATIONS_012_002_MetOp_ASCAT
+  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_NRT_OBSERVATIONS_012_002_Metop_ASCAT
     object: "recipe:nrt_recipe"
 provenance:
   providers:
