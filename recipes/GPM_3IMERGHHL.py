@@ -53,10 +53,10 @@ pattern = pattern_from_file_sequence(url_list,concat_dim = "time",nitems_per_fil
 recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=50,xarray_open_kwargs={"group": "Grid"})
 
 # Set up logging
-setup_logging()
+#setup_logging()
 
 # Prune the recipe
-recipe_pruned = recipe.copy_pruned()
+#recipe_pruned = recipe.copy_pruned()
 
 # Run the recipe
 run_function = recipe_pruned.to_function()
