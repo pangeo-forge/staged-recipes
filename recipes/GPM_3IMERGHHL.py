@@ -4,11 +4,10 @@ import pandas as pd
 import logging
 import xarray as xr
 import aiohttp
+import netrc
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe, setup_logging
 import numpy as np
-
-username = password = "pangeo@developmentseed.org"
 
 
 collection_shortname = ["GPM_3IMERGHHL"]
@@ -37,14 +36,21 @@ for i in range(0,np.shape(granules)[0]):
     else:
         print('no downloadable url found')
 
+# go here to set up .netrc file: https://disc.gsfc.nasa.gov/data-access
+(username, account,password) = netrc.netrc().authenticators("urs.earthdata.nasa.gov")
+client_kwargs = {
+            "auth": aiohttp.BasicAuth(
+                username, password
+            ),
+            "trust_env": True,
+        }
 
 
-username = password = "pangeo@developmentseed.org"
-pattern = pattern_from_file_sequence(url_list,concat_dim = "time",nitems_per_file=1,fsspec_open_kwargs={"auth": aiohttp.BasicAuth(username, password)})
+pattern = pattern_from_file_sequence(url_list,concat_dim = "time",nitems_per_file=1,fsspec_open_kwargs=dict(client_kwargs=client_kwargs))
 
 
 # Create recipe object
-recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=50)
+recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=50,xarray_open_kwargs={"group": "Grid"})
 
 # Set up logging
 setup_logging()
@@ -55,3 +61,4 @@ recipe_pruned = recipe.copy_pruned()
 # Run the recipe
 run_function = recipe_pruned.to_function()
 run_function()
+
