@@ -52,13 +52,13 @@ pattern = pattern_from_file_sequence(url_list,concat_dim = "time",nitems_per_fil
 # Create recipe object
 recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=10)
 
-# Set up logging
-#setup_logging()
+# # Set up logging
+# #setup_logging()
 
-# Prune the recipe
-recipe_pruned = recipe.copy_pruned()
+# # Prune the recipe
+# recipe_pruned = recipe.copy_pruned()
 
-# Run the recipe
-run_function = recipe_pruned.to_function()
-run_function()
+# # Run the recipe
+# run_function = recipe_pruned.to_function()
+# run_function()
 
