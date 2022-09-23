@@ -1,0 +1,28 @@
+title: "Global Drifter Program"
+description: >
+  This dataset includes hourly sea surface temperature and current data collected by satellite-tracked
+  surface drifting buoys ("drifters") of the NOAA Global Drifter Program. The Drifter Data Assembly Center (DAC)
+  at NOAA’s Atlantic Oceanographic and Meteorological Laboratory (AOML) has applied quality control procedures
+  and processing to edit these observational data and obtain estimates at regular hourly intervals.
+  The data include positions (latitude and longitude), sea surface temperatures (total, diurnal, and non-diurnal components)
+  and velocities (eastward, northward) with accompanying uncertainty estimates. Metadata include identification numbers,
+  experiment number, start location and time, end location and time, drogue loss date, death code, manufacturer, and drifter type.
+pangeo_forge_version: "0.9"
+recipes:
+  - id: gdp-hourly
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "NOAA AOML"
+      description: "National Oceanographic & Atmospheric Administration Atlantic Oceanographic and Meteorological Laboratory"
+      roles:
+        - producer
+        - licensor
+      url: https://www.aoml.noaa.gov/phod/gdp/hourly_data.php
+  license: "Proprietary"
+maintainers:
+  - name: "Ryan Abernathey"
+    orcid: "0000-0001-5999-4917"
+    github: rabernat
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
