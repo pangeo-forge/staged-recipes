@@ -21,10 +21,10 @@ api_granule_downloadable = api_granule.downloadable()
 print('number of downloadable granules: ' + str(api_granule_downloadable.hits()))
 
 # retrieve only a few for testing:
-granules = api_granule.get(20)
+# granules = api_granule.get(20)
 
 # retrieve all (can take awhile...)
-#granules = api_granule.get_all()
+granules = api_granule.get_all()
 
 url_list = []
 for i in range(0,np.shape(granules)[0]):
