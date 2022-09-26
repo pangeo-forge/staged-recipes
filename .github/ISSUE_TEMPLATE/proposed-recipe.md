@@ -4,7 +4,6 @@ about: This template helps us gather information needed to create a Pangeo Forge
 title: Proposed Recipes for [Dataset Name]
 labels: 'proposed recipe'
 assignees: ''
-
 ---
 
 <!--
@@ -36,7 +35,6 @@ Describe below how the files should be combined into one analysis-ready dataset.
 For example, "the files should be concatenated along the time dimension."
 Are there any other transformations or checks that should be performed to make the data more "analysis ready"?
 -->
-
 
 ## Output Dataset
 
