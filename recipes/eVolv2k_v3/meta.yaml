@@ -5,7 +5,7 @@ pangeo_notebook_version: "2022.06.02"
 recipes:
   - id: eVolv2k_v3
     object: "recipe:recipe"
-provenance:s
+provenance:
   providers:
     - name: "WDCC"
       description: "World Data Center for Climate"
