@@ -1,10 +1,10 @@
 title: 'eVolv2k VSSI database'
-description: 'eVolv2k version 3 includes estimates of the magnitudes and approximate source latitudes of major
+description: 'eVolv2k includes estimates of the magnitudes and approximate source latitudes of major
   volcanic stratospheric sulfur injection (VSSI) events from 500 BCE to 1900 CE.'
 pangeo_forge_version: '0.9.0'
 pangeo_notebook_version: '2022.06.02'
 recipes:
-  - id: eVolv2k_v3
+  - id: eVolv2k
     object: 'recipe:recipe'
 provenance:
   providers:
