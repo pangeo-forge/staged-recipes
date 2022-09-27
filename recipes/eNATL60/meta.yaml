@@ -1,5 +1,5 @@
 title: "eNATL60 with tides daily data"
-description: "extractions of temperature, salinity and vertical currents at some chosen depths from eNATL60 NEMO simulation with tides" 
+description: "extractions of temperature, salinity and vertical velocity at some chosen depths from eNATL60 NEMO simulation with tides" 
 pangeo_forge_version: "0.8.3"
 recipes:
   - id: eNATL60_wtides_1d_mld
