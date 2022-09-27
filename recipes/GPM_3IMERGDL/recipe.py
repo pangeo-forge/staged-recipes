@@ -1,18 +1,16 @@
 """
 A recipe to move GPM_#IMERGDL from <DC> to a cloud analysis ready format.
 """
-from datetime import datetime
-from cmr import CollectionQuery, GranuleQuery, ToolQuery, ServiceQuery, VariableQuery
-import pandas as pd
-import xarray as xr
-import aiohttp
 import netrc
-from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, pattern_from_file_sequence
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe, setup_logging
+
+import aiohttp
 import numpy as np
+from cmr import GranuleQuery
 
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-collection_shortname = ["GPM_3IMERGDL"]
+collection_shortname = ['GPM_3IMERGDL']
 
 
 # Get a list of granules for this collection from CMR
@@ -47,19 +45,22 @@ for i in range(0, np.shape(granules)[0]):
 # as well when the operation is scaled out. This shall be automated with a machine identity
 # in the future.
 # go here to set up .netrc file: https://disc.gsfc.nasa.gov/data-access
-username, _, password = netrc.netrc().authenticators("urs.earthdata.nasa.gov")
+username, _, password = netrc.netrc().authenticators('urs.earthdata.nasa.gov')
 client_kwargs = {
-    "auth": aiohttp.BasicAuth(username, password),
-    "trust_env": True,
+    'auth': aiohttp.BasicAuth(username, password),
+    'trust_env': True,
 }
 
 # Now we create the Pangeo Forge Recipe!
-recipe = XarrayZarrRecipe( # The output will be a cloud analysis ready Zarr archive, created with xarray
-    pattern_from_file_sequence( # The pattern of input files to check
-        url_list, # List of URLs pointing to our input files, fetched earlier.
-        concat_dim="time", # TODO: What does this do?
-        nitems_per_file=1, # TODO: What does this do?
-        fsspec_open_kwargs=dict(client_kwargs=client_kwargs), # Pass our earthdata credentials through to FSSpec, so we can authenticate & fetch data
+# The output will be a cloud analysis ready Zarr archive, created with xarray
+recipe = XarrayZarrRecipe(
+    pattern_from_file_sequence(  # The pattern of input files to check
+        url_list,  # List of URLs pointing to our input files, fetched earlier.
+        concat_dim='time',  # TODO: What does this do?
+        nitems_per_file=1,  # TODO: What does this do?
+        fsspec_open_kwargs=dict(
+            client_kwargs=client_kwargs
+        ),  # Pass our earthdata credentials through to FSSpec, so we can authenticate & fetch data
     ),
-    inputs_per_chunk=10, # TODO: What does this do?
+    inputs_per_chunk=10,  # TODO: What does this do?
 )
