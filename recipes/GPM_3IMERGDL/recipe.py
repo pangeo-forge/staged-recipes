@@ -1,7 +1,9 @@
+"""
+A recipe to move GPM_#IMERGDL from <DC> to a cloud analysis ready format.
+"""
 from datetime import datetime
 from cmr import CollectionQuery, GranuleQuery, ToolQuery, ServiceQuery, VariableQuery
 import pandas as pd
-import logging
 import xarray as xr
 import aiohttp
 import netrc
@@ -11,54 +13,53 @@ import numpy as np
 
 
 collection_shortname = ["GPM_3IMERGDL"]
+
+
+# Get a list of granules for this collection from CMR
+# Each Granule is a file, provided to us as a HTTPS URL
 api_granule = GranuleQuery()
 api_granule.parameters(
     short_name=collection_shortname,
 )
-print('number of granules: ' + str(api_granule.hits()))
-
+# We use print statements to provide debug output as we go laong
+print(f'number of granules: {api_granule.hits()}')
 api_granule_downloadable = api_granule.downloadable()
-print('number of downloadable granules: ' + str(api_granule_downloadable.hits()))
+print(f'number of downloadable granules: f{api_granule_downloadable.downloadable().hits()}')
 
-# retrieve only a few for testing:
-# granules = api_granule.get(20)
-
-# retrieve all (can take awhile...)
+# retrieve all the granules
 granules = api_granule.get_all()
 
+# Find list of all downloadable URLs for the granules
 url_list = []
-for i in range(0,np.shape(granules)[0]):
+# FIXME: Remove numpy use?
+for i in range(0, np.shape(granules)[0]):
     for element in granules[i]['links']:
         if element['rel'] == 'http://esipfed.org/ns/fedsearch/1.1/data#':
             print('adding url: ' + element['href'])
             url_list.append(element['href'])
             break
     else:
+        # FIXME: Provide useful info here
         print('no downloadable url found')
 
+# We need to provide EarthData credentials to fetch the files.
+# The credentials of the currently logged in user are used, and passed on to the cloud
+# as well when the operation is scaled out. This shall be automated with a machine identity
+# in the future.
 # go here to set up .netrc file: https://disc.gsfc.nasa.gov/data-access
-(username, account,password) = netrc.netrc().authenticators("urs.earthdata.nasa.gov")
+username, _, password = netrc.netrc().authenticators("urs.earthdata.nasa.gov")
 client_kwargs = {
-            "auth": aiohttp.BasicAuth(
-                username, password
-            ),
-            "trust_env": True,
-        }
+    "auth": aiohttp.BasicAuth(username, password),
+    "trust_env": True,
+}
 
-
-pattern = pattern_from_file_sequence(url_list,concat_dim = "time",nitems_per_file=1,fsspec_open_kwargs=dict(client_kwargs=client_kwargs))
-
-
-# Create recipe object
-recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=10)
-
-# # Set up logging
-# #setup_logging()
-
-# # Prune the recipe
-# recipe_pruned = recipe.copy_pruned()
-
-# # Run the recipe
-# run_function = recipe_pruned.to_function()
-# run_function()
-
+# Now we create the Pangeo Forge Recipe!
+recipe = XarrayZarrRecipe( # The output will be a cloud analysis ready Zarr archive, created with xarray
+    pattern_from_file_sequence( # The pattern of input files to check
+        url_list, # List of URLs pointing to our input files, fetched earlier.
+        concat_dim="time", # TODO: What does this do?
+        nitems_per_file=1, # TODO: What does this do?
+        fsspec_open_kwargs=dict(client_kwargs=client_kwargs), # Pass our earthdata credentials through to FSSpec, so we can authenticate & fetch data
+    ),
+    inputs_per_chunk=10, # TODO: What does this do?
+)
