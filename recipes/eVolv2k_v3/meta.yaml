@@ -8,6 +8,12 @@ recipes:
     object: 'recipe:recipe'
 provenance:
   providers:
+    - name: 'Matthew Toohey'
+      github: matthew2e
+      orcid: '0000-0002-7070-405X'
+      role:
+        - producer
+      url: 'https://artsandscience.usask.ca/profile/MToohey#ResearchAreas'
     - name: 'WDCC'
       description: 'World Data Center for Climate'
       roles:
@@ -16,8 +22,8 @@ provenance:
       url: 'https://www.wdc-climate.de/ui/entry?acronym=eVolv2k_v3'
   license: 'Creative Commons Attribution 4.0 International'
 maintainers:
+  - name: 'Jordan Landers'
     orcid: '0000-0001-9772-7617'
-      github: jordanplanders
-      - name: 'Jordan Landers'
+    github: jordanplanders
 bakery:
   id: 'pangeo-ldeo-nsf-earthcube'
