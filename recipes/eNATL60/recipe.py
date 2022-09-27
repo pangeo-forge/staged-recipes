@@ -19,7 +19,7 @@ def make_recipe(var,dep):
         return recipe
 
 eNATL60_wtides_1d_mld = make_recipe('somxl010','')
-eNATL60_wtides_1d_tsw60m = make_recipe('TSW','60m')
-eNATL60_wtides_1d_tsw600m = make_recipe('TSW','600m')
+eNATL60_wtides_1d_tsw60m = make_recipe('TSW','_60m')
+eNATL60_wtides_1d_tsw600m = make_recipe('TSW','_600m')
 
 
