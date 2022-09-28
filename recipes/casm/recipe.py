@@ -8,6 +8,7 @@ dates = pd.date_range('2002-01-01', '2020-12-31', freq='Y')
 
 
 def make_url(time):
+    URL_FORMAT = 'https://zenodo.org/record/7072512/files/CASM_SM_{time:%Y}.nc'
     return URL_FORMAT.format(time=time)
 
 
