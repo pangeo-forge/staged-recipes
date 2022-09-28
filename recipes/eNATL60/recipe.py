@@ -1,5 +1,4 @@
 import pandas as pd
-import xarray as xr
 
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
