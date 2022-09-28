@@ -1,0 +1,28 @@
+title: 'GPM IMERG Late Precipitation Daily'
+description: |
+  GPM IMERG Late Precipitation L3 1 day 0.1 degree x 0.1 degree V06 (GPM_3IMERGDL)
+  The Integrated Multi-satellitE Retrievals (IMERG) for Global Precipitation Measurement (GPM) is the unified U.S. algorithm that provides the multi-satellite precipitation product for the U.S. GPM team.
+  Minor Version 06B is the current version of the data set. Older versions will no longer be available and have been superseded by Version 06B.
+  The precipitation estimates from the various precipitation-relevant satellite passive microwave (PMW) sensors comprising the GPM constellation are computed using the 2017 version of the Goddard Profiling Algorithm (GPROF2017), then gridded, intercalibrated to the GPM Combined Ku Radar-Radiometer Algorithm (CORRA) product, and merged into half-hourly 0.1°x0.1° (roughly 10x10 km) fields.
+  This dataset is the GPM Level 3 IMERG Late Daily 10 x 10 km (GPM_3IMERGDL) derived from the half-hourly GPM_3IMERGHHL. The derived result represents a Late expedited estimate of the daily accumulated precipitation. The dataset is produced at the NASA Goddard Earth Sciences (GES) Data and Information Services Center (DISC) by simply summing the valid precipitation retrievals for the day in GPM_3IMERGHHL and giving the result in (mm). "
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.06.02'
+recipes:
+  - id: gpm3imergdl
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NASA GES DISC'
+      description: 'National Aeronautics and Space Administration Goddard Earth Sciences Data and Information Services Center'
+      roles:
+        - host
+        - licensor
+        - producer
+      url: https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHHL_06/summary?keywords=GPM_3IMERGHHL_06
+  license: 'No constraints on data access or use.'
+maintainers:
+  - name: 'Brianna Pagan'
+    orcid: '0000-0001-8028-0310'
+    github: briannapagan
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
