@@ -1,0 +1,30 @@
+title: 'eVolv2k VSSI database'
+description:
+  'eVolv2k includes estimates of the magnitudes and approximate source latitudes of major
+  volcanic stratospheric sulfur injection (VSSI) events from 500BCE to 1900CE.'
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.07.13'
+recipes:
+  - id: eVolv2k
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'Matthew Toohey'
+      github: matthew2e
+      orcid: '0000-0002-7070-405X'
+      roles:
+        - producer
+      url: 'https://artsandscience.usask.ca/profile/MToohey#ResearchAreas'
+    - name: 'WDCC'
+      description: 'World Data Center for Climate'
+      roles:
+        - curator
+        - licensor
+      url: 'https://www.wdc-climate.de/ui/entry?acronym=eVolv2k_v3'
+  license: 'Creative Commons Attribution 4.0 International'
+maintainers:
+  - name: 'Jordan Landers'
+    orcid: '0000-0001-9772-7617'
+    github: jordanplanders
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
