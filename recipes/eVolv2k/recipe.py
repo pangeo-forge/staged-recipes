@@ -1,4 +1,3 @@
-
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
@@ -17,6 +16,7 @@ pattern = FilePattern(make_url, time_concat_dim)
 def postproc(ds):
     import cftime
     import numpy as np
+
     ds['time'] = np.array(
         [
             cftime.DatetimeProlepticGregorian(
