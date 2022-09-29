@@ -1,19 +1,19 @@
-import dask
-import dask.array as da
 from datetime import datetime
 import pandas as pd
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-import xarray as xr
 
 
-def ics_wind_speed_direction(ds: xr.Dataset, fname: str) -> xr.Dataset:
+def ics_wind_speed_direction(ds, fname):
     """
     Selects a subset for the Irish Continental Shelf (ICS) region, and computes wind speed and
     direction for the u and v components in the specified product. Dask arrays are
     created for delayed execution.
     """
+    import dask
+    import dask.array as da
     from metpy.calc import wind_direction, wind_speed
+    import xarray as xr
 
     @dask.delayed
     def delayed_metpy_fn(fn, u, v):
