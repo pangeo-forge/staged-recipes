@@ -36,15 +36,8 @@ pattern = FilePattern(make_url, time_concat_dim, MergeDim(name='variable', keys=
 # ensures that lat and lon coords get labeled as simply 'lat' and 'lon'
 def postproc(ds):
     _variables = [_var for _var in ds.data_vars.keys() if 'bound' not in _var]
-    coords = [key for key in ds.coords.keys()]
 
     rename_d = {}
-    for coord_var in ['lat', 'lon']:
-        current_name = [coord for coord in coords if coord_var in coord.lower()]
-        if len(current_name) == 1:
-            rename_d[current_name[0]] = coord_var
-
-    ds = ds.rename_dims(rename_d)
 
     if 'spread' in ds.attrs['comment'].lower():
         data_type = 'spread'
@@ -68,7 +61,7 @@ recipe = XarrayZarrRecipe(
     pattern,
     inputs_per_chunk=1,
     consolidate_zarr=True,
-    subset_inputs={'time': len(variables) * 3},
+    subset_inputs={'time': 65},
     target_chunks={'time': 1},
     process_chunk=postproc,
     copy_input_to_local_file=False,
