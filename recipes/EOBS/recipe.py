@@ -37,10 +37,10 @@ tg_tn_tx_rr_hu_pp_recipe = XarrayZarrRecipe(
     file_pattern=tg_tn_tx_rr_hu_pp_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
 )
 
-qq_pattern_recipe = XarrayZarrRecipe(
+qq_recipe = XarrayZarrRecipe(
     file_pattern=qq_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
 )
 
-fg_pattern_recipe = XarrayZarrRecipe(
+fg_recipe = XarrayZarrRecipe(
     file_pattern=fg_pattern, target_chunks=target_chunks, subset_inputs=subset_inputs
 )

@@ -13,11 +13,11 @@ pangeo_forge_version: '0.8.3'
 pangeo_notebook_version: '2022.06.02'
 recipes:
   - id: eobs-tg-tn-tx-rr-hu-pp
-    object: 'recipe:eobs-tg-tn-tx-rr-hu-pp'
+    object: 'recipe:tg_tn_tx_rr_hu_pp_recipe'
   - id: eobs-wind-speed
-    object: 'recipe:eobs_wind_speed'
+    object: 'recipe:fg_recipe'
   - id: eobs-surface-downwelling
-    object: 'recipe:eobs_surface_downwelling'
+    object: 'recipe:qq_recipe'
 provenance:
   providers:
     - name: 'Copernicus Climate Change Service'
