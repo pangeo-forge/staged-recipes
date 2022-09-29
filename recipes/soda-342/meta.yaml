@@ -1,0 +1,22 @@
+title: 'SODA 3.4.2 ICE'
+description: 'SODA: A reanalysis of ocean climate (ICE)'
+pangeo_forge_version: '0.8.2'
+pangeo_notebook_version: '2021.12.02'
+recipes:
+  - id: soda-342-ice
+    object: 'soda342_ice:recipe'
+provenance:
+  providers:
+    - name: 'UMD Atmos'
+      description: 'Department of Atmospheric and Oceanic Science, University of Maryland' # is this correct?
+      roles:
+        - producer
+        - licensor
+      url: https://www.soda.umd.edu
+  license: 'CC-BY-4.0' # is this correct?
+maintainers:
+  - name: 'Charles Stern'
+    orcid: '0000-0002-4078-0852'
+    github: cisaacstern
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
