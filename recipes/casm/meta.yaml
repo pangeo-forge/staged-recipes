@@ -1,0 +1,21 @@
+title: 'CASM soil moisture'
+description: 'Soil moisture data in top soil layer created from AMSR, SMOS, and SMAP remote sensing data. SMAP-like quality. 3-day temporal resolution. 2002-2020'
+pangeo_forge_version: '0.8.2'
+recipes:
+  - id: casm-soil-moisture
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'Olya Skulovich'
+      description: 'The CASM dataset was creted by Olya Skulovich, Pierre Gentine, Columbia University. Available to public on Zenodo'
+      roles:
+        - producer
+        - licensor
+      url: https://doi.org/10.5281/zenodo.7072512
+  license: 'CC-BY-4.0'
+maintainers:
+  - name: 'Olya Skulovich'
+    orcid: '0000-0002-3203-5166'
+    github: os2328
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
