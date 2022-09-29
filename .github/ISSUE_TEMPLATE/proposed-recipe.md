@@ -1,16 +1,15 @@
 ---
 name: Proposed Recipe
-about: This template helps us gather information about possible use cases for pangeo-forge
-title: Example pipeline for [Dataset Name]
-labels: example
+about: This template helps us gather information needed to create a Pangeo Forge Recipe for your data.
+title: Proposed Recipes for [Dataset Name]
+labels: 'proposed recipe'
 assignees: ''
-
 ---
 
 <!--
-This template is to describe a potential pipeline for Pangeo Forge to create analysis-ready, cloud-optimized data from an upstream data repository.
+This template is to describe a potential recipe for Pangeo Forge to create analysis-ready, cloud-optimized data from an upstream data repository.
 
-A pipeline has three basic stages:
+A Recipe has three basic stages:
 1. Download the source files from the upstream repository in whatever format they are stored.
 2. Perform any transformations that are needed in order to make the data "analysis ready."
 3. Write out a new dataset in a cloud optimized format
@@ -36,7 +35,6 @@ Describe below how the files should be combined into one analysis-ready dataset.
 For example, "the files should be concatenated along the time dimension."
 Are there any other transformations or checks that should be performed to make the data more "analysis ready"?
 -->
-
 
 ## Output Dataset
 
