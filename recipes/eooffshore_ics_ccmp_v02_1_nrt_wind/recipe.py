@@ -1,7 +1,6 @@
 import dask
 import dask.array as da
 from datetime import datetime
-from metpy.calc import wind_direction, wind_speed
 import pandas as pd
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
@@ -14,6 +13,7 @@ def ics_wind_speed_direction(ds: xr.Dataset, fname: str) -> xr.Dataset:
     direction for the u and v components in the specified product. Dask arrays are
     created for delayed execution.
     """
+    from metpy.calc import wind_direction, wind_speed
 
     @dask.delayed
     def delayed_metpy_fn(fn, u, v):
