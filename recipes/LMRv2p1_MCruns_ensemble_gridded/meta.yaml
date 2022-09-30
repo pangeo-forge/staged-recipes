@@ -13,7 +13,7 @@ provenance:
         - licensor
         - curator
       url: 'https://www.ncei.noaa.gov/access/paleo-search/study/27850'
-  license: 'Creative Commons Attribution 4.0 International'
+  license: CC-BY-4.0
 maintainers:
   - name: 'Jordan Landers'
     orcid: '0000-0001-9772-7617'
