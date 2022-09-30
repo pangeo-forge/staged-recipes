@@ -1,0 +1,22 @@
+title: 'LMRv2.1 Monte Carlo Runs for gridded fields'
+description: 'Gridded variables from ensemble runs executed as part of the Last Millennium Reanalysis (LMR) project (v2.1) which utilizes an ensemble methodology to assimilate paleoclimate data for the production of annually resolved climate field reconstructions of the Common Era'
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.07.13'
+recipes:
+  - id: LMRv2p1_MCruns_ensemble_gridded
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NCEI/NOAAA'
+      description: 'National Centers for Environmental Information'
+      roles:
+        - licensor
+        - curator
+      url: 'https://www.ncei.noaa.gov/access/paleo-search/study/27850'
+  license: CC-BY-4.0
+maintainers:
+  - name: 'Jordan Landers'
+    orcid: '0000-0001-9772-7617'
+    github: jordanplanders
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
