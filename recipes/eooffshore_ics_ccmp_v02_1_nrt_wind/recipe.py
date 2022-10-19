@@ -1,4 +1,3 @@
-from datetime import datetime
 import pandas as pd
 from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
@@ -12,6 +11,7 @@ def ics_wind_speed_direction(ds, fname):
     """
     import dask
     import dask.array as da
+    from datetime import datetime
     from metpy.calc import wind_direction, wind_speed
     import xarray as xr
 
