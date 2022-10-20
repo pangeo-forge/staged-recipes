@@ -1,0 +1,27 @@
+title: 'eNATL60 with tides daily data'
+description: 'extractions of temperature, salinity and vertical velocity at some chosen depths from eNATL60 NEMO simulation with tides'
+pangeo_forge_version: '0.8.3'
+recipes:
+  - id: eNATL60_wtides_1d_mld
+    object: 'recipe:eNATL60_wtides_1d_mld'
+  - id: eNATL60_wtides_1d_tsw60m
+    object: 'recipe:eNATL60_wtides_1d_tsw60m'
+  - id: eNATL60_wtides_1d_tsw600m
+    object: 'recipe:eNATL60_wtides_1d_tsw600m'
+provenance:
+  providers:
+    - name: 'MEOM IGE'
+      description: "Multiscale Ocean Modelling Group, Institut des Geosciences de l'Environnement, Grenoble, France"
+      roles:
+        - producer
+        - licensor
+      url: http://meom-group.github.io/
+  # This is a required field for provider. Follow STAC spec
+  # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
+  license: 'CC-BY-4.0'
+maintainers:
+  - name: 'Aurélie Albert'
+    orcid: '0000-0001-7783-5629'
+    github: auraoupa
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
