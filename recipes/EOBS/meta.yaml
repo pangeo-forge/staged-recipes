@@ -1,0 +1,38 @@
+title: 'E-OBS dataset'
+description: |
+  E-OBS is a high resolution gridded climate dataset covering Europe and Northern Africa.
+  This dataset is version 23.1e with a 0.1 degree spatial resolution.
+
+  Variables available are: TG: daily mean temperature, TN: daily minimum temperature,
+  TX: daily maximum temperature, RR: daily precipitation sum, PP: daily mean sea-level pressure,
+  HU: relative humidity, FG: daily mean wind speed and QQ: global radiation.
+
+  QQ and FG are have slightly different grids and are not concatenated with other variables.
+
+pangeo_forge_version: '0.8.3'
+pangeo_notebook_version: '2022.06.02'
+recipes:
+  - id: eobs-tg-tn-tx-rr-hu-pp
+    object: 'recipe:tg_tn_tx_rr_hu_pp_recipe'
+  - id: eobs-wind-speed
+    object: 'recipe:fg_recipe'
+  - id: eobs-surface-downwelling
+    object: 'recipe:qq_recipe'
+provenance:
+  providers:
+    - name: 'Copernicus Climate Change Service'
+      description: 'We acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.eu) and the Copernicus Climate Change Service, and the data providers in the ECA&D project (https://www.ecad.eu) Cornes, R., G. van der Schrier, E.J.M. van den Besselaar, and P.D. Jones. 2018: An Ensemble Version of the E-OBS Temperature and Precipitation Datasets, J. Geophys. Res. Atmos., 123. doi:10.1029/2017JD028200'
+      roles:
+        - producer
+        - licensor
+      url: https://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php#datafiles
+  license_link:
+    title: ECA&D and E-OBS terms and conditions of use
+    url: https://www.ecad.eu/documents/ECAD_datapolicy.pdf
+
+maintainers:
+  - name: 'Raphael Hagen'
+    orcid: '0000-0003-1994-1153'
+    github: norlandrhagen
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
