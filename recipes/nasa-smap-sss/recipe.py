@@ -170,6 +170,7 @@ patterns = {
             file_list=urls[list(urls)[i]],
             concat_dim='time',
             nitems_per_file=1,
+            fsspec_open_kwargs={'block_size': 0},
         )
     )
     for i in range(4)
@@ -179,7 +180,6 @@ recipes = {
     list(patterns)[i]: (
         XarrayZarrRecipe(
             patterns[list(patterns)[i]],
-            fsspec_open_kwargs={'block_size': 0},
         )
     )
     for i in range(4)
