@@ -1,20 +1,20 @@
-title: "NASA SMAP Sea Surface Salinity (SSS)"
-description: "Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Salinity (SSS) Level 3 Gridded NetCDFs"
-pangeo_forge_version: "0.3.3"
-pangeo_notebook_version: "2021.05.04"
+title: 'NASA SMAP Sea Surface Salinity (SSS)'
+description: 'Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Salinity (SSS) Level 3 Gridded NetCDFs'
+pangeo_forge_version: '0.3.3'
+pangeo_notebook_version: '2021.05.04'
 recipes:
-  - dict_object: "recipe:recipes"
+  - dict_object: 'recipe:recipes'
 provenance:
   providers:
-    - name: "NASA SMAP"
-      description: "National Aeronautics and Space Administration Soil Moisture Active Passive Mission"
+    - name: 'NASA SMAP'
+      description: 'National Aeronautics and Space Administration Soil Moisture Active Passive Mission'
       roles:
         - producer
         - licensor
       url: https://smap.jpl.nasa.gov/
-  license: "CC-BY-4.0" # TODO: double-check before merging
+  license: 'CC-BY-4.0' # TODO: double-check before merging
 maintainers:
-  - name: "Charles Stern"
+  - name: 'Charles Stern'
     github: cisaacstern
 bakery:
-  id: "pangeo-ldeo-nsf-earthcube"
+  id: 'pangeo-ldeo-nsf-earthcube'
