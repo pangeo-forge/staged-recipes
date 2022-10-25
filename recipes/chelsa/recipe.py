@@ -17,7 +17,7 @@ def make_url(variable, month):
         variable_filename = variable
     return (
         'https://os.zhdk.cloud.switch.ch/envicloud/chelsa/chelsa_V2/GLOBAL/'
-        f'climatologies/1981-2010/{variable}/CHELSA_{variable_filename}_{month:02}_1981-2010_V.2.1.tif'
+        f'climatologies/1981-2010/{variable}/CHELSA_{variable_filename}_{month:02}_1981-2010_V.2.1.tif'  # noqa
     )
 
 
