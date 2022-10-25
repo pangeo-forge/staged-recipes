@@ -34,6 +34,7 @@ pattern = FilePattern(
     make_url,
     ConcatDim(name='month', keys=months, nitems_per_file=1),
     MergeDim(name='variable', keys=variables),
+    file_type='tiff',
 )
 
 recipe = XarrayZarrRecipe(
