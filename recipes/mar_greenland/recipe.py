@@ -10,5 +10,4 @@ from pangeo_forge_recipes.patterns import FilePattern
 pattern = FilePattern(make_url, id_concat_dim)
 
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-recipe = XarrayZarrRecipe(pattern, 
-                          inputs_per_chunk=1) 
+recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1, target_chunks={'TIME':20})
