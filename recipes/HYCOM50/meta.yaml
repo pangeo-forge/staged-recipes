@@ -1,24 +1,18 @@
-title: "SWOT-AdAC data (HYCOM50)"
-description: "HYCOM50 regional data for SWOT-AdAC Xovers"
-pangeo_forge_version: "0.3.3"
-pangeo_notebook_version: "2021.05.04"
+title: 'SWOT-AdAC data (HYCOM50)'
+description: 'HYCOM50 regional data for SWOT-AdAC Xovers'
 recipes:
-  - dict_object: "recipe:recipes"
+  - dict_object: 'recipe:recipes'
 provenance:
   providers:
-    - name: "COAPS, FSU"
-      description: "Center for Ocean-Atmospheric Prediction Studies, Florida State University"
+    - name: 'COAPS, FSU'
+      description: 'Center for Ocean-Atmospheric Prediction Studies, Florida State University'
       roles:
         - producer
         - licensor
       url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
-  license: "CC-BY-NC-SA-4.0"
+  license: 'CC-BY-NC-SA-4.0'
 maintainers:
-  - name: "Charles Stern"
+  - name: 'Charles Stern'
     github: cisaacstern
 bakery:
-  id: "devseed.bakery.development.aws.us-west-2"  # must come from a valid list of bakeries
-  target: pangeo-forge-aws-bakery-flowcachebucketpangeofor-196cpck7y0pbl
-  resources:
-    memory: 4096
-    cpu: 1024
+  id: 'pangeo-ldeo-nsf-earthcube'
