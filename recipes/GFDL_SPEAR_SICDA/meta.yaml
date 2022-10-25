@@ -1,7 +1,5 @@
 title: "GFDL SIC DA"
 description: "Model ensemble mean state vectors and diagnostics, and input observations from SPEAR sea ice concentration (SIC) data assimilation (DA) run."
-pangeo_forge_version: "0.8.3"
-pangeo_notebook_version: "2021.12.02"
 recipes:
   - id: sic-obs
     object: "recipe:recipe1"
@@ -21,7 +19,10 @@ provenance:
         - producer
         - licensor
       url: https://doi.org/10.1175/JCLI-D-20-0469.1
-  license: "various"
+  license: "proprietary"
+  license_link:
+    title: '' 
+    url: ''
 maintainers:
   - name: "William Gregory"
     orcid: "0000-0001-8176-1642"
