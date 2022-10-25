@@ -49,7 +49,7 @@ def create_recipes(datatype, season, regs=regs, velocity=False):
     """
     velocity_suffix = '_wvel' if velocity else ''
     patterns = {
-        f'HYCOM50/Region{i+1:02}_{reg}/{datatype}{velocity_suffix}/{season}': pattern_from_file_sequence(
+        f'HYCOM50/Region{i+1:02}_{reg}/{datatype}{velocity_suffix}/{season}': pattern_from_file_sequence(  # noqa
             gen_urls(
                 season=season,
                 reg=reg,
