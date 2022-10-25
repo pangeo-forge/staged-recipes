@@ -3,7 +3,7 @@ from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 dates = [str(x) for x in range(1982, 2018)]
 
-### Data set 1 ###
+# Data set 1
 
 
 def make_url1(time):
@@ -19,7 +19,7 @@ pattern1 = FilePattern(make_url1, time_concat_dim1, file_type='netcdf3')
 
 recipe1 = XarrayZarrRecipe(pattern1, target_chunks={'time': 365}, open_input_with_kerchunk=True)
 
-### Data set 2 ###
+# Data set 2
 
 
 def make_url2(time):
@@ -37,7 +37,7 @@ recipe2 = XarrayZarrRecipe(
     pattern2, target_chunks={'time': 365, 'ct': 1}, open_input_with_kerchunk=True
 )
 
-### Data set 3 ###
+# Data set 3 
 
 
 def make_url3(record):
@@ -53,7 +53,7 @@ pattern3 = FilePattern(make_url3, time_concat_dim3, file_type='netcdf3')
 
 recipe3 = XarrayZarrRecipe(pattern3, target_chunks={'record': 27}, open_input_with_kerchunk=True)
 
-### Data set 4 ###
+# Data set 4
 
 
 def make_url4(record):
@@ -67,7 +67,8 @@ pattern4 = FilePattern(make_url4, time_concat_dim4, file_type='netcdf3')
 
 recipe4 = XarrayZarrRecipe(pattern4, target_chunks={'record': 27}, open_input_with_kerchunk=True)
 
-### Data set 5 ###
+
+# Data set 5
 
 
 def make_url5(record):
