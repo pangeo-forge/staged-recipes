@@ -1,31 +1,31 @@
-title: "GFDL SIC DA"
-description: "Model ensemble mean state vectors and diagnostics, and input observations from SPEAR sea ice concentration (SIC) data assimilation (DA) run."
+title: 'GFDL SIC DA'
+description: 'Model ensemble mean state vectors and diagnostics, and input observations from SPEAR sea ice concentration (SIC) data assimilation (DA) run.'
 recipes:
   - id: sic-obs
-    object: "recipe:recipe1"
+    object: 'recipe:recipe1'
   - id: sic-da-forecasts
-    object: "recipe:recipe2"
+    object: 'recipe:recipe2'
   - id: sic-da-increments
-    object: "recipe:recipe3"
+    object: 'recipe:recipe3'
   - id: sic-da-priors
-    object: "recipe:recipe4"
+    object: 'recipe:recipe4'
   - id: sic-da-posteriors
-    object: "recipe:recipe5"
+    object: 'recipe:recipe5'
 provenance:
   providers:
-    - name: "NOAA GFDL"
-      description: "National Oceanic and Atmospheric Administration (NOAA) Geophysical Fluid Dynamics Laboratory (GFDL)"
+    - name: 'NOAA GFDL'
+      description: 'National Oceanic and Atmospheric Administration (NOAA) Geophysical Fluid Dynamics Laboratory (GFDL)'
       roles:
         - producer
         - licensor
       url: https://doi.org/10.1175/JCLI-D-20-0469.1
-  license: "proprietary"
+  license: 'proprietary'
   license_link:
-    title: '' 
+    title: ''
     url: ''
 maintainers:
-  - name: "William Gregory"
-    orcid: "0000-0001-8176-1642"
+  - name: 'William Gregory'
+    orcid: '0000-0001-8176-1642'
     github: William-gregory
 bakery:
-  id: "pangeo-ldeo-nsf-earthcube"
+  id: 'pangeo-ldeo-nsf-earthcube'
