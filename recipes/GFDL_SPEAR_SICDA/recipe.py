@@ -37,7 +37,7 @@ recipe2 = XarrayZarrRecipe(
     pattern2, target_chunks={'time': 365, 'ct': 1}, open_input_with_kerchunk=True
 )
 
-# Data set 3 
+# Data set 3
 
 
 def make_url3(record):
