@@ -1,7 +1,5 @@
 title: "MAR Greenland"
 description: "Analysis-ready Zarr datasets derived from MAR netcdfs"
-pangeo_forge_version: “0.9.1”
-pangeo_notebook_version: "2022.09.21”
 recipes:
   - id: mar-greenland
     object: "recipe:recipe"
