@@ -6,7 +6,7 @@ id_concat_dim = ConcatDim('id', ids, nitems_per_file=1)
 
 
 def make_url(id):
-    return f'https://storage.googleapis.com/ldeo-glaciology/MAR/6.5km/MARv3.12-6_5km-daily-ERA5-{id}.nc' # noqa
+    return f'https://storage.googleapis.com/ldeo-glaciology/MAR/6.5km/MARv3.12-6_5km-daily-ERA5-{id}.nc'  # noqa
 
 
 pattern = FilePattern(make_url, id_concat_dim)
