@@ -1,19 +1,19 @@
-title: "MAR Greenland"
-description: "Analysis-ready Zarr datasets derived from MAR netcdfs"
+title: 'MAR Greenland'
+description: 'Analysis-ready Zarr datasets derived from MAR netcdfs'
 recipes:
   - id: mar-greenland
-    object: "recipe:recipe"
+    object: 'recipe:recipe'
 provenance:
   providers:
-    - name: "Google Bucket ldeo-glaciology"
-      description: "Data repository for the Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University"
+    - name: 'Google Bucket ldeo-glaciology'
+      description: 'Data repository for the Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University'
       roles:
         - licensor
       url: https://storage.googleapis.com/ldeo-glaciology/MAR/6.5km/
-  license: "CC-BY-4.0"
+  license: 'CC-BY-4.0'
 maintainers:
-  - name: "Raf Antwerpen"
-    orcid: "0000-0002-2313-260X"
+  - name: 'Raf Antwerpen'
+    orcid: '0000-0002-2313-260X'
     github: raf-antwerpen
 bakery:
-  id: "pangeo-ldeo-nsf-earthcube"
+  id: 'pangeo-ldeo-nsf-earthcube'
