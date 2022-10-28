@@ -44,7 +44,6 @@ for var in var_files:
             fsspec_open_kwargs=dict(
                 client_kwargs=client_kwargs
             ),
-            nitems_per_file=1, # probably wrong
         ),
         inputs_per_chunk=12, # figure out how to make this number work?
     )
