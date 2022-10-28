@@ -1,6 +1,8 @@
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_cmr import get_cmr_granule_links
+
+from pangeo_forge_recipes import patterns
 import aiohttp
 import netrc
 
@@ -37,7 +39,8 @@ for var in var_files:
     recipes[var] =  XarrayZarrRecipe(
         pattern_from_file_sequence(
             var_files[var],
-            concat_dim='time',  # Describe how the dataset is chunked
+            # FIXME: Leap years?!
+            concat_dim=patterns.ConcatDim('time', nitems_per_file=365),  # Describe how the dataset is chunked
             fsspec_open_kwargs=dict(
                 client_kwargs=client_kwargs
             ),
@@ -45,3 +48,4 @@ for var in var_files:
         ),
         inputs_per_chunk=12, # figure out how to make this number work?
     )
+
