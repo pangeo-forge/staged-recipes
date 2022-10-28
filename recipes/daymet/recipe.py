@@ -22,10 +22,12 @@ shortname = 'Daymet_Daily_V4_1840'
 
 all_files = get_cmr_granule_links(shortname)
 
+vars = set()
 var_files = {}
 
 for f in all_files:
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
+    vars.add(var)
     var_files.setdefault(var, []).append(f)
 
 
@@ -34,18 +36,18 @@ print(var_files)
 recipes = {}
 
 
-for var in var_files:
-    # Use '-' not '_' to be valid dataflow name
-    recipes[var] =  XarrayZarrRecipe(
-        pattern_from_file_sequence(
-            var_files[var],
-            # FIXME: Leap years?!
-            concat_dim='time',
-            nitems_per_file=365,
-            fsspec_open_kwargs=dict(
-                client_kwargs=client_kwargs
-            ),
+# Use '-' not '_' to be valid dataflow name
+recipe =  XarrayZarrRecipe(
+    pattern_from_file_sequence(
+        all_files,
+        # FIXME: Leap years?!
+        merge_dim=patterns.MergeDim("variable", keys=list(vars)),
+        concat_dim='time',
+        nitems_per_file=365,
+        fsspec_open_kwargs=dict(
+            client_kwargs=client_kwargs
         ),
-        inputs_per_chunk=1,
-    )
+    ),
+    inputs_per_chunk=1,
+)
 
