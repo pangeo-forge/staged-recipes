@@ -46,6 +46,6 @@ for var in var_files:
                 client_kwargs=client_kwargs
             ),
         ),
-        inputs_per_chunk=12, # figure out how to make this number work?
+        inputs_per_chunk=1,
     )
 
