@@ -61,7 +61,7 @@ def appropriate_pattern(year, var, region):
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
     patterns.FilePattern(
-        appropriate_pattern,
+        lambda year, var, region: split_files[(year, var, region)],
         [
             patterns.MergeDim("var", keys=list(vars)),
             patterns.MergeDim("region", keys=list(regions)),
