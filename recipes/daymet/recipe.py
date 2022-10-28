@@ -70,4 +70,5 @@ recipes = {}
 for region in regions:
     for freq in frequencies:
         id = f'{region}_{freq}'
+        print(id)
         recipes[id] = make_recipe(region, freq)
