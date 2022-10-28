@@ -22,11 +22,21 @@ shortname = 'Daymet_Daily_V4_1840'
 
 all_files = get_cmr_granule_links(shortname)
 
+vars = set()
 var_files = {}
+
+years = set()
+vars = set()
+regions = set()
+
+split_files = {}
 
 for f in all_files:
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
-    var_files.setdefault(var, []).append(f)
+    years.add(year)
+    regions.add(region)
+    vars.add(var)
+    split_files[(region, var, year)] = f
 
 
 print(var_files)
@@ -34,18 +44,33 @@ print(var_files)
 recipes = {}
 
 
-for var in var_files:
-    # Use '-' not '_' to be valid dataflow name
-    recipes[var] =  XarrayZarrRecipe(
-        pattern_from_file_sequence(
-            var_files[var],
-            # FIXME: Leap years?!
-            concat_dim='time',
-            nitems_per_file=365,
-            fsspec_open_kwargs=dict(
-                client_kwargs=client_kwargs
-            ),
+def pattern_from_file_sequence(file_list, concat_dim, nitems_per_file=None, **kwargs):
+    """Convenience function for creating a FilePattern from a list of files."""
+
+    keys = list(range(len(file_list)))
+    concat = patterns.ConcatDim(name=concat_dim, keys=keys, nitems_per_file=nitems_per_file)
+
+    def format_function(**kwargs):
+        return file_list[kwargs[concat_dim]]
+
+    return patterns.FilePattern(format_function, concat, **kwargs)
+
+def appropriate_pattern(region, var, year):
+    return split_files.get((region, var, year))
+
+# Use '-' not '_' to be valid dataflow name
+recipe =  XarrayZarrRecipe(
+    patterns.FilePattern(
+        appropriate_pattern,
+        *[
+            patterns.MergeDim("var", keys=list(vars)),
+            patterns.MergeDim("region", keys=list(regions)),
+            patterns.ConcatDim("year", keys=list(years), nitems_per_file=365)
+        ],
+        fsspec_open_kwargs=dict(
+            client_kwargs=client_kwargs
         ),
-        inputs_per_chunk=1,
-    )
+    ),
+    inputs_per_chunk=1,
+)
 
