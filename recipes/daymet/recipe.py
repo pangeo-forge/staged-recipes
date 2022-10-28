@@ -6,33 +6,30 @@ from pangeo_forge_recipes import patterns
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 
-class Region(str, enum.Enum):
-    NA = 'na'
-    PR = 'pr'
-    HI = 'hi'
+# class Region(str, enum.Enum):
+#     NA = 'na'
+#     PR = 'pr'
+#     HI = 'hi'
 
 
-class Frequency(str, enum.Enum):
-    DAY = 'daily'
-    MONTH = 'mon'
-    YEAR = 'ann'
+# class Frequency(str, enum.Enum):
+#     DAY = 'daily'
+#     MONTH = 'mon'
+#     YEAR = 'ann'
 
 
 AGG_VARIABLES = {'prcp', 'swe', 'tmax', 'tmin', 'vp'}
 DAILY_VARIABLES = AGG_VARIABLES | {'dayl', 'srad'}
 
 
-def make_format_function(region: Region, frequency: Frequency):
-    region = str(region)
-    frequency = str(frequency)
-
-    if frequency in {Frequency.MONTH, Frequency.YEAR}:
+def make_format_function(region: str, frequency: str):
+    if frequency in {"mon", "ann"}:
 
         def format_function(variable, time):
             # https://thredds.daac.ornl.gov/thredds/fileServer/ornldaac/1855/daymet_v4_prcp_monttl_hi_1980.nc
             assert variable in AGG_VARIABLES
 
-            folder = '1852' if frequency == Frequency.YEAR else '1855'
+            folder = '1852' if frequency == "ann" else '1855'
             if variable == 'prcp':
                 agg = 'ttl'
             else:
@@ -50,14 +47,14 @@ def make_format_function(region: Region, frequency: Frequency):
 
 
 def make_recipe(region, frequency):
-    if frequency == Frequency.DAY:
+    if frequency == "daily":
         variables = list(DAILY_VARIABLES)
         nitems_per_file = 365
         kwargs = dict(subset_inputs={'time': 365})
     else:
         variables = list(AGG_VARIABLES)
 
-        if frequency == Frequency.YEAR:
+        if frequency == "ann":
             nitems_per_file = 1
             kwargs = dict()
         else:
@@ -78,4 +75,4 @@ def make_recipe(region, frequency):
     return recipe
 
 
-recipe = make_recipe(Region.NA, Frequency.MONTH)
+recipe = make_recipe("na", "mon")
