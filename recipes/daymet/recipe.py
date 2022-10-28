@@ -40,7 +40,8 @@ recipes = {}
 
 for region in split_files:
     for var in split_files[region]:
-        recipes[f"{region}_{var}"] =  XarrayZarrRecipe(
+        # Use '-' not '_' to be valid dataflow name
+        recipes[f"{region}-{var}"] =  XarrayZarrRecipe(
                 pattern_from_file_sequence(
                     split_files[region][var],
                     concat_dim='time',  # Describe how the dataset is chunked
