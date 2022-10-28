@@ -20,35 +20,28 @@ shortname = 'Daymet_Daily_V4_1840'
 
 all_files = get_cmr_granule_links(shortname)
 
-split_files = {}
+var_files = {}
 
 for f in all_files:
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
-    if region not in split_files:
-        split_files[region] = {}
-
-    if var not in split_files[region]:
-        split_files[region][var] = []
-
-    split_files[region][var].append(f)
+    var_files.setdefault(var, []).append(f)
 
 
-print(split_files)
+print(var_files)
 
 recipes = {}
 
 
-for region in split_files:
-    for var in split_files[region]:
-        # Use '-' not '_' to be valid dataflow name
-        recipes[f"{region}-{var}"] =  XarrayZarrRecipe(
-                pattern_from_file_sequence(
-                    split_files[region][var],
-                    concat_dim='time',  # Describe how the dataset is chunked
-                    fsspec_open_kwargs=dict(
-                        client_kwargs=client_kwargs
-                    ),
-                    nitems_per_file=1, # probably wrong
-                ),
-                inputs_per_chunk=12, # figure out how to make this number work?
-            )
+for var in var_files:
+    # Use '-' not '_' to be valid dataflow name
+    recipes[var] =  XarrayZarrRecipe(
+        pattern_from_file_sequence(
+            var_files[var],
+            concat_dim='time',  # Describe how the dataset is chunked
+            fsspec_open_kwargs=dict(
+                client_kwargs=client_kwargs
+            ),
+            nitems_per_file=1, # probably wrong
+        ),
+        inputs_per_chunk=12, # figure out how to make this number work?
+    )
