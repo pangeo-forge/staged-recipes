@@ -40,7 +40,8 @@ for var in var_files:
         pattern_from_file_sequence(
             var_files[var],
             # FIXME: Leap years?!
-            concat_dim=patterns.ConcatDim('time', nitems_per_file=365),  # Describe how the dataset is chunked
+            concat_dim='time',
+            nitems_per_file=365,
             fsspec_open_kwargs=dict(
                 client_kwargs=client_kwargs
             ),
