@@ -14,8 +14,7 @@ description: >
 pangeo_forge_version: '0.9.0'
 pangeo_notebook_version: '2022.06.02'
 recipes:
-  - id: daily
-    object: recipe:recipe
+  dict_object: recipe:recipes
 provenance:
   license: 'No constraints on data access or use.'
 maintainers:

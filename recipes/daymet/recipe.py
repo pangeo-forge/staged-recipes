@@ -18,14 +18,35 @@ client_kwargs = {
 # Get the GPM IMERG Late Precipitation Daily data
 shortname = 'Daymet_Daily_V4_1840'
 
-recipe = XarrayZarrRecipe( # We are making Zarr, could be something else too
-    pattern_from_file_sequence(
-        get_cmr_granule_links(shortname), # Provide a list of files by querying CMR
-        nitems_per_file=1,
-        concat_dim='time',  # Describe how the dataset is chunked
-        fsspec_open_kwargs=dict(
-            client_kwargs=client_kwargs
-        )
-    ),
-    inputs_per_chunk=12, # figure out how to make this number work?
-)
+all_files = get_cmr_granule_links(shortname)
+
+split_files = {}
+
+for f in all_files:
+    region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
+    if region not in split_files:
+        split_files[region] = {}
+
+    if var not in split_files[region]:
+        split_files[region][var] = []
+
+    split_files[region][var].append(f)
+
+
+print(split_files)
+
+recipes = {}
+
+
+for region in split_files:
+    for var in split_files[region]:
+        recipes[f"{region}_{var}"] =  XarrayZarrRecipe(
+                pattern_from_file_sequence(
+                    split_files[region][var],
+                    concat_dim='time',  # Describe how the dataset is chunked
+                    fsspec_open_kwargs=dict(
+                        client_kwargs=client_kwargs
+                    )
+                ),
+                inputs_per_chunk=12, # figure out how to make this number work?
+            )
