@@ -67,7 +67,7 @@ def make_recipe(region, frequency):
 
     variable_merge_dim = patterns.MergeDim('variable', keys=variables)
 
-    dates = [datetime.datetime(y, 1, 1) for y in range(1980, 1982)]
+    dates = [datetime.datetime(y, 1, 1) for y in range(1980, 2021)]
     concat_dim = patterns.ConcatDim('time', keys=dates, nitems_per_file=nitems_per_file)
 
     pattern = patterns.FilePattern(
