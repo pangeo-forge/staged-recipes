@@ -1,31 +1,25 @@
-title: 'Global Precipitation Climatology Project'
+title: Daymet
 description: >
-  Global Precipitation Climatology Project (GPCP) Daily Version 1.3 gridded, merged ty
-  satellite/gauge precipitation Climate data Record (CDR) from 1996 to present.
+  Daily Surface Weather and Climatological Summaries (Daymet) provides
+  long-term, continuous, gridded estimates of daily weather and climatology
+  variables by interpolating and extrapolating ground-based observations through
+  statistical modeling techniques. The Daymet data products provide driver data
+  for biogeochemical terrestrial modeling and have myriad applications in many
+  Earth science, natural resource, biodiversity, and agricultural research
+  areas. Daymet weather variables include daily minimum and maximum temperature,
+  precipitation, vapor pressure, shortwave radiation, snow water equivalent, and
+  day length produced on a 1 km x 1 km gridded surface over continental North
+  America and Hawaii from 1980 and over Puerto Rico from 1950 through the end of
+  the most recent full calendar year.
 pangeo_forge_version: '0.9.0'
 pangeo_notebook_version: '2022.06.02'
 recipes:
-  - id: gpcp-from-gcs
-    object: 'recipe:recipe'
+  dict_object: recipe:recipes
 provenance:
-  providers:
-    - name: 'NOAA NCEI'
-      description: 'National Oceanographic & Atmospheric Administration National Centers for Environmental Information'
-      roles:
-        - host
-        - licensor
-      url: https://www.ncei.noaa.gov/products/global-precipitation-climatology-project
-    - name: 'University of Maryland'
-      description: >
-        University of Maryland College Park Earth System Science Interdisciplinary Center
-        (ESSIC) and Cooperative Institute for Climate and Satellites (CICS).
-      roles:
-        - producer
-      url: http://gpcp.umd.edu/
   license: 'No constraints on data access or use.'
 maintainers:
-  - name: 'Charles Stern'
-    orcid: '0000-0002-4078-0852'
-    github: cisaacstern
+- name: 'Charles Stern'
+  orcid: '0000-0002-4078-0852'
+  github: cisaacstern
 bakery:
   id: 'pangeo-ldeo-nsf-earthcube'
