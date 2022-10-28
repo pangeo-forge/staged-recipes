@@ -23,6 +23,8 @@ DAILY_VARIABLES = AGG_VARIABLES | {'dayl', 'srad'}
 
 
 def make_format_function(region: str, frequency: str):
+    AGG_VARIABLES = {'prcp', 'swe', 'tmax', 'tmin', 'vp'}
+    DAILY_VARIABLES = AGG_VARIABLES | {'dayl', 'srad'}
     if frequency in {"mon", "ann"}:
 
         def format_function(variable, time):
@@ -47,6 +49,8 @@ def make_format_function(region: str, frequency: str):
 
 
 def make_recipe(region, frequency):
+    AGG_VARIABLES = {'prcp', 'swe', 'tmax', 'tmin', 'vp'}
+    DAILY_VARIABLES = AGG_VARIABLES | {'dayl', 'srad'}
     if frequency == "daily":
         variables = list(DAILY_VARIABLES)
         nitems_per_file = 365
