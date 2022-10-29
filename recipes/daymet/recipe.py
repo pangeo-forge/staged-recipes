@@ -42,7 +42,13 @@ for f in all_files:
         split_files.setdefault(year, {})[var] = f
         files.append(f)
 
+print(vars)
 
+subset_inputs={
+    "time": 24,
+    **{v: 24 for v in vars}
+}
+print(subset_inputs)
 
 def appropriate_pattern(sf, year, var):
     return sf[year][var]
@@ -57,10 +63,13 @@ recipe =  XarrayZarrRecipe(
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
         ),
-        target_chunks={
-            "time": 32 * 1024 * 1024
-        }
     ),
-    inputs_per_chunk=1,
+    target_chunks={
+        "time": 64 * 1024 * 1024
+    },
+    subset_inputs={
+        "time": 24,
+        "tmax": 24
+    }
 )
 
