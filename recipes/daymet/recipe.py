@@ -59,6 +59,8 @@ def pattern_from_file_sequence(file_list, concat_dim, nitems_per_file=None, **kw
 def appropriate_pattern(sf, year_region, var):
     return sf[year_region][var]
 
+print(split_files)
+
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
     patterns.FilePattern(
