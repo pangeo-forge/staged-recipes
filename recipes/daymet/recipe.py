@@ -37,13 +37,14 @@ for f in all_files:
     years.add(year)
     regions.add(region)
     vars.add(var)
-    split_files.setdefault((region, year), {})[var] = f
+    if region == "na":
+        split_files.setdefault(year, {})[var] = f
 
 
 print(var_files)
 
-def appropriate_pattern(sf, year, region, var):
-    return sf.get((region, year), {}).get(var)
+def appropriate_pattern(sf, year, var):
+    return sf.get(year, {}).get(var)
 
 print(split_files)
 
@@ -54,7 +55,6 @@ recipe =  XarrayZarrRecipe(
         *[
             patterns.MergeDim("var", keys=list(vars)),
             patterns.ConcatDim("year", keys=list(years), nitems_per_file=365),
-            patterns.MergeDim("region", keys=list(regions))
         ],
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
