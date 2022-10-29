@@ -36,7 +36,7 @@ for f in all_files:
     years.add(year)
     regions.add(region)
     vars.add(var)
-    split_files[((region, year), var)] = f
+    split_files.setdefault((region, year), {})[var] = f
 
 
 print(var_files)
@@ -56,7 +56,7 @@ def pattern_from_file_sequence(file_list, concat_dim, nitems_per_file=None, **kw
     return patterns.FilePattern(format_function, concat, **kwargs)
 
 def appropriate_pattern(year_region, var):
-    return split_files[(year_region, var)]
+    return split_files[year_region][var]
 
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
