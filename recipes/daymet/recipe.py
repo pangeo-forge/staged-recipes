@@ -57,6 +57,9 @@ recipe =  XarrayZarrRecipe(
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
         ),
+        target_chunks={
+            "time": 32 * 1024 * 1024
+        }
     ),
     inputs_per_chunk=1,
 )
