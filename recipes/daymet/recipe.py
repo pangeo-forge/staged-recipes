@@ -54,7 +54,7 @@ recipe =  XarrayZarrRecipe(
         *[
             patterns.MergeDim("var", keys=list(vars)),
             patterns.ConcatDim("year", keys=list(years), nitems_per_file=365),
-            patterns.ConcatDim("region", keys=list(regions))
+            patterns.MergeDim("region", keys=list(regions))
         ],
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
