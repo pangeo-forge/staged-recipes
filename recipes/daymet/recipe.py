@@ -41,12 +41,11 @@ for f in all_files:
         split_files.setdefault(year, {})[var] = f
 
 
-print(var_files)
 
 def appropriate_pattern(sf, year, var):
     return sf[year][var]
 
-print(split_files)
+print(split_files.keys())
 
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
@@ -54,7 +53,7 @@ recipe =  XarrayZarrRecipe(
         partial(appropriate_pattern, sf=split_files),
         *[
             patterns.MergeDim("var", keys=list(vars)),
-            patterns.ConcatDim("year", keys=list(years), nitems_per_file=365),
+            patterns.ConcatDim("year", keys=list(split_files.keys()), nitems_per_file=365),
         ],
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
