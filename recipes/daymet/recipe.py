@@ -31,14 +31,16 @@ vars = set()
 regions = set()
 
 split_files = {}
+files = []
 
 for f in all_files:
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
     years.add(year)
     regions.add(region)
     vars.add(var)
-    if region == "na":
+    if region == "na" and var == "tmax":
         split_files.setdefault(year, {})[var] = f
+        files.append(f)
 
 
 
@@ -49,12 +51,9 @@ print(split_files.keys())
 
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
-    patterns.FilePattern(
-        partial(appropriate_pattern, sf=split_files),
-        *[
-            patterns.MergeDim("var", keys=list(vars)),
-            patterns.ConcatDim("year", keys=list(split_files.keys()), nitems_per_file=365),
-        ],
+    pattern_from_file_sequence(
+        files,
+        concat_dim="time",
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
         ),
