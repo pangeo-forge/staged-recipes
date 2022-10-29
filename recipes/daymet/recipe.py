@@ -1,6 +1,7 @@
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 from pangeo_forge_cmr import get_cmr_granule_links
+from functools import partial
 
 from pangeo_forge_recipes import patterns
 import aiohttp
@@ -55,13 +56,13 @@ def pattern_from_file_sequence(file_list, concat_dim, nitems_per_file=None, **kw
 
     return patterns.FilePattern(format_function, concat, **kwargs)
 
-def appropriate_pattern(year_region, var):
-    return split_files[year_region][var]
+def appropriate_pattern(sf, year_region, var):
+    return sf[year_region][var]
 
 # Use '-' not '_' to be valid dataflow name
 recipe =  XarrayZarrRecipe(
     patterns.FilePattern(
-        appropriate_pattern,
+        partial(appropriate_pattern, sf=split_files),
         *[
             patterns.MergeDim("var", keys=list(vars)),
             patterns.ConcatDim("year_region", keys=list(split_files.keys()), nitems_per_file=365)
