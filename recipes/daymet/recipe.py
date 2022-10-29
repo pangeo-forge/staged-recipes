@@ -42,22 +42,8 @@ for f in all_files:
 
 print(var_files)
 
-recipes = {}
-
-
-def pattern_from_file_sequence(file_list, concat_dim, nitems_per_file=None, **kwargs):
-    """Convenience function for creating a FilePattern from a list of files."""
-
-    keys = list(range(len(file_list)))
-    concat = patterns.ConcatDim(name=concat_dim, keys=keys, nitems_per_file=nitems_per_file)
-
-    def format_function(**kwargs):
-        return file_list[kwargs[concat_dim]]
-
-    return patterns.FilePattern(format_function, concat, **kwargs)
-
-def appropriate_pattern(sf, year_region, var):
-    return sf[year_region][var]
+def appropriate_pattern(sf, year, region, var):
+    return sf[(region, year)][var]
 
 print(split_files)
 
@@ -67,7 +53,8 @@ recipe =  XarrayZarrRecipe(
         partial(appropriate_pattern, sf=split_files),
         *[
             patterns.MergeDim("var", keys=list(vars)),
-            patterns.ConcatDim("year_region", keys=list(split_files.keys()), nitems_per_file=365)
+            patterns.ConcatDim("year", keys=list(years), nitems_per_file=365),
+            patterns.ConcatDim("region", keys=list(regions))
         ],
         fsspec_open_kwargs=dict(
             client_kwargs=client_kwargs
