@@ -44,7 +44,7 @@ for f in all_files:
 print(var_files)
 
 def appropriate_pattern(sf, year, var):
-    return sf.get(year, {}).get(var)
+    return sf[year][var]
 
 print(split_files)
 
