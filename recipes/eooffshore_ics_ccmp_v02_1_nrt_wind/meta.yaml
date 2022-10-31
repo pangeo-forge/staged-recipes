@@ -1,0 +1,22 @@
+title: "eooffshore_ics_ccmp_v02_1_nrt_wind"
+description: "EOOffshore Project (https://eooffshore.github.io) 2015 - 2021 Cross-Calibrated Multi-Platform (CCMP) v0.2.1.NRT 6-hourly wind products for the Irish Continental Shelf region, where wind speed and direction have been calculated from the uwnd and vwnd variables." 
+pangeo_forge_version: "0.9.1"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: eooffshore_ics_ccmp_v02_1_nrt_wind
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Remote Sensing Systems (RSS)"
+      description: "Remote Sensing Systems is a world leader in processing and analyzing microwave data collected by satellite microwave sensors, whose mission is to provide research-quality geophysical data to the global scientific community."
+      roles:
+        - produce
+        - licensor
+      url: https://www.remss.com/measurements/ccmp/
+  license: "CC-BY-4.0" # https://rda.ucar.edu/datasets/ds745.1/
+maintainers:
+  - name: "Derek O'Callaghan"
+    orcid: "0000-0003-0585-8631"
+    github: derekocallaghan
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
