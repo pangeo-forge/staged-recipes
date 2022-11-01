@@ -1,0 +1,23 @@
+title: 'E-OBS dataset'
+description: The National Water Model dataset is a produced by the National Oceanic and Atmospheric Administations (NOAA) Office of Water Prediction. It is a forecast model of water resources, providing multiple variables across the Continental United States (CONUS). This dataset is available via the Registry of Open Data on AWS as a collection of netCDF files that do not require any login authentication. This Pangeo-Forge recipe uses the HDFReferenceRecipe, which leverages kerchunk and fsspec_reference_maker to build an index so that this dataset can be read as if it were a ARCO dataset.
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.06.02'
+recipes:
+  - id: NWM
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'National Oceanic and Atmospheric Administration (NOAA) Office of Water Prediction'
+      description: 'NOAA National Water Model CONUS Retrospective Dataset was accessed on 11-01-2022 from https://registry.opendata.aws/nwm-archive.'
+      roles:
+        - producer
+        - licensor
+      url: https://water.noaa.gov/about/nwm
+  license: Open
+
+maintainers:
+  - name: 'Raphael Hagen'
+    orcid: '0000-0003-1994-1153'
+    github: norlandrhagen
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
