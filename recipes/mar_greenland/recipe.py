@@ -11,4 +11,6 @@ def make_url(id):
 
 pattern = FilePattern(make_url, id_concat_dim)
 
-recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1, target_chunks={'TIME': 20})
+recipe = XarrayZarrRecipe(
+    pattern, inputs_per_chunk=1, subset_inputs={'TIME': 20}, target_chunks={'TIME': 100}
+)
