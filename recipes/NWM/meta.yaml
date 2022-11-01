@@ -15,8 +15,8 @@ provenance:
       url: https://water.noaa.gov/about/nwm
   license: proprietary
   license_link:
-      url: 'https://water.noaa.gov/about/nwm'
-      title: 'Open Data. There are no restrictions on the use of this data.'
+    url: 'https://water.noaa.gov/about/nwm'
+    title: 'Open Data. There are no restrictions on the use of this data.'
 
 maintainers:
   - name: 'Raphael Hagen'
