@@ -3,7 +3,7 @@ description: 'Analysis-ready Zarr datasets derived from NASA SMAP Sea Surface Sa
 pangeo_forge_version: '0.3.3'
 pangeo_notebook_version: '2021.05.04'
 recipes:
-  - dict_object: 'recipe:recipes'
+  dict_object: 'recipe:recipes'
 provenance:
   providers:
     - name: 'NASA SMAP'
