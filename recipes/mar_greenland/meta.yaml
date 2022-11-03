@@ -1,5 +1,5 @@
 title: 'MAR Greenland'
-description: 'Greenland ice sheet reconstructions (2000-2021) of the regional climate model MAR'
+description: 'Greenland ice sheet reconstructions (2000-2021) from the regional climate model MAR'
 recipes:
   - id: mar-greenland
     object: 'recipe:recipe'
