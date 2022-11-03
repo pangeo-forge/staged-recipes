@@ -6,7 +6,7 @@ recipes:
     object: 'recipe:recipe'
 provenance:
   providers:
-    - name: 'Google Bucket ldeo-glaciology'
+    - name: 'Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University'
       description: 'Data repository for the Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University'
       roles:
         - licensor
