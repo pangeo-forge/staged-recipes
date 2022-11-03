@@ -1,0 +1,19 @@
+title: 'MAR Greenland'
+description: 'Greenland ice sheet reconstructions (2000-2021) from the regional climate model MAR'
+recipes:
+  - id: mar-greenland
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University'
+      description: 'Data repository for the Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University'
+      roles:
+        - licensor
+      url: https://tc.copernicus.org/articles/11/1015/2017/
+  license: 'CC-BY-4.0'
+maintainers:
+  - name: 'Raf Antwerpen'
+    orcid: '0000-0002-2313-260X'
+    github: raf-antwerpen
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
