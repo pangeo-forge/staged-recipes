@@ -11,7 +11,7 @@ provenance:
       description: "Data repository for the Polar Geophysics Group at Lamont-Doherty Earth Observatory, Columbia University"
       roles:
         - licensor
-      url: https://storage.googleapis.com/ldeo-glaciology/MAR/6.5km/
+      url: https://tc.copernicus.org/articles/11/1015/2017/
   license: "CC-BY-4.0"
 maintainers:
   - name: "Raf Antwerpen"
