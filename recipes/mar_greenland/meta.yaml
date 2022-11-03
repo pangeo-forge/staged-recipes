@@ -10,7 +10,7 @@ provenance:
       roles:
         - licensor
       url: https://tc.copernicus.org/articles/11/1015/2017/
-  license: "CC-BY-4.0"
+  license: 'CC-BY-4.0'
 maintainers:
   - name: 'Raf Antwerpen'
     orcid: '0000-0002-2313-260X'
