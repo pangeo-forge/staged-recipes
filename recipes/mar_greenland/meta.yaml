@@ -1,5 +1,6 @@
 title: 'MAR Greenland'
-description: 'Analysis-ready Zarr datasets derived from MAR netcdfs'
+description: 'Reconstructions of the 1900–2015 Greenland ice sheet surface mass
+balance using the regional climate MAR model'
 recipes:
   - id: mar-greenland
     object: 'recipe:recipe'
