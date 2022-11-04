@@ -83,7 +83,8 @@ pattern = FilePattern(make_full_path, date_concat_dim)
 
 def add_date_dimension(ds : xr.Dataset, filename : str) -> xr.Dataset:
     '''
-    Expand the dimensions of the input dataset to include a date dimension which references that image's collection date.
+    Expand the dimensions of the input dataset to include a date dimension
+    which references that image's collection date.
     '''
     # print('Hello from', filename)
     hn = filename # href_new
