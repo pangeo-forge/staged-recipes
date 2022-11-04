@@ -1,7 +1,7 @@
 # Name for dataset. User chosen.
 title: "VNP46A2 - VIIRS/NPP Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily (h11v07)"
 # Description of dataset.  User chosen, roughly 1 sentence in length.
-description: "
+description: |
 The second of the two VIIRS DNB-based datasets is a daily moonlight- and atmosphere-corrected Nighttime Lights (NTL) product called
 VIIRS/NPP Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily L3 Global 500m Linear Lat Lon Grid.
 Known by its short-name, VNP46A2, this product contains seven Science Data Sets (SDS) that include DNB BRDF-Corrected NTL,
@@ -9,8 +9,7 @@ Gap-Filled DNB BRDF-Corrected NTL, DNB Lunar Irradiance, Latest High-Quality Ret
 VNP46A2 products are provided in standard Hierarchical Data Format-Earth Observing System (HDF-EOS5) format.
 This collection starts from January 19, 2012 and forward.
 
-This ZARR version of the dataset currently only includes the grid file at h11v07, around the Caribbean Sea.
-" 
+This ZARR version of the dataset currently only includes the grid file at h11v07, around the Caribbean Sea. "
 # Version of pangeo_forge_recipes library that was used 
 pangeo_forge_version: "0.9.2"
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
