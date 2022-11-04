@@ -5,50 +5,51 @@ Based off briannapagan's GPM IMERG recipe.
 
 import datetime
 
-from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-
-from cmr import GranuleQuery
 import pandas as pd
 import xarray as xr
+from cmr import GranuleQuery
+
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # Query VNP46A2 dataset files at h11v07
 api = GranuleQuery()
-vnp_api = (
-    api.short_name("VNP46A2")
-    .point(-66, 18) # Cerca de Puerto Rico (h11v07)
-)
+vnp_api = api.short_name('VNP46A2').point(-66, 18)  # Cerca de Puerto Rico (h11v07)
 granules = vnp_api.get_all()
 
 # Extract the link corresponding to each file
 downloadable_urls = []
 for g in granules:
-    for link in (g['links']):
+    for link in g['links']:
 
         if link['rel'] == 'http://esipfed.org/ns/fedsearch/1.1/data#':
             # print('adding url: ' + link['href'])
             if not ('h11v07' in link['href']):
-                continue # Double-checking we only capture h11v07
+                continue  # Double-checking we only capture h11v07
             downloadable_urls.append(link['href'])
             break
 
-print(f"{len(downloadable_urls)} urls")
+print(f'{len(downloadable_urls)} urls')
 
 
 # Dictionaries containing the same information about each granule,
 # they just vary what variable you use as key to access them.
 vnp_date_dict = dict()  # Use granule date as key
-href_date_dict = dict() # Granule download link as key
+href_date_dict = dict()  # Granule download link as key
 
-vnp_dates = [] # List of granule dates, which is passed to ConcatDim later on
+vnp_dates = []  # List of granule dates, which is passed to ConcatDim later on
 
 for i in range(len(downloadable_urls)):
 
     # Update broken links from the CMR for this dataset
     href_orig = downloadable_urls[i]
-    href_new = href_orig.replace('https://ladsweb.modaps.eosdis.nasa.gov/archive/',
-    'https://ladsweb.modaps.eosdis.nasa.gov/opendap/RemoteResources/laads/'
-    )+'.nc4'
+    href_new = (
+        href_orig.replace(
+            'https://ladsweb.modaps.eosdis.nasa.gov/archive/',
+            'https://ladsweb.modaps.eosdis.nasa.gov/opendap/RemoteResources/laads/',
+        )
+        + '.nc4'
+    )
 
     # Convert julian date string to Python date object
     year_julian = '-'.join(href_new.split('/')[-3:-1])
@@ -68,6 +69,7 @@ for i in range(len(downloadable_urls)):
 print('Earliest date:', min(vnp_dates).strftime('%Y-%m-%d'))
 print('Latest date:  ', max(vnp_dates).strftime('%Y-%m-%d'))
 
+
 def make_full_path(date: datetime.date) -> str:
     '''
     For each date, return the URL from the collected dictionary.
@@ -81,18 +83,19 @@ date_concat_dim = ConcatDim('date', vnp_dates, nitems_per_file=1)
 pattern = FilePattern(make_full_path, date_concat_dim)
 
 
-def add_date_dimension(ds : xr.Dataset, filename : str) -> xr.Dataset:
+def add_date_dimension(ds: xr.Dataset, filename: str) -> xr.Dataset:
     '''
     Expand the dimensions of the input dataset to include a date dimension
     which references that image's collection date.
     '''
     # print('Hello from', filename)
-    hn = filename # href_new
+    hn = filename  # href_new
     date_href = href_date_dict[hn]['date']
     date_index = pd.DatetimeIndex([date_href])
-    date_da = xr.DataArray( date_index, [('date', date_index)] )
+    date_da = xr.DataArray(date_index, [('date', date_index)])
     ds = ds.expand_dims(date=date_da)
     return ds
+
 
 # Recipe!
 recipe = XarrayZarrRecipe(pattern, process_input=add_date_dimension)
