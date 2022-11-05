@@ -4,6 +4,7 @@ Based off briannapagan's GPM IMERG recipe.
 """
 
 import datetime
+import functools
 
 import pandas as pd
 import xarray as xr
@@ -70,11 +71,14 @@ print('Earliest date:', min(vnp_dates).strftime('%Y-%m-%d'))
 print('Latest date:  ', max(vnp_dates).strftime('%Y-%m-%d'))
 
 
-def make_full_path(date: datetime.date) -> str:
+def make_full_path(date: datetime.date, vnp_date_dict=None) -> str:
     '''
     For each date, return the URL from the collected dictionary.
     '''
     return vnp_date_dict[date]['href']
+
+
+make_full_path = functools.partial(make_full_path, vnp_date_dict=vnp_date_dict)
 
 
 # Concatenate files along the date dimension (one day per file)
@@ -90,7 +94,9 @@ def add_date_dimension(ds: xr.Dataset, filename: str) -> xr.Dataset:
     '''
     # print('Hello from', filename)
     hn = filename  # href_new
-    date_href = href_date_dict[hn]['date']
+    # date_href = href_date_dict[hn]['date']
+    year_julian = '-'.join(hn.split('/')[-3:-1])
+    date_href = datetime.datetime.strptime(year_julian, '%Y-%j').date()
     date_index = pd.DatetimeIndex([date_href])
     date_da = xr.DataArray(date_index, [('date', date_index)])
     ds = ds.expand_dims(date=date_da)
