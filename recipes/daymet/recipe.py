@@ -23,27 +23,28 @@ client_kwargs = {
 shortname = 'Daymet_Daily_V4R1_2129'
 
 all_files = get_cmr_granule_links(shortname)
+variables = set()
 print(all_files)
 
-hi_tmax_files = []
+hi_files = {}
 for f in all_files:
     # File URLs look like https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_hi_vp_2021.nc,
     # or rather, https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_<region>_<variable>_<year>.nc
     # variable is one of hi, na or pr. There is one file per year, and one per variable
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
-    if region == "hi" and var == "tmax":
+    if region == "hi":
         # Let's just get hi region, tmax files to test
-        hi_tmax_files.append(f)
+        hi_files.setdefault(var, []).append(f)
 
-print(hi_tmax_files)
-print(len(hi_tmax_files))
-# Just tmax, just for hi
-recipe = XarrayZarrRecipe(
-    pattern_from_file_sequence(
-        hi_tmax_files,
-        concat_dim="time",
-        nitems_per_file=365,
-        fsspec_open_kwargs=dict(client_kwargs=client_kwargs),
-    ),
-    inputs_per_chunk=1,
-)
+recipes = {}
+
+for var in hi_files:
+    recipes[var] = XarrayZarrRecipe(
+        pattern_from_file_sequence(
+            hi_files[var],
+            concat_dim="time",
+            nitems_per_file=365,
+            fsspec_open_kwargs=dict(client_kwargs=client_kwargs),
+        ),
+        inputs_per_chunk=1,
+    )
