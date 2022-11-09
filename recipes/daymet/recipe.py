@@ -1,11 +1,12 @@
-from pangeo_forge_recipes.patterns import pattern_from_file_sequence
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-from pangeo_forge_cmr import get_cmr_granule_links
+import netrc
 from functools import partial
 
-from pangeo_forge_recipes import patterns
 import aiohttp
-import netrc
+from pangeo_forge_cmr import get_cmr_granule_links
+
+from pangeo_forge_recipes import patterns
+from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
 # We need to provide EarthData credentials to fetch the files.
 # The credentials of the currently logged in user are used, and passed on to the cloud
@@ -18,58 +19,31 @@ client_kwargs = {
     'trust_env': True,
 }
 
-# Get the GPM IMERG Late Precipitation Daily data
-shortname = 'Daymet_Daily_V4_1840'
+# Get the daymet latest version data
+shortname = 'Daymet_Daily_V4R1_2129'
 
 all_files = get_cmr_granule_links(shortname)
+print(all_files)
 
-vars = set()
-var_files = {}
-
-years = set()
-vars = set()
-regions = set()
-
-split_files = {}
-files = []
-
+hi_tmax_files = []
 for f in all_files:
+    # File URLs look like https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_hi_vp_2021.nc,
+    # or rather, https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_<region>_<variable>_<year>.nc
+    # variable is one of hi, na or pr. There is one file per year, and one per variable
     region, var, year = f.rsplit("/", 1)[1].rsplit(".", 1)[0].rsplit("_", 3)[1:]
-    years.add(year)
-    regions.add(region)
-    vars.add(var)
-    if region == "na" and var == "tmax":
-        split_files.setdefault(year, {})[var] = f
-        files.append(f)
+    if region == "hi" and var == "tmax":
+        # Let's just get hi region, tmax files to test
+        hi_tmax_files.append(f)
 
-print(vars)
-
-subset_inputs={
-    "time": 24,
-    **{v: 24 for v in vars}
-}
-print(subset_inputs)
-
-def appropriate_pattern(sf, year, var):
-    return sf[year][var]
-
-print(split_files.keys())
-
-# Use '-' not '_' to be valid dataflow name
-recipe =  XarrayZarrRecipe(
+print(hi_tmax_files)
+print(len(hi_tmax_files))
+# Just tmax, just for hi
+recipe = XarrayZarrRecipe(
     pattern_from_file_sequence(
-        files,
+        hi_tmax_files,
         concat_dim="time",
-        fsspec_open_kwargs=dict(
-            client_kwargs=client_kwargs
-        ),
+        nitems_per_file=365,
+        fsspec_open_kwargs=dict(client_kwargs=client_kwargs),
     ),
-    target_chunks={
-        "time": 64 * 1024 * 1024
-    },
-    subset_inputs={
-        "time": 24,
-        "tmax": 24
-    }
+    inputs_per_chunk=1,
 )
-
