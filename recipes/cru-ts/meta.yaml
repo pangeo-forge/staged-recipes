@@ -1,0 +1,39 @@
+title: "CRU-TS dataset"
+description: |
+  The gridded Climatic Research Unit (CRU) Time-series (TS) data version 4.05 data are month-by-month variations in climate over the period 1901-2020, 
+  provided on high-resolution (0.5x0.5 degree) grids, produced by CRU at the University of East Anglia and funded by the UK National Centre for 
+  Atmospheric Science (NCAS), a NERC collaborative centre.
+  
+  The CRU TS4.05 variables are cloud cover, diurnal temperature range, frost day frequency, wet day frequency, potential evapotranspiration (PET), 
+  precipitation, daily mean temperature, monthly average daily maximum and minimum temperature, and vapour pressure for the period January 1901 - December 2020.
+
+  The CRU TS4.05 data were produced using angular-distance weighting (ADW) interpolation. All versions prior to 4.00 used triangulation routines in IDL. 
+  Please see the release notes for full details of this version update. 
+
+pangeo_forge_version: "0.9.0"
+recipes:
+  - id: cru-ts-4.05
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "CEDA"
+      description: "Centre for Environmental Data Analysis"
+      roles:
+        - provider
+      url: https://catalogue.ceda.ac.uk/uuid/c26a65020a5e4b80b20018f148556681
+    - name: "CRU"
+      description: "Climatic Research Unit"
+      roles:
+        - producer
+        - licensor
+      url: https://crudata.uea.ac.uk/cru/data/hrg
+  license: "Open Government License"
+  license_link: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+maintainers:
+  - name: "Lars Buntemeyer"
+    orcid: "0000-0002-0849-2404"
+    github: larsbuntemeyer
+
+bakery:
+
+  id: "pangeo-ldeo-nsf-earthcube"
