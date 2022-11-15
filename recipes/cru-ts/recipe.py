@@ -123,12 +123,18 @@ def get_ssl():
     return sslcontext
 
 
-def make_url(time, variable, version='4.05'):
+# for testing, set last_year=1910 for only quick download
+def make_url(time, variable, last_year=None, version='4.06'):
     # there is some peculiarities with 4.06 where the file pattern has an exception for cld
     # the version for cld is 4.06.01 and 4.06 for all other variables...
+    if last_year is None:
+        last_year = 2015 + int(version[-1])
+    var_version = version
+    if variable == 'cld' and version == '4.06':
+        var_version = version + '.01'
     return (
         f'https://dap.ceda.ac.uk/badc/cru/data/cru_ts/cru_ts_{version}/'
-        'data/{variable}/cru_ts{version}.1901.2020.{variable}.dat.nc.gz'
+        f'data/{variable}/cru_ts{var_version}.1901.{last_year}.{variable}.dat.nc.gz'
     )
 
 
@@ -145,4 +151,4 @@ pattern = FilePattern(
 )
 
 
-recipe = XarrayZarrRecipe(pattern, target_chunks={'time': 40})
+recipe = XarrayZarrRecipe(pattern, target_chunks={'time': 120})
