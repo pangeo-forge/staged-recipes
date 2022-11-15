@@ -5,10 +5,9 @@ description: |
   Atmospheric Science (NCAS), a NERC collaborative centre.
 
   The CRU TS4.06 variables are cloud cover, diurnal temperature range, frost day frequency, wet day frequency, potential evapotranspiration (PET),
-  precipitation, daily mean temperature, monthly average daily maximum and minimum temperature, and vapour pressure for the period January 1901 - December 2020.
+  precipitation, daily mean temperature, monthly average daily maximum and minimum temperature, and vapour pressure for the period January 1901 - December 2021.
 
-  The CRU TS4.06 data were produced using angular-distance weighting (ADW) interpolation. All versions prior to 4.00 used triangulation routines in IDL.
-  Please see the release notes for full details of this version update.
+  The CRU TS4.06 data were produced using angular-distance weighting (ADW) interpolation.
 
 pangeo_forge_version: '0.9.0'
 recipes:
