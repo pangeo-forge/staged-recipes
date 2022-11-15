@@ -151,4 +151,6 @@ pattern = FilePattern(
 )
 
 
-recipe = XarrayZarrRecipe(pattern, target_chunks={'time': 120})
+recipe = XarrayZarrRecipe(
+    pattern, target_chunks={'time': 120}, xarray_open_kwargs={'decode_times': False}
+)
