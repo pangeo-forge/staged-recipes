@@ -18,13 +18,4 @@ def format_function(time):
 
 dates = pd.date_range(start_date, '2022-11-08', freq='D')
 pattern = FilePattern(format_function, ConcatDim('time', range(len(dates)), 1))
-print(pattern)
 recipe = HDFReferenceRecipe(pattern, netcdf_storage_options={'anon': True})
-print(recipe)
-
-recipe_pruned = recipe.copy_pruned()
-print(recipe.file_pattern)
-print(recipe_pruned.file_pattern)
-run_function = recipe_pruned.to_function()
-run_function()
-print('done')
