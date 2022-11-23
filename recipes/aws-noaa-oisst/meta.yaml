@@ -1,0 +1,21 @@
+title: 'AWS NOAA Optimum Interpolated SST'
+description: 'Analysis-ready datasets derived from AWS NOAA OISST NetCDF'
+pangeo_forge_version: '0.9.2'
+recipes:
+  - id: aws-noaa-oisst-avhrr-only
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'AWS NOAA Oceanic CDR'
+      description: 'Registry of Open Data on AWS National Oceanographic & Atmospheric Administration National Centers for Environmental Information'
+      roles:
+        - producer
+        - licensor
+      url: s3://noaa-cdr-sea-surface-temp-optimum-interpolation-pds
+  license: 'Open Data'
+maintainers:
+  - name: 'Ryan Avery'
+    orcid: '0000-0001-7392-1474'
+    github: rbavery
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube' # must come from a valid list of bakeries
