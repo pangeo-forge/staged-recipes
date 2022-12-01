@@ -1,0 +1,27 @@
+title: 'NANOOS LiveOcean ROMS Model'
+description: >
+  Hourly ocean forecast fields of the NE Pacific, produced by a Regional Ocean Modeling System (ROMS) computer model,
+  updated daily. This is an experimental product intended for research use only. For more information please
+  visit the LiveOcean webpage: https://faculty.washington.edu/pmacc/LO/LiveOcean.html
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.07.13'
+recipes:
+  - id: liveocean
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'Parker MacCready'
+      description: 'Parker MacCready, Professor, University of Washington'
+      orcid: '0000-0002-8070-8062'
+      github: parkermac
+      roles:
+        - provider
+        - licensor
+      url: https://faculty.washington.edu/pmacc/LO/LiveOcean.html
+  license: 'CC0'
+maintainers:
+  - name: 'Rich Signell'
+    orcid: '0000-0003-0682-9613'
+    github: rsignell
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
