@@ -8,7 +8,7 @@ fs = fsspec.filesystem(
     's3', anon=True
 )
 
-all_paths = sorted(fs.glob('noaa-nwm-retrospective-2-1-pds/model_output/2017/*LDAS*'))
+all_paths = sorted(fs.glob('noaa-nwm-retrospective-2-1-pds/model_output/*/*LDAS*'))
 
 pattern = pattern_from_file_sequence(['s3://' + path for path in all_paths], 'time')
 
