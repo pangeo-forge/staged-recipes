@@ -1,6 +1,6 @@
 title: 'NWM-2.1-grid1km-LDAS'
 description: 
-  LDAS variables at 3-hourly intervals from the US National Water Model Retrospective (1980-). There are 21 LDAS variables including soil moisture, rain, snow, evapotranspiration
+  LDAS variables at 3-hourly intervals from the US National Water Model Version 2.1 Retrospective (1980-). There are 21 LDAS variables including soil moisture, rain, snow, evapotranspiration
 pangeo_forge_version: '0.9.0'
 pangeo_notebook_version: '2022.07.13'
 recipes:
