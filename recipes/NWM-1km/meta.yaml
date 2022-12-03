@@ -1,6 +1,6 @@
 title: 'NWM-2.1-grid1km-LDAS'
-description: >
-  Three-hourly output from 40 years. 
+description: 
+  LDAS variables at 3-hourly intervals from the US National Water Model Retrospective (1980-). There are 21 LDAS variables including soil moisture, rain, snow, evapotranspiration
 pangeo_forge_version: '0.9.0'
 pangeo_notebook_version: '2022.07.13'
 recipes:
@@ -8,14 +8,12 @@ recipes:
     object: 'recipe:recipe'
 provenance:
   providers:
-    - name: 'NOAA National Water Center'
-      description: 'Parker MacCready, Professor, University of Washington'
-      orcid: '0000-0002-8070-8062'
-      github: rsignell-usgs
+    - name: 'NOAA Office of Water Prediction'
+      description: 'US NOAA OWP'
       roles:
         - provider
         - licensor
-      url: https://faculty.washington.edu/pmacc/LO/LiveOcean.html
+      url: https://water.noaa.gov/about/nwm
   license: 'CC0'
 maintainers:
   - name: 'Rich Signell'
