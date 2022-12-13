@@ -11,7 +11,7 @@ provenance:
       description: 'National Centers for Environmental Information'
       roles:
         - licensor
-      url: 'https://www.ncei.noaa.gov/access/paleo-search/study/27850'
+      url: https://www.ncei.noaa.gov/access/paleo-search/study/27850
   license: 'Creative Commons Attribution 4.0 International'
 maintainers:
   - name: 'Jordan Landers'
