@@ -19,7 +19,6 @@ pattern = FilePattern(make_url, time_concat_dim, MergeDim(name='variable', keys=
 
 # ensures that lat and lon coords get labeled as simply 'lat' and 'lon'
 def postproc(ds):
-    _variables = [_var for _var in ds.data_vars.keys() if 'bound' not in _var]
     coords = [key for key in ds.coords.keys()]
 
     rename_d = {}
