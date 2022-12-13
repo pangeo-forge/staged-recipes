@@ -9,7 +9,7 @@ variables = ['gmt_full',
 
 def make_url(time, variable):
     pair = variable.rsplit('_', 1)
-    stem = 'https://www.ncei.noaa.gov/pub/data/paleo/reconstructions/tardif2019lmr/v2_1/'
+    stem = "https://www.ncei.noaa.gov/pub/data/paleo/reconstructions/tardif2019lmr/v2_1/"
     nc_file = '{_var}_MCruns_ensemble_{val_type}_LMRv2.1.nc'.format(_var=pair[0], val_type=pair[1])
     url = stem + nc_file
     return url
