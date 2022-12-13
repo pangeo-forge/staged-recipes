@@ -9,17 +9,17 @@ variables = ['gmt_full',
 
 def make_url(time, variable):
     pair = variable.rsplit('_', 1)
-    stem = "https://www.ncei.noaa.gov/pub/data/paleo/reconstructions/tardif2019lmr/v2_1/"
+    stem = 'https://www.ncei.noaa.gov/pub/data/paleo/reconstructions/tardif2019lmr/v2_1/'
     nc_file = '{_var}_MCruns_ensemble_{val_type}_LMRv2.1.nc'.format(_var=pair[0], val_type=pair[1])
     url = stem + nc_file
     return url
 
 
 # the full time series is in each file, each of which is between ~300 mb and ~3 Gb
-time_concat_dim = ConcatDim("time", [0])
+time_concat_dim = ConcatDim('time', [0])
 pattern = FilePattern(make_url,
                       time_concat_dim,
-                      MergeDim(name="variable", keys=variables))
+                      MergeDim(name='variable', keys=variables))
 
 
 # ensures that lat and lon coords get labeled as simply 'lat' and 'lon'
