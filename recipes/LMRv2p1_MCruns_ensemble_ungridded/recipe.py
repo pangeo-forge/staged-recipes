@@ -37,7 +37,7 @@ def postproc(ds):
 
 
 # use subset_inputs to make the processing more tractable
-_recipe = XarrayZarrRecipe(
+recipe = XarrayZarrRecipe(
     pattern,
     inputs_per_chunk=1,
     consolidate_zarr=True,
