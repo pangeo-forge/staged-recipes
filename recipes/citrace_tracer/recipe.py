@@ -1,6 +1,3 @@
-import numpy as np
-import xarray as xr
-
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
@@ -45,7 +42,11 @@ pattern = FilePattern(
 
 # clean up the dataset so that lat and lon are included as dimension coordinates
 def postproc(ds):
+
+    import xarray as xr
+
     variable = [var for var in ds.data_vars.keys() if 'bound' not in var][0]
+
     coords = [key for key in ds.coords.keys()]
     coord_d = {}
     for coord_var in ['lat', 'lon']:
