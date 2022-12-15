@@ -15,17 +15,18 @@ variables = [
     'IAGE',
 ]
 
-url_d = {'IAGE': 'https://figshare.com/ndownloader/files/38534591',
-         'd18O': 'https://figshare.com/ndownloader/files/38530430',
-         'ABIO_D14Cocn': 'https://figshare.com/ndownloader/files/38231892',
-         'ABIO_D14Catm': 'https://figshare.com/ndownloader/files/38231991',
-         'CISO_DIC_d13C': 'https://figshare.com/ndownloader/files/38526806',
-         'ND143': 'https://figshare.com/ndownloader/files/38232651',
-         'ND144': 'https://figshare.com/ndownloader/files/38232060',
-         'SALT': 'https://figshare.com/ndownloader/files/38541851',
-         'TEMP': 'https://figshare.com/ndownloader/files/38543534',
-         'PD': 'https://figshare.com/ndownloader/files/38543969'
-         }
+url_d = {
+    'IAGE': 'https://figshare.com/ndownloader/files/38534591',
+    'd18O': 'https://figshare.com/ndownloader/files/38530430',
+    'ABIO_D14Cocn': 'https://figshare.com/ndownloader/files/38231892',
+    'ABIO_D14Catm': 'https://figshare.com/ndownloader/files/38231991',
+    'CISO_DIC_d13C': 'https://figshare.com/ndownloader/files/38526806',
+    'ND143': 'https://figshare.com/ndownloader/files/38232651',
+    'ND144': 'https://figshare.com/ndownloader/files/38232060',
+    'SALT': 'https://figshare.com/ndownloader/files/38541851',
+    'TEMP': 'https://figshare.com/ndownloader/files/38543534',
+    'PD': 'https://figshare.com/ndownloader/files/38543969',
+}
 
 
 def make_url(time, variable):
@@ -35,9 +36,7 @@ def make_url(time, variable):
 
 # these are single ~6 Gb files, each covering the full timeseries
 time_concat_dim = ConcatDim('time', [0])
-pattern = FilePattern(
-    make_url, time_concat_dim, MergeDim(name='variable', keys=variables)
-)
+pattern = FilePattern(make_url, time_concat_dim, MergeDim(name='variable', keys=variables))
 
 
 # clean up the dataset so that lat and lon are included as dimension coordinates
@@ -53,20 +52,23 @@ def postproc(ds):
         coord_d[coord_var] = [coord for coord in coords if coord_var in coord.lower()][0]
 
     times = ds.coords['time'].values
-    lats = [ds.coords[coord_d['lat']].values[ik][0] for ik in range(len(ds.coords[coord_d['lat']].values))]
+    lats = [
+        ds.coords[coord_d['lat']].values[ik][0]
+        for ik in range(len(ds.coords[coord_d['lat']].values))
+    ]
     lons = ds.coords[coord_d['lon']][0].values % 360
 
     _ds = xr.Dataset()
-    _ds.coords["lat"] = (("lat"), lats)
-    _ds.coords["lon"] = (("lon"), lons)
-    _ds.coords["time"] = (("time"), times)
+    _ds.coords['lat'] = (('lat'), lats)
+    _ds.coords['lon'] = (('lon'), lons)
+    _ds.coords['time'] = (('time'), times)
 
     if 'z_t' in ds.coords:
         z_ts = ds.coords['z_t'].values
-        _ds.coords["z_t"] = (("z_t"), z_ts)
-        coord_tuple = ("time", "z_t", "lat", "lon")
+        _ds.coords['z_t'] = (('z_t'), z_ts)
+        coord_tuple = ('time', 'z_t', 'lat', 'lon')
     else:
-        coord_tuple = ("time", "lat", "lon")
+        coord_tuple = ('time', 'lat', 'lon')
 
     _ds[variable] = (coord_tuple, ds[variable].values)
 
@@ -86,5 +88,5 @@ recipe = XarrayZarrRecipe(
     target_chunks={'time': 1},
     process_chunk=postproc,
     copy_input_to_local_file=False,
-    xarray_open_kwargs={'decode_coords': True, 'use_cftime': True, 'decode_times': True}
+    xarray_open_kwargs={'decode_coords': True, 'use_cftime': True, 'decode_times': True},
 )
