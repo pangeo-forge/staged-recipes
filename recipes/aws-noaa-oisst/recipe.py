@@ -1,5 +1,3 @@
-import pandas as pd
-
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.reference_hdf_zarr import HDFReferenceRecipe
 
@@ -19,6 +17,7 @@ def format_function(time):
     Returns:
         str: The url to the item.
     """
+    import pandas as pd
     base = pd.Timestamp(start_date)
     day = base + pd.Timedelta(days=time)
     input_url_pattern = (
