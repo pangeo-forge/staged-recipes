@@ -3,7 +3,6 @@ from pangeo_forge_recipes.patterns import ConcatDim
 from pangeo_forge_recipes.patterns import FilePattern
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-
 dates = pd.date_range('1979-02-01 03:00', '2020-12-31 21:00', freq='3H')
 
 time_concat_dim = ConcatDim("time", dates, nitems_per_file=1)
@@ -16,8 +15,5 @@ def make_url(time):
 pattern = FilePattern(make_url, time_concat_dim)
 
 target_chunks = {'time':72, 'x':512, 'y':512}
+
 recipe = XarrayZarrRecipe(pattern, target_chunks=target_chunks)
-
-run_function = recipe_pruned.to_function()
-
-run_function()
