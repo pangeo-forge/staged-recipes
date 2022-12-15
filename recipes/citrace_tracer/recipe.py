@@ -1,7 +1,7 @@
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, MergeDim
 from pangeo_forge_recipes.recipes.xarray_zarr import XarrayZarrRecipe
 
-# C-iTRACE covers a number of proxies
+# C-iTRACE covers a number of tracer quantities
 variables = [
     'd18O',
     'ABIO_D14Cocn',
@@ -15,21 +15,21 @@ variables = [
     'IAGE',
 ]
 
-url_d = {
-    'IAGE': 'https://figshare.com/ndownloader/files/38534591',
-    'd18O': 'https://figshare.com/ndownloader/files/38530430',
-    'ABIO_D14Cocn': 'https://figshare.com/ndownloader/files/38231892',
-    'ABIO_D14Catm': 'https://figshare.com/ndownloader/files/38231991',
-    'CISO_DIC_d13C': 'https://figshare.com/ndownloader/files/38526806',
-    'ND143': 'https://figshare.com/ndownloader/files/38232651',
-    'ND144': 'https://figshare.com/ndownloader/files/38232060',
-    'SALT': 'https://figshare.com/ndownloader/files/38541851',
-    'TEMP': 'https://figshare.com/ndownloader/files/38543534',
-    'PD': 'https://figshare.com/ndownloader/files/38543969',
-}
-
 
 def make_url(time, variable):
+    url_d = {
+        'IAGE': 'https://figshare.com/ndownloader/files/38534591',
+        'd18O': 'https://figshare.com/ndownloader/files/38530430',
+        'ABIO_D14Cocn': 'https://figshare.com/ndownloader/files/38231892',
+        'ABIO_D14Catm': 'https://figshare.com/ndownloader/files/38231991',
+        'CISO_DIC_d13C': 'https://figshare.com/ndownloader/files/38526806',
+        'ND143': 'https://figshare.com/ndownloader/files/38232651',
+        'ND144': 'https://figshare.com/ndownloader/files/38232060',
+        'SALT': 'https://figshare.com/ndownloader/files/38541851',
+        'TEMP': 'https://figshare.com/ndownloader/files/38543534',
+        'PD': 'https://figshare.com/ndownloader/files/38543969',
+    }
+
     url = url_d[variable]
     return url
 
