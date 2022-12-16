@@ -12,10 +12,8 @@ URL_FORMAT = (
     '{time:%Y}/{time:%Y%m%d%H}00.LDASOUT_DOMAIN1.comp'
 )
 
-
 def make_url(time):
     return URL_FORMAT.format(time=time)
-
 
 pattern = FilePattern(make_url, time_concat_dim)
 
