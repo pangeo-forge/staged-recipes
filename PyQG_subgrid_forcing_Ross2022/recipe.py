@@ -22,6 +22,6 @@ file_dict = {
 
 pattern = lambda v: pattern_from_file_sequence([v[0]], concat_dim="time", file_type="unknown")
 xr2zarr = lambda v: XarrayZarrRecipe(pattern(v), target_chunks={"time": v[1]}, cache_inputs=False, xarray_open_kwargs={"engine": "zarr"})
-recipes = {k: xr2zarr(v) for k, v in mydict.items()}
+recipes = {k: xr2zarr(v) for k, v in file_dict.items()}
 
-recipes["eddy/lores.zarr"].to_function()()
+[recipe.to_function()() for recipe in recipes.values()] # probably not idiomatic, plz fix
