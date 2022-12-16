@@ -12,15 +12,18 @@ URL_FORMAT = (
     '{time:%Y}/{time:%Y%m%d%H}00.LDASOUT_DOMAIN1.comp'
 )
 
+
 def make_url(time):
     return URL_FORMAT.format(time=time)
+
 
 pattern = FilePattern(make_url, time_concat_dim)
 
 target_chunks = {'time': 72, 'x': 512, 'y': 512}
 
-def preprocess(ds):
-    return ds.drop("reference_time")
 
-recipe = XarrayZarrRecipe(pattern, target_chunks=target_chunks, 
-                          process_chunk=preprocess)
+def preprocess(ds):
+    return ds.drop('reference_time')
+
+
+recipe = XarrayZarrRecipe(pattern, target_chunks=target_chunks, process_chunk=preprocess)
