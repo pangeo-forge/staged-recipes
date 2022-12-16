@@ -21,4 +21,8 @@ pattern = FilePattern(make_url, time_concat_dim)
 
 target_chunks = {'time': 72, 'x': 512, 'y': 512}
 
-recipe = XarrayZarrRecipe(pattern, target_chunks=target_chunks)
+def preprocess(ds):
+    return ds.drop("reference_time")
+
+recipe = XarrayZarrRecipe(pattern, target_chunks=target_chunks, 
+                          process_chunk=preprocess)
