@@ -2,8 +2,6 @@ import pandas as pd
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes.reference_hdf_zarr import HDFReferenceRecipe
 
-start_date = '1981-09-01'
-
 def format_function(time):
     """Returns the url to an item for a time based on a dataset specific url pattern.
 
@@ -18,6 +16,7 @@ def format_function(time):
         str: The url to the item.
     """
     import pandas as pd
+    start_date = '1981-09-01'
     base = pd.Timestamp(start_date)
     day = base + pd.Timedelta(days=time)
     input_url_pattern = (
@@ -26,6 +25,7 @@ def format_function(time):
     )
     return input_url_pattern.format(day=day)
 
+start_date = '1981-09-01'
 dates = pd.date_range(start_date, '2022-11-08', freq='D')
 pattern = FilePattern(format_function, ConcatDim('time', range(len(dates)), nitems_per_file=1))
 recipe = HDFReferenceRecipe(pattern, netcdf_storage_options={'anon': True})
