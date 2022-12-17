@@ -17,7 +17,5 @@ for yearmonth in yearmonths:
             map(lambda x: 's3://' + x, fs.ls(join(url_base, str(yearmonth)), detail=False)),
         )
     )
-
 pattern = pattern_from_file_sequence(file_list, 'time', nitems_per_file=1)
-
 recipe = HDFReferenceRecipe(pattern, netcdf_storage_options={'anon': True})
