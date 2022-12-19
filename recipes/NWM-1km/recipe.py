@@ -3,7 +3,8 @@ import pandas as pd
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
-dates = pd.date_range('1979-02-01 03:00', '2020-12-31 21:00', freq='3H')
+#dates = pd.date_range('1979-02-01 03:00', '2020-12-31 21:00', freq='3H')
+dates = pd.date_range('1979-02-01 03:00', '1980-02-28 21:00', freq='3H')
 
 time_concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 
