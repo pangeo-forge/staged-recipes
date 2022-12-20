@@ -3,7 +3,7 @@ description: 'Analysis-ready datasets derived from NOAA Ocean Nearsurface Atmos 
 pangeo_forge_version: '0.9.2'
 pangeo_notebook_version: '2021.07.17'
 recipes:
-  - id: 'AWS NOAA Ocean Nearsurface Atmos Profiles'
+  - id: 'The Ocean Near-surface Atmospheric Properties Climate Data Record (CDR) is one of three atmospheric CDRs in the NOAA Ocean Surface Bundle (OSB). It documents air temperature, wind speed, and specific humidity above the ocean surface. It can be used to compare with similar values captured at sea surface level, which provide insight into the essential aspects of the air-sea exchange. This CDR is made up of data from the Special Sensor Microwave/Imager (SSM/I), a passive microwave sensor, and the equivalent NCEI sea surface temperature CDR. All input data are put through a combination of statistical techniques using neural networks and diurnal warming parameterizations. These data provide the near-surface fluxes of evaporation/latent heat and sensible heat calculations that comprise the final record on a 3-hourly 0.25° resolution grid over the global ice-free oceans from January 1988 to present.'
     object: 'recipe:recipe'
 provenance:
   providers:
