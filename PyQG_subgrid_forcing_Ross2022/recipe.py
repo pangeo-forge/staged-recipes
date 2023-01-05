@@ -1,4 +1,4 @@
-import pangeo_forge_recipes
+
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.recipes import XarrayZarrRecipe
 
@@ -20,13 +20,17 @@ file_dict = {
 }
 
 
-pattern = lambda v: pattern_from_file_sequence([v[0]], concat_dim='time', file_type='unknown')
-xr2zarr = lambda v: XarrayZarrRecipe(
-    pattern(v),
-    target_chunks={'time': v[1]},
-    cache_inputs=False,
-    xarray_open_kwargs={'engine': 'zarr'},
-)
+def pattern(v): 
+    return pattern_from_file_sequence([v[0]], concat_dim='time', file_type='unknown')
+
+def xr2zarr(v):
+    return XarrayZarrRecipe(
+        pattern(v),
+        target_chunks={'time': v[1]},
+        cache_inputs=False,
+        xarray_open_kwargs={'engine': 'zarr'},
+    )
+
 recipes = {k: xr2zarr(v) for k, v in file_dict.items()}
 
 [recipe.to_function()() for recipe in recipes.values()]  # probably not idiomatic, plz fix
