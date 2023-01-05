@@ -20,7 +20,7 @@ file_dict = {
 }
 
 
-def pattern(v): 
+def pattern(v):
     return pattern_from_file_sequence([v[0]], concat_dim='time', file_type='unknown')
 
 def xr2zarr(v):
