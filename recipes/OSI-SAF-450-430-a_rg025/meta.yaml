@@ -1,9 +1,9 @@
 # Name for dataset. User chosen.
-title: "OSI-SAF Global Sea Ice Concentration Climate Data Record (1990-2021 Daily) Release 3"
+title: 'OSI-SAF Global Sea Ice Concentration Climate Data Record (1990-2021 Daily) Release 3'
 # Description of dataset.  User chosen, roughly 1 sentence in length.
-description: "Daily global sea ice concentration climate data record (product ID: OSI-450-a and OSI-430-a) for the preiod 1990-2021 interpolated onto a global regular grid with a resolution of 0.25 degrees" 
-# Version of pangeo_forge_recipes library that was used 
-pangeo_forge_version: "0.9.2"
+description: 'Daily global sea ice concentration climate data record (product ID: OSI-450-a and OSI-430-a) for the preiod 1990-2021 interpolated onto a global regular grid with a resolution of 0.25 degrees'
+# Version of pangeo_forge_recipes library that was used
+pangeo_forge_version: '0.9.2'
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
 # Many recipe PRs will have just 1 recipe, in which case this section will look similar to the example below.
 # If your PR contains multiple recipes, you may add additional elements to the list below.
@@ -15,31 +15,31 @@ recipes:
     # For example, if <filename> is given as "recipe", Pangeo Cloud will expect a file named `recipe.py` to exist in your PR.
     # <object_name> is the name of the recipe object (i.e. Python class instance) _within_ the specified file.
     # For example, if you have defined `recipe = XarrayZarrRecipe(...)` within a file named `recipe.py`, then your  `object` below would be `"recipe:recipe"`
-    object: "recipe:recipe"
+    object: 'recipe:recipe'
 provenance:
   # Data provider object.  Follow STAC spec.
   # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#provider-object
   providers:
-    - name: "EUMETSAT OSI SAF"
-      description: "EUMETSAT Ocean and Sea Ice Satellite Application Facility High Latitude Processing Center"
+    - name: 'EUMETSAT OSI SAF'
+      description: 'EUMETSAT Ocean and Sea Ice Satellite Application Facility High Latitude Processing Center'
       roles:
         - producer
         - licensor
       url: https://osi-saf.eumetsat.int/products/osi-450-a
-    - name: "NCAR"
-      description: "Regridding and merging of the observations performed by Lorenzo Zampieri at the National Center for Atmospheric Research, where observations are stored"
+    - name: 'NCAR'
+      description: 'Regridding and merging of the observations performed by Lorenzo Zampieri at the National Center for Atmospheric Research, where observations are stored'
       roles:
         - processor
         - host
   # This is a required field for provider. Follow STAC spec
   # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
-  license: "EUMETSAT Essential (free and unrestricted)"
+  license: 'EUMETSAT Essential (free and unrestricted)'
 maintainers:
   # Information about recipe creator. name and github are required
-  - name: "Lorenzo Zampieri"
-    orcid: "0000-0003-1703-4162"
+  - name: 'Lorenzo Zampieri'
+    orcid: '0000-0003-1703-4162'
     github: lzampier
 # The specific bakery (i.e. cloud infrastructure) that your recipe will run on.
 # Available bakeries can be found on the Pangeo Forge website https://pangeo-forge.org/dashboard/bakeries
 bakery:
-  id: "pangeo-ldeo-nsf-earthcube"
+  id: 'pangeo-ldeo-nsf-earthcube'
