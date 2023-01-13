@@ -4,8 +4,7 @@ description: >-
   9km grid-spacing, and over California and Wyoming for 3km grid-spacing in some
   cases.
 recipes:
-  - id: cmip6-wrf-wus
-    object: 'recipe:recipe'
+  dict_object: 'recipe:recipes'
 provenance:
   providers:
     - name: UCLA Center for Climate Science
