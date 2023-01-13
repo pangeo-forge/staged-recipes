@@ -16,7 +16,7 @@ recipe_dict = {
 }
 
 
-def make_url(URL_FORMAT, Time):
+def make_url(Time, URL_FORMAT=None):
     return URL_FORMAT.format(Time=Time)
 
 
