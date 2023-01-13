@@ -25,7 +25,7 @@ for key, value in recipe_dict.items():
     times = value['times']
     time_concat_dim = ConcatDim('Time', times)
     make_url_partial = functools.partial(make_url, URL_FORMAT=value['url_format'])
-    pattern = FilePattern(make_url, time_concat_dim)
+    pattern = FilePattern(make_url_partial, time_concat_dim)
     recipes[key] = HDFReferenceRecipe(
         pattern,
         concat_dims=['Time'],
