@@ -1,10 +1,9 @@
-from pangeo_forge_recipes.recipes import HDFReferenceRecipe, setup_logging
+from pangeo_forge_recipes.recipes import HDFReferenceRecipe
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 import pandas as pd
-import xarray as xr
-import fsspec
 
-URL_FORMAT = 's3://wrf-cmip6-noversioning/downscaled_products/gcm/cesm2_r11i1p1f1_ssp370/hourly/{Time:%Y}/d02/auxhist_d01_{Time:%Y-%m-%d_%X}'
+URL_FORMAT = ('s3://wrf-cmip6-noversioning/downscaled_products/gcm/cesm2_r11i1p1f1_ssp370/'
+                  'hourly/{Time:%Y}/d02/auxhist_d01_{Time:%Y-%m-%d_%X}')
 
 times = pd.date_range('2014-09-01', '2100-08-31 23:00', freq='H')
 
