@@ -87,7 +87,7 @@ for var in all_vars:
         | OpenURLWithEarthDataLogin()
         | OpenWithXarray(xarray_open_kwargs={'chunks': 'auto'})
         | StoreToZarr(
-            target_subpath=f'{region}-{var}',
+            target_subpath=f'{region}/{var}',
             target_chunks={'time': 128},
             combine_dims=pattern.combine_dim_keys,
         )
