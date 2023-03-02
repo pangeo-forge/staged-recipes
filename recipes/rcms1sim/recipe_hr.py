@@ -17,24 +17,16 @@ input_url_pattern = (
 latest = date.today() - timedelta(days=2)
 dates = pd.date_range('2020-03-08', latest, freq='1D')
 
+
 def make_url(time):
     return input_url_pattern.format(
         yyyy=(time + rcms1sim_hr_tdelta).year,
         syyyymmdd=time.strftime('%Y%m%d'),
-        eyyyymmdd=(time + rcms1sim_hr_tdelta).strftime('%Y%m%d')        
+        eyyyymmdd=(time + rcms1sim_hr_tdelta).strftime('%Y%m%d'),
     )
 
-pattern = FilePattern(
-    make_url,
-    ConcatDim(
-        name='time',
-        keys=dates,
-        nitems_per_file=1
-    )
-)
+
+pattern = FilePattern(make_url, ConcatDim(name='time', keys=dates, nitems_per_file=1))
 # each file is pretty big (~88MB)
 # v2.0 will likely be a subset of the default 2880x2880 EASE2 extent)
-recipe = XarrayZarrRecipe(
-    pattern, 
-    inputs_per_chunk=1
-)
+recipe = XarrayZarrRecipe(pattern, inputs_per_chunk=1)
