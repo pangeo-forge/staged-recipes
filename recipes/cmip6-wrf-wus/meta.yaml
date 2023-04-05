@@ -1,0 +1,28 @@
+title: CMIP6 GCMs downscaled using WRF
+description: >-
+  Downscaling of CMIP6 GCMs conducted at UCLA for the western US over 45km and
+  9km grid-spacing, and over California and Wyoming for 3km grid-spacing in some
+  cases.
+recipes:
+  dict_object: 'recipe:recipes'
+provenance:
+  providers:
+    - name: UCLA Center for Climate Science
+      description: 'University of California, Los Angeles Center for Climate Science'
+      roles:
+        - producer
+        - processor
+        - licensor
+      url: 'https://dept.atmos.ucla.edu/alexhall/downscaling-cmip6'
+    - name: AWS
+      description: AWS Sustainability Data Initiative
+      roles:
+        - host
+      url: 'https://registry.opendata.aws/wrf-cmip6/'
+  license: CC BY-SA 4.0
+maintainers:
+  - name: Naomi Goldenson
+    orcid: 0000-0003-0656-4168
+    github: thenaomig
+bakery:
+  id: pangeo-ldeo-nsf-earthcube
