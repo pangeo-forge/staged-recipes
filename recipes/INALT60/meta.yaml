@@ -1,0 +1,20 @@
+title: 'SWOT-AdAC data (INALT60)'
+description: 'INALT60 regional data for SWOT-AdAC Xovers'
+pangeo_forge_version: '0.3.3'
+pangeo_notebook_version: '2021.05.04'
+recipes:
+  - dict_object: 'recipe:recipes'
+provenance:
+  providers:
+    - name: 'GEOMAR'
+      description: 'GEOMAR Helmholtz Centre for Ocean Research Kiel'
+      roles:
+        - producer
+        - licensor
+      url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
+  license: 'CC-BY-NC-SA-4.0'
+maintainers:
+  - name: 'Charles Stern'
+    github: reneschubert
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
