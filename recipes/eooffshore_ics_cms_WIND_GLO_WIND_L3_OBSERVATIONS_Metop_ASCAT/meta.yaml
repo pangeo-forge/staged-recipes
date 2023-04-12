@@ -1,0 +1,24 @@
+title: "eooffshore_ics_cms_WIND_GLO_WIND_L3_OBSERVATIONS_Metop_ASCAT"
+description: "EOOffshore Project (https://eooffshore.github.io) - Copernicus Marine Service Reprocessed (2007 - 2021) and Near Real Time (2016 - 2021) Metop-A/B/C ASCAT Ascending/Descending products, for the Irish Continental Shelf region, where the original time coordinates have been replaced with the satellite/pass measurement_time values."
+pangeo_forge_version: "0.9.1"
+pangeo_notebook_version: "2022.06.02"
+recipes:
+  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_REP_OBSERVATIONS_012_005_Metop_ASCAT
+    object: "recipe:rep_recipe"
+  - id: eooffshore_ics_cmems_WIND_GLO_WIND_L3_NRT_OBSERVATIONS_012_002_Metop_ASCAT
+    object: "recipe:nrt_recipe"
+provenance:
+  providers:
+    - name: "Copernicus Marine Service (CMS)"
+      description: "The Copernicus Marine Service (CMS), or Copernicus Marine Environment Monitoring Service (CMEMS), is the marine component of the European Union Copernicus Earth Observation (EO) programme, providing free, regular and systematic ocean data products on a global and regional scale."
+      roles:
+        - producer
+        - licensor
+      url: https://marine.copernicus.eu/
+  license: "Generated using E.U. Copernicus Marine Service Information; https://doi.org/10.48670/moi-00182; https://doi.org/10.48670/moi-00183;" # https://marine.copernicus.eu/user-corner/service-commitments-and-licence
+maintainers:
+  - name: "Derek O'Callaghan"
+    orcid: "0000-0003-0585-8631"
+    github: derekocallaghan
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
