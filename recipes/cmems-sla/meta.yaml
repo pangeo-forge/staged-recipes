@@ -1,0 +1,22 @@
+title: "CMEMS global ocean gridded L4 sea surface heights & derived variables"
+description: "Altimeter satellite gridded Sea Level Anomalies (SLA) computed with respect to a twenty-year 2012 mean."
+pangeo_forge_version: "0.8.3"
+pangeo_notebook_version: "2022.07.25"
+recipes:
+  - id: cmems-sla
+    object: "recipe:recipe"
+provenance:
+  providers:
+    - name: "Copernicus"
+      description: "E.U. Copernicus Marine Service Information; https://doi.org/10.48670/moi-00148"
+      roles:
+        - producer
+        - licensor
+      url: https://resources.marine.copernicus.eu/product-detail/SEALEVEL_GLO_PHY_L4_MY_008_047/INFORMATION
+  license: "https://marine.copernicus.eu/user-corner/service-commitments-and-licence#licence"
+maintainers:
+  - name: "Kevin Tyle"
+    orcid: "0000-0001-5249-9665"
+    github: ktyle
+bakery:
+  id: "pangeo-ldeo-nsf-earthcube"
