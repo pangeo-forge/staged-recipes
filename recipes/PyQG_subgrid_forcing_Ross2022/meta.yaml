@@ -1,0 +1,9 @@
+title: 'PyQG Subgrid Forcing (Ross et al., 2022)'
+description: 'Data from "Benchmarking of machine learning ocean subgrid parameterizations in an idealized model" by Ross et al., 2022'
+recipes:
+  dict_object: 'recipe:recipes'
+maintainers:
+  - name: 'Christopher Dupuis'
+    github: cmdupuis3
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
