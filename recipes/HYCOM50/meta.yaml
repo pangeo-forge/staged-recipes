@@ -1,0 +1,18 @@
+title: 'SWOT-AdAC data (HYCOM50)'
+description: 'HYCOM50 regional data for SWOT-AdAC Xovers'
+recipes:
+  - dict_object: 'recipe:recipes'
+provenance:
+  providers:
+    - name: 'COAPS, FSU'
+      description: 'Center for Ocean-Atmospheric Prediction Studies, Florida State University'
+      roles:
+        - producer
+        - licensor
+      url: https://github.com/roxyboy/SWOT-AdAC-ocean-model-intercomparison
+  license: 'CC-BY-NC-SA-4.0'
+maintainers:
+  - name: 'Charles Stern'
+    github: cisaacstern
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
