@@ -1,0 +1,49 @@
+# Name for dataset. User chosen.
+title: 'VNP46A2 - VIIRS/NPP Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily (h11v07)'
+# Description of dataset.  User chosen, roughly 1 sentence in length.
+description: '
+  The second of the two VIIRS DNB-based datasets is a daily moonlight- and atmosphere-corrected Nighttime Lights (NTL) product called
+  VIIRS/NPP Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily L3 Global 500m Linear Lat Lon Grid.
+  Known by its short-name, VNP46A2, this product contains seven Science Data Sets (SDS) that include DNB BRDF-Corrected NTL,
+  Gap-Filled DNB BRDF-Corrected NTL, DNB Lunar Irradiance, Latest High-Quality Retrieval, Mandatory Quality Flag, Cloud Mask Quality Flag, and Snow Flag.
+  VNP46A2 products are provided in standard Hierarchical Data Format-Earth Observing System (HDF-EOS5) format.
+  This collection starts from January 19, 2012 and forward.
+
+  This ZARR version of the dataset currently only includes the grid file at h11v07, around the Caribbean Sea.
+  '
+# Version of pangeo_forge_recipes library that was used
+pangeo_forge_version: '0.9.2'
+# The recipes section tells Pangeo Cloud where to find the recipes within your PR.
+# Many recipe PRs will have just 1 recipe, in which case this section will look similar to the example below.
+# If your PR contains multiple recipes, you may add additional elements to the list below.
+recipes:
+  # User chosen name for recipe. Likely similiar to dataset name, ~25 characters in length
+  - id: vnp46a2-h11v07
+    # The `object` below tells Pangeo Cloud specifically where your recipe instance(s) are located and uses the format <filename>:<object_name>
+    # <filename> is name of .py file where the Python recipe object is defined.
+    # For example, if <filename> is given as "recipe", Pangeo Cloud will expect a file named `recipe.py` to exist in your PR.
+    # <object_name> is the name of the recipe object (i.e. Python class instance) _within_ the specified file.
+    # For example, if you have defined `recipe = XarrayZarrRecipe(...)` within a file named `recipe.py`, then your  `object` below would be `"recipe:recipe"`
+    object: 'recipe:recipe'
+provenance:
+  # Data provider object.  Follow STAC spec.
+  # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#provider-object
+  providers:
+    - name: 'NASA LAADS DAAC'
+      description: 'National Aeronautics and Space Administration Level-1 and Atmosphere Archive & Distribution System Distributed Active Archive Center'
+      roles:
+        - host
+        - producer
+        - licensor
+      url: https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP46A2/
+  # This is a required field for provider. Follow STAC spec
+  # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
+  license: 'CC-BY-NC-ND-4.0'
+maintainers:
+  # Information about recipe creator. name and github are required
+  - name: 'José M. Zavala González'
+    github: jzavala-gonzalez
+# The specific bakery (i.e. cloud infrastructure) that your recipe will run on.
+# Available bakeries can be found on the Pangeo Forge website https://pangeo-forge.org/dashboard/bakeries
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
