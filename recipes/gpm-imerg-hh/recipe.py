@@ -1,5 +1,4 @@
 import apache_beam as beam
-import pandas as pd
 import zarr
 from pangeo_forge_cmr import files_from_cmr
 from pangeo_forge_earthdatalogin import OpenURLWithEarthDataLogin
@@ -45,7 +44,7 @@ recipe = (
     beam.Create(files.items())
     | OpenURLWithEarthDataLogin()
     | OpenWithXarray(
-        file_type=pattern.file_type,
+        file_type=files.file_type,
         xarray_open_kwargs={
             'group': 'Grid',
             'drop_variables': [
