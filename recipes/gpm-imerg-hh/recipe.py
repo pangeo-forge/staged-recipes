@@ -1,9 +1,9 @@
-import netrc
-import aiohttp
-import numpy as np
-from cmr import GranuleQuery
-from pangeo_forge_recipes.recipes import XarrayZarrRecipe
-from pangeo_forge_recipes.patterns import pattern_from_file_sequence
+import zarr
+import pandas as pd
+import apache_beam as beam
+from pangeo_forge_cmr import files_from_cmr
+from pangeo_forge_earthdatalogin import OpenURLWithEarthDataLogin
+from pangeo_forge_recipes.transforms import OpenWithXarray,StoreToZarr
 
 # Create a file pattern
 shortname = 'GPM_3IMERGHH'
