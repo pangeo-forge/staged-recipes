@@ -1,0 +1,26 @@
+title: 'GPM IMERG Final Precipitation Half-Hourly'
+description: >
+  Half-hourly GPM IMERG Final Precipitation Version 06 (GPM_3IMERGHH) converted to Zarr stores from HDF5 files.
+  The merged multi-satellite/gauge precipitation product is gridded (0.1 degree x 0.1 degree) and available globally, 
+  with temporal coverage from June 1, 2000 - September 30, 2021.
+pangeo_forge_version: '0.9.0'
+pangeo_notebook_version: '2022.06.02'
+recipes:
+  - id: gpm-imerg-hh
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: ' NASA GES DISC'
+      description: 'National Aeronautics and Space Administration Goddard Earth Sciences Data and Information Services Center'
+      roles:
+        - producer
+        - host
+        - licensor
+      url: https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGHH_06/summary
+  license: 'This dataset is intended for public access and use.'
+maintainers:
+  - name: 'Savannah Ferretti'
+    orcid: '0000-0001-9684-7668'
+    github: savannahferretti
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
