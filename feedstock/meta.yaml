@@ -1,0 +1,3 @@
+recipes:
+  - id: aws-noaa-nclimgrid
+    object: 'recipe:recipe'
