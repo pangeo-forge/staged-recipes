@@ -1,0 +1,20 @@
+title: 'NOAA U.S. Climate Gridded Dataset Daily'
+description: 'The NOAA Monthly U.S. Climate Gridded Dataset (NClimGrid) consists of four climate variables derived from the GHCN-D dataset: maximum temperature, minimum temperature, average temperature and precipitation. Each file provides monthly values in a 5x5 lat/lon grid for the Continental United States. Data is available from 1895 to the present'
+pangeo_forge_version: '0.9.2'
+recipes:
+  - id: noaa-nclimgrid
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NOAA NCEI'
+      description: 'National Oceanographic & Atmospheric Administration National Centers for Environmental Information'
+      roles:
+        - producer
+        - licensor
+      url: https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00332
+  license: 'Open Data'
+maintainers:
+  - name: 'Development Seed'
+    github: developmentseed
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
