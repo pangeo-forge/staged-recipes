@@ -22,5 +22,6 @@ recipe = (
     | StoreToZarr(
         store_name="noaa-nclimgrid.zarr",
         combine_dims=pattern.combine_dim_keys,
+        target_chunks={"time": 1, "lat": 596, "lon": 1385},
     )
 )
