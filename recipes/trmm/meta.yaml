@@ -1,0 +1,20 @@
+title: 'TRMM (TMPA) Precipitation L3 1 day 0.25 degree x 0.25 degree V7 (TRMM_3B42_Daily) at GES DISC'
+description: 'TMPA (3B42_Daily) dataset have been discontinued as of Dec. 31, 2019, and users are strongly encouraged to shift to the successor IMERG dataset (doi: 10.5067/GPM/IMERGDF/DAY/06).This daily accumulated precipitation product is generated from the research-quality 3-hourly TRMM Multi-Satellite Precip...'
+pangeo_forge_version: '0.9.2'
+recipes:
+  - id: 'TRMM_3B42_Daily'
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NASA/GSFC/SED/ESD/GCDC/GESDISC'
+      description: 'NASA/GSFC/SED/ESD/GCDC/GESDISC'
+      roles:
+        - producer
+        - licensor
+      url: 'https://disc.gsfc.nasa.gov/datacollection/TRMM_3B42_Daily_7.html'
+  license: 'Open Data'
+maintainers:
+  - name: 'Development Seed'
+    github: developmentseed
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
