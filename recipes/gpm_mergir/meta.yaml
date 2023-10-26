@@ -1,0 +1,20 @@
+title: 'NCEP/CPC L3 Half Hourly 4km Global (60S - 60N) Merged IR V1 (GPM_MERGIR) at GES DISC'
+description: 'These data originate from NOAA/NCEP.The NOAA Climate Prediction Center/NCEP/NWS is making the data available originally in binary format, in a weekly rotating archive. The NASA GES DISC is acquiring the binary files as they become available, converts them into CF (Climate and Forecast) -convention...'
+pangeo_forge_version: '0.9.2'
+recipes:
+  - id: 'GPM_MERGIR'
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NASA/GSFC/SED/ESD/GCDC/GESDISC'
+      description: 'NASA/GSFC/SED/ESD/GCDC/GESDISC'
+      roles:
+        - producer
+        - licensor
+      url: 'https://disc.gsfc.nasa.gov/datacollection/GPM_MERGIR_1.html'
+  license: 'Open Data'
+maintainers:
+  - name: 'Development Seed'
+    github: developmentseed
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
