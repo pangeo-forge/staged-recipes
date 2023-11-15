@@ -1,0 +1,20 @@
+title: 'GHRSST Level 4 MUR Global Foundation Sea Surface Temperature Analysis (v4.1)'
+description: 'A Group for High Resolution Sea Surface Temperature (GHRSST) Level 4 sea surface temperature analysis produced as a retrospective dataset (four day latency) and near-real-time dataset (one day latency) at the JPL Physical Oceanography DAAC using wavelets as basis functions in an optimal interpolation approach on a global 0.01 degree grid'
+pangeo_forge_version: '0.9.2'
+recipes:
+  - id: MUR-JPL-L4-GLOB-v4.1
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'NASA JPL PO.DAAC'
+      description: 'Physical Oceanography Distributed Active Archive Center'
+      roles:
+        - producer
+        - licensor
+      url: https://podaac.jpl.nasa.gov/dataset/MUR-JPL-L4-GLOB-v4.1
+  license: 'Open Data'
+maintainers:
+  - name: 'Development Seed'
+    github: developmentseed
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
