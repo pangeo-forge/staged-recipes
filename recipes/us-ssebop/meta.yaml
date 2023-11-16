@@ -19,7 +19,7 @@ provenance:
       orcid: '0000-0002-8810-8539'
       roles:
         - producer
-      url: https://www.usgs.gov/staff-profiles/gabriel-b-senay
+      url: 'https://www.usgs.gov/staff-profiles/gabriel-b-senay'
   license: 'CC0'
 maintainers:
   - name: 'Timothy Hodson'
