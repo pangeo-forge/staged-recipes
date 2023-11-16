@@ -1,17 +1,10 @@
+from datetime import date
+
 import apache_beam as beam
 import pandas as pd
 
-from datetime import date
-
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-
-from pangeo_forge_recipes.transforms import (
-    Indexed,
-    OpenURLWithFSSpec,
-    StoreToZarr,
-    T,
-)
-
+from pangeo_forge_recipes.transforms import Indexed, OpenURLWithFSSpec, StoreToZarr, T
 
 input_url_pattern = (
     'https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/uswem/web/'
@@ -25,7 +18,7 @@ dates = pd.date_range(start, end, freq='1D')
 
 
 def make_url(time: pd.Timestamp) -> str:
-    return input_url_pattern.format(yyyyjjj=time.strftime("%Y%j"))
+    return input_url_pattern.format(yyyyjjj=time.strftime('%Y%j'))
 
 
 pattern = FilePattern(make_url, ConcatDim(name='time', keys=dates, nitems_per_file=1))
@@ -58,8 +51,8 @@ recipe = (
     | OpenURLWithFSSpec(max_concurrency=10, open_kwargs={'compression': 'zip'})
     | Preprocess()
     | StoreToZarr(
-        store_name="us-ssebop.zarr",
+        store_name='us-ssebop.zarr',
         combine_dims=pattern.combine_dim_keys,
-        target_chunks={"time": 1, "lat": int(2834 / 2), "lon": int(6612 / 6)},
+        target_chunks={'time': 1, 'lat': int(2834 / 2), 'lon': int(6612 / 6)},
     )
 )
