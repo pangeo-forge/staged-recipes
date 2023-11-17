@@ -12,8 +12,8 @@ provenance:
     - name: 'USGS'
       description: 'US Geological Survey'
       roles:
-         - host
-         - provider
+        - host
+        - provider
     - name: 'Gabriel Senay'
       description: 'Gabriel Senay, Research Physical Scientist, US Geological Survey'
       orcid: '0000-0002-8810-8539'
