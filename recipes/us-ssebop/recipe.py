@@ -33,7 +33,9 @@ class Preprocess(beam.PTransform):
         import rioxarray
 
         index, f = item
-        time = dates[index]
+        time_dim = index.find_concat_dim('time')
+        time_index = index[time_dim].value
+        time = dates[time_index]
 
         da = rioxarray.open_rasterio(f.open()).drop('band')
         da = da.rename({'x': 'lon', 'y': 'lat'})
