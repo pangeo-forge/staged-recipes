@@ -1,0 +1,29 @@
+title: 'US SSEBop Evapotranspiration'
+description: >
+  Actual Evapotranspiration (ETa) produced using MODIS and the operational Simplified Surface Energy Balance (SSEBop) model
+  for the period 2000 to 2022 at 1-kilometer (km) spatial resolution for the contiguous United States.
+pangeo_forge_version: '0.10.3'
+pangeo_notebook_version: '2022.07.13'
+recipes:
+  - id: us-ssebop
+    object: 'recipe:recipe'
+provenance:
+  providers:
+    - name: 'USGS'
+      description: 'US Geological Survey'
+      roles:
+        - host
+        - provider
+    - name: 'Gabriel Senay'
+      description: 'Gabriel Senay, Research Physical Scientist, US Geological Survey'
+      orcid: '0000-0002-8810-8539'
+      roles:
+        - producer
+      url: 'https://www.usgs.gov/staff-profiles/gabriel-b-senay'
+  license: 'CC0'
+maintainers:
+  - name: 'Timothy Hodson'
+    orcid: '0000-0003-0962-5130'
+    github: thodson-usgs
+bakery:
+  id: 'pangeo-ldeo-nsf-earthcube'
