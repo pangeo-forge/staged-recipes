@@ -2,6 +2,7 @@ from datetime import date
 
 import apache_beam as beam
 import pandas as pd
+import xarray as xr
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.transforms import Indexed, StoreToZarr, T
@@ -30,7 +31,7 @@ class Preprocess(beam.PTransform):
     """Preprocessor transform."""
 
     @staticmethod
-    def _preproc(item: Indexed[T]) -> Indexed[T]:
+    def _preproc(item: Indexed[T]) -> Indexed[xr.Dataset]:
         import numpy as np
         import rioxarray
 
