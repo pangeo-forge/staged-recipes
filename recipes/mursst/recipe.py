@@ -5,18 +5,14 @@ from dataclasses import dataclass, field
 from typing import Dict, Set
 
 import apache_beam as beam
-import requests
-
 import pandas as pd
-from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
-from pangeo_forge_recipes.transforms import (
-    OpenWithKerchunk,
-    WriteCombinedReference,
-)``
 import requests
-from requests.auth import HTTPBasicAuth
 import xarray as xr
 import zarr
+from requests.auth import HTTPBasicAuth
+
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
+from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference
 
 HTTP_REL = 'http://esipfed.org/ns/fedsearch/1.1/data#'
 S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
@@ -31,23 +27,28 @@ IDENTICAL_DIMS = ['lat', 'lon']
 SELECTED_VARS = ['analysed_sst', 'analysis_error', 'mask', 'sea_ice_fraction']
 
 # use HTTP_REL if S3 access is not possible. S3_REL is faster.
-selected_rel = HTTP_REL #S3_REL
+selected_rel = HTTP_REL  # S3_REL
 
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
-    for d in pd.date_range("2002-06-01", "2002-06-30", freq="D")
+    for d in pd.date_range('2002-06-01', '2002-06-30', freq='D')
 ]
+
 
 def make_filename(time):
     if selected_rel == HTTP_REL:
-        base_url = "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/"
+        base_url = (
+            f'https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/{SHORT_NAME}/'
+        )
     else:
-        base_url = "s3://podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/"
+        base_url = f's3://podaac-ops-cumulus-protected/{SHORT_NAME}/'
     # example file: "/20020601090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
-    return f"{base_url}{time}090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
+    return f'{base_url}{time}090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc'
 
-concat_dim = ConcatDim("time", dates, nitems_per_file=1)
+
+concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_filename, concat_dim)
+
 
 def get_earthdata_token(username, password):
     # URL for the Earthdata login endpoint
@@ -55,29 +56,24 @@ def get_earthdata_token(username, password):
     auth = HTTPBasicAuth(username, password)
 
     # Request a new token
-    response = requests.get(
-        f"{login_url}s",
-        auth=auth
-    )
+    response = requests.get(f'{login_url}s', auth=auth)
 
     # Check if the request was successful
     if response.status_code == 200:
         if len(response.json()) == 0:
             # create new token
-            response = requests.post(
-                login_url,
-                auth=auth
-            )
+            response = requests.post(login_url, auth=auth)
             if response.status_code == 200:
                 token = response.json()['access_token']
             else:
-                raise Exception("Error: Unable to generate Earthdata token.")
+                raise Exception('Error: Unable to generate Earthdata token.')
         else:
             # Token is usually in the response's JSON data
             token = response.json()[0]['access_token']
         return token
     else:
-        raise Exception("Error: Unable to retrieve Earthdata token.")
+        raise Exception('Error: Unable to retrieve Earthdata token.')
+
 
 def get_s3_creds(username, password, credentials_api=CREDENTIALS_API):
     login_resp = requests.get(CREDENTIALS_API, allow_redirects=False)
@@ -102,17 +98,20 @@ def get_s3_creds(username, password, credentials_api=CREDENTIALS_API):
         'key': creds['accessKeyId'],
         'secret': creds['secretAccessKey'],
         'token': creds['sessionToken'],
-        'anon': False
+        'anon': False,
     }
+
 
 def earthdata_auth(username: str, password: str):
     if selected_rel == S3_REL:
         return get_s3_creds(username, password)
     else:
-        token =  get_earthdata_token(username, password)
+        token = get_earthdata_token(username, password)
         return {'headers': {'Authorization': f'Bearer {token}'}}
 
+
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
+
 
 @dataclass
 class FilterVars(beam.PTransform):
@@ -137,7 +136,7 @@ class FilterVars(beam.PTransform):
         return pcoll | beam.Map(self._filter, keep=self.keep)
 
 
-# To be replaced with a recipe class when https://github.com/pangeo-forge/pangeo-forge-recipes/pull/556/files is merged
+# Remove method when https://github.com/pangeo-forge/pangeo-forge-recipes/pull/556/files is merged.
 @beam.ptransform_fn
 def ConsolidateMetadata(pcoll: beam.PCollection) -> beam.PCollection:
     """Consolidate metadata into a single .zmetadata field.
@@ -149,6 +148,7 @@ def ConsolidateMetadata(pcoll: beam.PCollection) -> beam.PCollection:
         return store
 
     return pcoll | beam.Map(_consolidate)
+
 
 @dataclass
 class ValidateDatasetDimensions(beam.PTransform):
@@ -175,6 +175,7 @@ class ValidateDatasetDimensions(beam.PTransform):
         pcoll: beam.PCollection,
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
+
 
 recipe = (
     beam.Create(pattern.items())
