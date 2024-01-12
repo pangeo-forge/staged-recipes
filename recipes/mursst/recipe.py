@@ -2,43 +2,84 @@ import base64
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Dict, Set, Union
+from typing import Dict, Set
 
 import apache_beam as beam
 import requests
-from cmr import GranuleQuery
-from kerchunk.combine import MultiZarrToZarr
-from xarray import Dataset
 
-from pangeo_forge_recipes.patterns import pattern_from_file_sequence
-from pangeo_forge_recipes.storage import FSSpecTarget
+import pandas as pd
+from pangeo_forge_recipes.patterns import FilePattern, ConcatDim
 from pangeo_forge_recipes.transforms import (
-    CombineReferences,
     OpenWithKerchunk,
-    RequiredAtRuntimeDefault,
     WriteCombinedReference,
-)
-from pangeo_forge_recipes.writers import ZarrWriterMixin
+)``
+import requests
+from requests.auth import HTTPBasicAuth
+import xarray as xr
+import zarr
 
 HTTP_REL = 'http://esipfed.org/ns/fedsearch/1.1/data#'
 S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
 
-# This recipe requires the following environment variables from Earthdata
-ED_TOKEN = os.environ['EARTHDATA_TOKEN']
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
 CREDENTIALS_API = 'https://archive.podaac.earthdata.nasa.gov/s3credentials'
 SHORT_NAME = 'MUR-JPL-L4-GLOB-v4.1'
-CONCAT_DIM = 'time'
+CONCAT_DIMS = ['time']
 IDENTICAL_DIMS = ['lat', 'lon']
 SELECTED_VARS = ['analysed_sst', 'analysis_error', 'mask', 'sea_ice_fraction']
 
 # use HTTP_REL if S3 access is not possible. S3_REL is faster.
-selected_rel = S3_REL
+selected_rel = HTTP_REL #S3_REL
 
+dates = [
+    d.to_pydatetime().strftime('%Y%m%d')
+    for d in pd.date_range("2002-06-01", "2002-06-30", freq="D")
+]
 
-def earthdata_auth(username: str, password: str):
+def make_filename(time):
+    if selected_rel == HTTP_REL:
+        base_url = "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/"
+    else:
+        base_url = "s3://podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/"
+    # example file: "/20020601090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
+    return f"{base_url}{time}090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
+
+concat_dim = ConcatDim("time", dates, nitems_per_file=1)
+pattern = FilePattern(make_filename, concat_dim)
+
+def get_earthdata_token(username, password):
+    # URL for the Earthdata login endpoint
+    login_url = 'https://urs.earthdata.nasa.gov/api/users/token'
+    auth = HTTPBasicAuth(username, password)
+
+    # Request a new token
+    response = requests.get(
+        f"{login_url}s",
+        auth=auth
+    )
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        if len(response.json()) == 0:
+            # create new token
+            response = requests.post(
+                login_url,
+                auth=auth
+            )
+            if response.status_code == 200:
+                token = response.json()['access_token']
+            else:
+                raise Exception("Error: Unable to generate Earthdata token.")
+        else:
+            # Token is usually in the response's JSON data
+            token = response.json()[0]['access_token']
+        return token
+    else:
+        raise Exception("Error: Unable to retrieve Earthdata token.")
+
+def get_s3_creds(username, password, credentials_api=CREDENTIALS_API):
     login_resp = requests.get(CREDENTIALS_API, allow_redirects=False)
     login_resp.raise_for_status()
 
@@ -46,7 +87,7 @@ def earthdata_auth(username: str, password: str):
     auth_redirect = requests.post(
         login_resp.headers['location'],
         data={'credentials': encoded_auth},
-        headers={'Origin': CREDENTIALS_API},
+        headers={'Origin': credentials_api},
         allow_redirects=False,
     )
     auth_redirect.raise_for_status()
@@ -58,30 +99,20 @@ def earthdata_auth(username: str, password: str):
 
     creds = json.loads(results.content)
     return {
-        'aws_access_key_id': creds['accessKeyId'],
-        'aws_secret_access_key': creds['secretAccessKey'],
-        'aws_session_token': creds['sessionToken'],
+        'key': creds['accessKeyId'],
+        'secret': creds['secretAccessKey'],
+        'token': creds['sessionToken'],
+        'anon': False
     }
 
+def earthdata_auth(username: str, password: str):
+    if selected_rel == S3_REL:
+        return get_s3_creds(username, password)
+    else:
+        token =  get_earthdata_token(username, password)
+        return {'headers': {'Authorization': f'Bearer {token}'}}
 
-def filter_data_links(links, rel):
-    return filter(
-        lambda link: link['rel'] == rel
-        and (link['href'].endswith('.nc') or link['href'].endswith('.nc4')),
-        links,
-    )
-
-
-def gen_data_links(rel):
-    granules = GranuleQuery().short_name(SHORT_NAME).downloadable(True).get_all()
-    for granule in granules:
-        s3_links = filter_data_links(granule['links'], rel)
-        first = next(s3_links, None)
-        # throw if CMR does not have exactly one S3 link for an item
-        if not first or next(s3_links, None) is not None:
-            raise ValueError(f"Expected 1 link of type {rel} on {granule['title']}")
-        yield first['href']
-
+fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 @dataclass
 class FilterVars(beam.PTransform):
@@ -106,81 +137,18 @@ class FilterVars(beam.PTransform):
         return pcoll | beam.Map(self._filter, keep=self.keep)
 
 
-@dataclass
-class ConsolidateMetadata(beam.PTransform):
-    """Consolidate metadata into a single .zmetadata file.
-
+# To be replaced with a recipe class when https://github.com/pangeo-forge/pangeo-forge-recipes/pull/556/files is merged
+@beam.ptransform_fn
+def ConsolidateMetadata(pcoll: beam.PCollection) -> beam.PCollection:
+    """Consolidate metadata into a single .zmetadata field.
     See zarr.consolidate_metadata() for details.
     """
 
-    storage_options: Dict = field(default_factory=dict)
+    def _consolidate(store: zarr.storage.FSStore) -> zarr.storage.FSStore:
+        zarr.consolidate_metadata(store, path=None)
+        return store
 
-    @staticmethod
-    def _consolidate(mzz: MultiZarrToZarr, storage_options: Dict) -> Dict:
-        import fsspec
-        import zarr
-        from kerchunk.utils import consolidate
-
-        out = mzz.translate()
-        fs = fsspec.filesystem(
-            'reference',
-            fo=out,
-            remote_options=storage_options,
-        )
-        mapper = fs.get_mapper()
-        metadata_key = '.zmetadata'
-        zarr.consolidate_metadata(mapper, metadata_key=metadata_key)
-        double_consolidated = consolidate(dict([(metadata_key, mapper[metadata_key])]))
-        out['refs'] = out['refs'] | double_consolidated['refs']
-        return out
-
-    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
-        return pcoll | beam.Map(self._consolidate, storage_options=self.storage_options)
-
-
-@dataclass
-class WriteReferences(beam.PTransform, ZarrWriterMixin):
-    """Store a singleton PCollection consisting of a ``kerchunk.combine.MultiZarrToZarr`` object.
-
-    :param store_name: Zarr store will be created with this name under ``target_root``.
-    :param output_file_name: Name to give the output references file
-      (``.json`` or ``.parquet`` suffix).
-    """
-
-    store_name: str
-    output_file_name: str = 'reference.json'
-    target_root: Union[str, FSSpecTarget, RequiredAtRuntimeDefault] = field(
-        default_factory=RequiredAtRuntimeDefault
-    )
-    storage_options: Dict = field(default_factory=dict)
-
-    @staticmethod
-    def _write(
-        refs: Dict, full_target: FSSpecTarget, output_file_name: str, storage_options: Dict
-    ) -> Dataset:
-        import fsspec
-        import ujson
-        import xarray as xr
-
-        outpath = full_target._full_path(output_file_name)
-        with full_target.fs.open(outpath, 'wb') as f:
-            f.write(ujson.dumps(refs).encode())
-
-        fs = fsspec.filesystem(
-            'reference', fo=full_target._full_path(output_file_name), remote_options=storage_options
-        )
-        return xr.open_dataset(
-            fs.get_mapper(), engine='zarr', backend_kwargs={'consolidated': True}
-        )
-
-    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
-        return pcoll | beam.Map(
-            self._write,
-            full_target=self.get_full_target(),
-            output_file_name=self.output_file_name,
-            storage_options=self.storage_options,
-        )
-
+    return pcoll | beam.Map(_consolidate)
 
 @dataclass
 class ValidateDatasetDimensions(beam.PTransform):
@@ -189,7 +157,8 @@ class ValidateDatasetDimensions(beam.PTransform):
     expected_dims: Dict = field(default_factory=dict)
 
     @staticmethod
-    def _validate(ds: Dataset, expected_dims: Dict) -> None:
+    def _validate(zarr_store: zarr.storage.FSStore, expected_dims: Dict) -> None:
+        ds = xr.open_dataset(zarr_store, engine='zarr')
         if set(ds.dims) != expected_dims.keys():
             raise ValueError(f'Expected dimensions {expected_dims.keys()}, got {ds.dims}')
         for dim, bounds in expected_dims.items():
@@ -207,23 +176,6 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
-
-fsspec_auth_kwargs = (
-    {'headers': {'Authorization': f'Bearer {ED_TOKEN}'}}
-    if selected_rel == HTTP_REL
-    else {'client_kwargs': earthdata_auth(ED_USERNAME, ED_PASSWORD)}
-)
-pattern = pattern_from_file_sequence(
-    list(gen_data_links(selected_rel)), CONCAT_DIM, fsspec_open_kwargs=fsspec_auth_kwargs
-)
-
-# target_root is injected only into certain transforms in pangeo-forge-recipes
-# this is a hacky way to pull it out of the WriteCombinedReference transform
-hacky_way_to_pull = WriteCombinedReference(
-    store_name=SHORT_NAME,
-    concat_dims=pattern.concat_dims,
-    identical_dims=IDENTICAL_DIMS,
-)
 recipe = (
     beam.Create(pattern.items())
     | OpenWithKerchunk(
@@ -231,18 +183,17 @@ recipe = (
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
-        storage_options=pattern.fsspec_open_kwargs,
+        storage_options=fsspec_open_kwargs,
     )
     | FilterVars(keep={*pattern.concat_dims, *IDENTICAL_DIMS, *SELECTED_VARS})
-    | CombineReferences(
-        concat_dims=pattern.concat_dims,
+    | WriteCombinedReference(
+        concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
-    )
-    | ConsolidateMetadata(storage_options=pattern.fsspec_open_kwargs)
-    | WriteReferences(
         store_name=SHORT_NAME,
-        target_root=hacky_way_to_pull.target_root,
-        storage_options=pattern.fsspec_open_kwargs,
+        target_options=fsspec_open_kwargs,
+        remote_options=fsspec_open_kwargs,
+        remote_protocol='s3' if selected_rel == S3_REL else 'https',
     )
+    | ConsolidateMetadata()
     | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
