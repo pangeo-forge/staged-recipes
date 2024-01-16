@@ -19,7 +19,7 @@ S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
-earthdata_protocol = os.environ['EARTHDATA_PROTOCOL'] or 'https'
+earthdata_protocol = os.environ['PROTOCOL'] or 'https'
 
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
