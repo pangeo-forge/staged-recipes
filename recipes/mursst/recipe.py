@@ -19,15 +19,16 @@ S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
+earthdata_protocol = os.environ['EARTHDATA_PROTOCOL'] or 'https'
+
+if earthdata_protocol not in ('https', 's3'):
+    raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
 CREDENTIALS_API = 'https://archive.podaac.earthdata.nasa.gov/s3credentials'
 SHORT_NAME = 'MUR-JPL-L4-GLOB-v4.1'
 CONCAT_DIMS = ['time']
 IDENTICAL_DIMS = ['lat', 'lon']
 SELECTED_VARS = ['analysed_sst', 'analysis_error', 'mask', 'sea_ice_fraction']
-
-# use HTTP_REL if S3 access is not possible. S3_REL is faster.
-selected_rel = HTTP_REL  # S3_REL
 
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
@@ -36,7 +37,7 @@ dates = [
 
 
 def make_filename(time):
-    if selected_rel == HTTP_REL:
+    if earthdata_protocol == 'https':
         base_url = (
             f'https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/{SHORT_NAME}/'
         )
@@ -103,7 +104,7 @@ def get_s3_creds(username, password, credentials_api=CREDENTIALS_API):
 
 
 def earthdata_auth(username: str, password: str):
-    if selected_rel == S3_REL:
+    if earthdata_protocol == 's3':
         return get_s3_creds(username, password)
     else:
         token = get_earthdata_token(username, password)
@@ -180,7 +181,7 @@ class ValidateDatasetDimensions(beam.PTransform):
 recipe = (
     beam.Create(pattern.items())
     | OpenWithKerchunk(
-        remote_protocol='s3' if selected_rel == S3_REL else 'https',
+        remote_protocol=earthdata_protocol,
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
@@ -193,7 +194,7 @@ recipe = (
         store_name=SHORT_NAME,
         target_options=fsspec_open_kwargs,
         remote_options=fsspec_open_kwargs,
-        remote_protocol='s3' if selected_rel == S3_REL else 'https',
+        remote_protocol=earthdata_protocol
     )
     | ConsolidateMetadata()
     | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
