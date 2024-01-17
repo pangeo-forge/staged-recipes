@@ -2,7 +2,7 @@ import base64
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Dict, Set
+from typing import Dict
 
 import apache_beam as beam
 import pandas as pd
@@ -171,5 +171,7 @@ recipe = (
         remote_protocol=earthdata_protocol,
     )
     | ConsolidateMetadata()
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180), 'nv': (0, 1)})
+    | ValidateDatasetDimensions(
+        expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180), 'nv': (0, 1)}
+    )
 )
