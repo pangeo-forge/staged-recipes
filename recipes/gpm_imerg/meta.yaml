@@ -1,8 +1,8 @@
-title: 'NCEP/CPC L3 Half Hourly 4km Global (60S - 60N) Merged IR V1 (GPM_MERGIR) at GES DISC'
-description: 'These data originate from NOAA/NCEP.The NOAA Climate Prediction Center/NCEP/NWS is making the data available originally in binary format, in a weekly rotating archive. The NASA GES DISC is acquiring the binary files as they become available, converts them into CF (Climate and Forecast) -convention...'
+title: 'GPM IMERG Final Precipitation L3 1 day 0.1 degree x 0.1 degree V07 (GPM_3IMERGDF) at GES DISC'
+description: 'This dataset is the GPM Level 3 IMERG  *Final* Daily  10 x 10 km (GPM_3IMERGDF) derived from the half-hourly GPM_3IMERGHH.  The derived result represents the Final estimate of the daily mean precipitation rate in mm/day.'
 pangeo_forge_version: '0.9.2'
 recipes:
-  - id: 'GPM_MERGIR'
+  - id: 'GPM_3IMERGDF.07'
     object: 'recipe:recipe'
 provenance:
   providers:
@@ -11,7 +11,7 @@ provenance:
       roles:
         - producer
         - licensor
-      url: 'https://disc.gsfc.nasa.gov/datacollection/GPM_MERGIR_1.html'
+      url: 'https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary'
   license: 'Open Data'
 maintainers:
   - name: 'Development Seed'
