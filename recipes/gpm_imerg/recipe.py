@@ -14,9 +14,6 @@ from requests.auth import HTTPBasicAuth
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference
 
-HTTP_REL = 'http://esipfed.org/ns/fedsearch/1.1/data#'
-S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
-
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 earthdata_protocol = os.environ['PROTOCOL'] or 'https'
