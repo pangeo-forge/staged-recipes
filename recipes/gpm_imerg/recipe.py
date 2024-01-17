@@ -35,12 +35,11 @@ dates = [
     for d in pd.date_range('2000-06-01', '2000-06-30', freq='D')
 ]
 
+
 def make_filename(time):
     if earthdata_protocol == 'https':
         # https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/GPM_3IMERGDF.07/2023/07/3B-DAY.MS.MRG.3IMERG.20230731-S000000-E235959.V07B.nc4
-        base_url = (
-            f'https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/{SHORT_NAME}/'
-        )
+        base_url = f'https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/{SHORT_NAME}/'
     else:
         base_url = f's3://gesdisc-cumulus-prod-protected/GPM_L3/{SHORT_NAME}/'
     return f'{base_url}{time}-S000000-E235959.V07B.nc4'
@@ -48,6 +47,7 @@ def make_filename(time):
 
 concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_filename, concat_dim)
+
 
 def get_earthdata_token(username, password):
     # URL for the Earthdata login endpoint
