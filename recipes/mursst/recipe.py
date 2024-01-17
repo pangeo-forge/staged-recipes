@@ -194,7 +194,7 @@ recipe = (
         store_name=SHORT_NAME,
         target_options=fsspec_open_kwargs,
         remote_options=fsspec_open_kwargs,
-        remote_protocol=earthdata_protocol
+        remote_protocol=earthdata_protocol,
     )
     | ConsolidateMetadata()
     | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
