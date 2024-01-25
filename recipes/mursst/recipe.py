@@ -32,7 +32,7 @@ SELECTED_VARS = ['analysed_sst', 'analysis_error', 'mask', 'sea_ice_fraction']
 
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
-    for d in pd.date_range('2002-06-01', '2002-08-30', freq='D')
+    for d in pd.date_range('2002-06-01', '2002-09-31', freq='D')
 ]
 
 
