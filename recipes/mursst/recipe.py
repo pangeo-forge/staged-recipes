@@ -12,7 +12,7 @@ import zarr
 from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference
+from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference, ConsolidateMetadata
 
 HTTP_REL = 'http://esipfed.org/ns/fedsearch/1.1/data#'
 S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
@@ -137,20 +137,6 @@ class FilterVars(beam.PTransform):
         return pcoll | beam.Map(self._filter, keep=self.keep)
 
 
-# Remove method when https://github.com/pangeo-forge/pangeo-forge-recipes/pull/556/files is merged.
-@beam.ptransform_fn
-def ConsolidateMetadata(pcoll: beam.PCollection) -> beam.PCollection:
-    """Consolidate metadata into a single .zmetadata field.
-    See zarr.consolidate_metadata() for details.
-    """
-
-    def _consolidate(store: zarr.storage.FSStore) -> zarr.storage.FSStore:
-        zarr.consolidate_metadata(store, path=None)
-        return store
-
-    return pcoll | beam.Map(_consolidate)
-
-
 @dataclass
 class ValidateDatasetDimensions(beam.PTransform):
     """Open the reference.json in xarray and validate dimensions."""
@@ -191,10 +177,7 @@ recipe = (
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
-        store_name=SHORT_NAME,
-        target_options=fsspec_open_kwargs,
-        remote_options=fsspec_open_kwargs,
-        remote_protocol=earthdata_protocol,
+        store_name=SHORT_NAME
     )
     | ConsolidateMetadata()
     | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
