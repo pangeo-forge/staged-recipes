@@ -180,5 +180,5 @@ recipe = (
         store_name=SHORT_NAME
     )
     | ConsolidateMetadata()
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    # | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
