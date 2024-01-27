@@ -2,7 +2,7 @@ import base64
 import json
 import os
 from dataclasses import dataclass, field
-from typing import MutableMapping
+from typing import MutableMapping, Dict
 
 import apache_beam as beam
 import pandas as pd
@@ -11,7 +11,7 @@ import zarr
 from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference, ConsolidateMetadata
+from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
@@ -113,6 +113,33 @@ def test_ds(store: zarr.storage.FSStore) -> None:
     ds = xr.open_dataset(store, engine="zarr", chunks={})
     for dim, size in ds.dims.items():
         print(f"Dimension: {dim}, Length: {size}")
+
+
+@dataclass
+class ValidateDatasetDimensions(beam.PTransform):
+    """Open the reference.json in xarray and validate dimensions."""
+
+    expected_dims: Dict = field(default_factory=dict)
+
+    @staticmethod
+    def _validate(zarr_store: zarr.storage.FSStore, expected_dims: Dict) -> None:
+        ds = xr.open_dataset(zarr_store, engine='zarr')
+        if set(ds.dims) != expected_dims.keys():
+            raise ValueError(f'Expected dimensions {expected_dims.keys()}, got {ds.dims}')
+        for dim, bounds in expected_dims.items():
+            if bounds is None:
+                continue
+            lo, hi = bounds
+            actual_lo, actual_hi = round(ds[dim].data.min()), round(ds[dim].data.max())
+            if actual_lo != lo or actual_hi != hi:
+                raise ValueError(f'Expected {dim} range [{lo}, {hi}], got {actual_lo, actual_hi}')
+        return ds
+
+    def expand(
+        self,
+        pcoll: beam.PCollection,
+    ) -> beam.PCollection:
+        return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
 
 recipe = (
