@@ -28,7 +28,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2024-01-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2014-01-01', freq='D')
 ]
 
 
