@@ -30,9 +30,12 @@ CONCAT_DIMS = ['time']
 IDENTICAL_DIMS = ['lat', 'lon']
 SELECTED_VARS = ['analysed_sst', 'analysis_error', 'mask', 'sea_ice_fraction']
 
+missing_date_strings = ['2021-02-20', '2021-02-21', '2022-11-09']
+missing_dates = pd.to_datetime(missing_date_strings)
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
-    for d in pd.date_range('2002-06-01', '2002-07-31', freq='D')
+    for d in pd.date_range('2023-01-01', '2023-12-31', freq='D')
+    if d not in missing_dates
 ]
 
 
@@ -180,5 +183,5 @@ recipe = (
         store_name=SHORT_NAME
     )
     | ConsolidateMetadata()
-    # | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
