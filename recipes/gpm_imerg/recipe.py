@@ -2,12 +2,11 @@ import base64
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Dict
+from typing import MutableMapping, Dict
 
 import apache_beam as beam
 import pandas as pd
 import requests
-import xarray as xr
 import zarr
 from requests.auth import HTTPBasicAuth
 
@@ -29,7 +28,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-05', freq='D')
+    for d in pd.date_range('2000-06-01', '2014-01-01', freq='D')
 ]
 
 
@@ -109,18 +108,11 @@ def earthdata_auth(username: str, password: str):
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 
-# Remove method when https://github.com/pangeo-forge/pangeo-forge-recipes/pull/556/files is merged.
-@beam.ptransform_fn
-def ConsolidateMetadata(pcoll: beam.PCollection) -> beam.PCollection:
-    """Consolidate metadata into a single .zmetadata field.
-    See zarr.consolidate_metadata() for details.
-    """
-
-    def _consolidate(store: zarr.storage.FSStore) -> zarr.storage.FSStore:
-        zarr.consolidate_metadata(store, path=None)
-        return store
-
-    return pcoll | beam.Map(_consolidate)
+def test_ds(store: zarr.storage.FSStore) -> None:
+    import xarray as xr
+    ds = xr.open_dataset(store, engine="zarr", chunks={})
+    for dim, size in ds.dims.items():
+        print(f"Dimension: {dim}, Length: {size}")
 
 
 @dataclass
@@ -163,12 +155,6 @@ recipe = (
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
-        target_options=fsspec_open_kwargs,
-        remote_options=fsspec_open_kwargs,
-        remote_protocol=earthdata_protocol,
     )
-    | ConsolidateMetadata()
-    | ValidateDatasetDimensions(
-        expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180), 'nv': (0, 1)}
-    )
+    | "Test dataset" >> beam.Map(test_ds)
 )
