@@ -12,7 +12,7 @@ import zarr
 from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference, ConsolidateMetadata
+from pangeo_forge_recipes.transforms import OpenWithKerchunk, WriteCombinedReference
 
 HTTP_REL = 'http://esipfed.org/ns/fedsearch/1.1/data#'
 S3_REL = 'http://esipfed.org/ns/fedsearch/1.1/s3#'
@@ -182,6 +182,5 @@ recipe = (
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME
     )
-    | ConsolidateMetadata()
-    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
