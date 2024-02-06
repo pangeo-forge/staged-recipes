@@ -1,4 +1,4 @@
 s3fs
 boto3
-git+https://github.com/pangeo-forge/pangeo-forge-recipes.git@main#egg=pangeo-forge-recipes
+git+https://github.com/pangeo-forge/pangeo-forge-recipes.git@gcorradini/memorycheck#egg=pangeo-forge-recipes
 apache-beam==2.52.0
