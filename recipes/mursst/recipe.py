@@ -181,7 +181,7 @@ recipe = (
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
-        mzz_args={'coo_map': {"time": "cf:time"}}
+        mzz_kwargs={'coo_map': {'time': 'cf:time'}}
     )
     #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
