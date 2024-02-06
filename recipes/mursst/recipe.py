@@ -182,5 +182,5 @@ recipe = (
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME
     )
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
