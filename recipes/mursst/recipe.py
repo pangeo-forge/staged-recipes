@@ -162,8 +162,9 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
-auth_args = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
+auth_args = earthdata_auth(ED_USERNAME, ED_PASSWORD)
+    
 recipe = (
     beam.Create(pattern.items())
     | OpenWithKerchunk(
@@ -173,12 +174,13 @@ recipe = (
         inline_threshold=6000,
         storage_options=auth_args,
     )
-    | FilterVars(keep={*pattern.concat_dims, *IDENTICAL_DIMS, *SELECTED_VARS})
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
+        # for running without a runner, use this target_root
+        # target_root=fs_target,
         mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
-    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
