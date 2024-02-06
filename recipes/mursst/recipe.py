@@ -162,11 +162,7 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
-if earthdata_protocol == 's3':
-    storage_options = {'anon': False}
-elif earthdata_protocol == 'https':
-    fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
-    storage_options = fsspec_open_kwargs
+auth_args = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 recipe = (
     beam.Create(pattern.items())
@@ -175,7 +171,7 @@ recipe = (
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
-        storage_options=storage_options,
+        storage_options=auth_args,
     )
     | FilterVars(keep={*pattern.concat_dims, *IDENTICAL_DIMS, *SELECTED_VARS})
     | WriteCombinedReference(
