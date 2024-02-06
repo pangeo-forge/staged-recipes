@@ -113,10 +113,6 @@ def earthdata_auth(username: str, password: str):
         token = get_earthdata_token(username, password)
         return {'headers': {'Authorization': f'Bearer {token}'}}
 
-
-fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
-
-
 @dataclass
 class FilterVars(beam.PTransform):
     """Filter kerchunk variables by name."""
@@ -166,6 +162,11 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
+if earthdata_protocol == 's3':
+    storage_options = {'anon': False}
+elif earthdata_protocol == 'https':
+    fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
+    storage_options = fsspec_open_kwargs
 
 recipe = (
     beam.Create(pattern.items())
@@ -174,14 +175,14 @@ recipe = (
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
-        storage_options=fsspec_open_kwargs,
+        storage_options=storage_options,
     )
     | FilterVars(keep={*pattern.concat_dims, *IDENTICAL_DIMS, *SELECTED_VARS})
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
-        mzz_kwargs={'coo_map': {'time': 'cf:time'}}
+        mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
     #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
