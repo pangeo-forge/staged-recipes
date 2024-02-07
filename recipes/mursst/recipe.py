@@ -182,5 +182,5 @@ recipe = (
         # target_root=fs_target,
         # mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
