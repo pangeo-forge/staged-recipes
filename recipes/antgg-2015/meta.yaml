@@ -1,7 +1,7 @@
 # Name for dataset. User chosen.
-title: "ANTGG-2015"
+title: 'ANTGG-2015'
 # Description of dataset.  User chosen, roughly 1 sentence in length.
-description: "ANTGG dataset converted to zarr stores from a netCDF file"
+description: 'ANTGG dataset converted to zarr stores from a netCDF file'
 # Version of pangeo_forge_recipes library that was used
 pangeo_forge_version: '0.10.4'
 # The recipes section tells Pangeo Cloud where to find the recipes within your PR.
@@ -27,7 +27,7 @@ provenance:
       url: https://doi.pangaea.de/10.1594/PANGAEA.848168
   # This is a required field for provider. Follow STAC spec
   # https://github.com/radiantearth/stac-spec/blob/master/collection-spec/collection-spec.md#license
-  license: "CC-BY-3.0"
+  license: 'CC-BY-3.0'
 maintainers:
   # Information about recipe creator. name and github are required
   - name: 'Matthew Tankersley'
