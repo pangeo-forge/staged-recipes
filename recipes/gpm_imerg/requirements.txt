@@ -1,4 +1,6 @@
 s3fs
 boto3
+requests
+python-cmr==0.9.0
 git+https://github.com/pangeo-forge/pangeo-forge-recipes.git@main#egg=pangeo-forge-recipes
 apache-beam==2.52.0
