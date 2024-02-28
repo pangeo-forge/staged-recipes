@@ -34,7 +34,7 @@ missing_date_strings = ['2021-02-20', '2021-02-21', '2022-11-09']
 missing_dates = pd.to_datetime(missing_date_strings)
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
-    for d in pd.date_range('2002-06-01', '2005-12-31', freq='D')
+    for d in pd.date_range('2002-06-01', '2023-02-23', freq='D')
     if d not in missing_dates
 ]
 
