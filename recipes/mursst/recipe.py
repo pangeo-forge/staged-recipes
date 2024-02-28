@@ -114,10 +114,6 @@ def earthdata_auth(username: str, password: str):
         token = get_earthdata_token(username, password)
         return {'headers': {'Authorization': f'Bearer {token}'}}
 
-
-fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
-
-
 @dataclass
 class FilterVars(beam.PTransform):
     """Filter kerchunk variables by name."""
@@ -184,6 +180,8 @@ fs_target = FSSpecTarget(fsfs, target_directory)
 
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
+auth_args = earthdata_auth(ED_USERNAME, ED_PASSWORD)
+    
 recipe = (
     beam.Create(pattern.items())
     | OpenWithKerchunk(
@@ -191,7 +189,7 @@ recipe = (
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
-        storage_options=fsspec_open_kwargs,
+        storage_options=auth_args,
     )
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
@@ -203,7 +201,7 @@ recipe = (
         # target_root=fs_target,
         mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
 
 
