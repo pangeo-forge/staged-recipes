@@ -163,24 +163,7 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
-# For running without a runner
-# ==========START=============
-import fsspec
-from pangeo_forge_recipes.storage import FSSpecTarget
-
-# Define the local target directory
-target_directory = 'recipe-output'
-
-# Create a filesystem object for the local directory
-fsfs = fsspec.filesystem('file', auto_mkdir=True)
-
-fs_target = FSSpecTarget(fsfs, target_directory)
-# https://github.com/pangeo-forge/pangeo-forge-recipes/blob/8915b4729c1959e7eafa6655908b22e528ccf538/pangeo_forge_recipes/transforms.py#L543C44-L543C57
-# ===========END=============
-
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
-
-auth_args = earthdata_auth(ED_USERNAME, ED_PASSWORD)
     
 recipe = (
     beam.Create(pattern.items())
@@ -197,14 +180,7 @@ recipe = (
         store_name=SHORT_NAME,
         remote_options=fsspec_open_kwargs,
         remote_protocol=earthdata_protocol,
-        # for running without a runner, use this target_root
-        # target_root=fs_target,
         mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
-    #| ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
+    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
-
-
-def run():
-    with beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--direct_num_workers", "1", "--direct_running_mode", "in_memory"])) as p:
-        result = (p | recipe)
