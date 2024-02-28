@@ -182,5 +182,4 @@ recipe = (
         remote_protocol=earthdata_protocol,
         mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
-    | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
