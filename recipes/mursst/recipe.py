@@ -172,7 +172,7 @@ recipe = (
         file_type=pattern.file_type,
         # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
         inline_threshold=6000,
-        storage_options=auth_args,
+        storage_options=fsspec_open_kwargs,
     )
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
