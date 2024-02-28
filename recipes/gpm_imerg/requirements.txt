@@ -1,5 +1,5 @@
 s3fs
 boto3
 requests
-git+https://github.com/pangeo-forge/pangeo-forge-recipes.git@gcorradini/credential_fix#egg=pangeo-forge-recipes
+pangeo-forge-recipes>=0.10.5
 apache-beam==2.52.0
