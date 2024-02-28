@@ -153,6 +153,8 @@ recipe = (
     )
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
+        remote_options=fsspec_open_kwargs,
+        remote_protocol=earthdata_protocol,
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
     )
