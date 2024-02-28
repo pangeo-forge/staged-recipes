@@ -114,9 +114,6 @@ def test_ds(store: zarr.storage.FSStore) -> None:
         print(f'Dimension: {dim}, Length: {size}')
 
 
-
-
-
 recipe = (
     beam.Create(pattern.items())
     | OpenWithKerchunk(
