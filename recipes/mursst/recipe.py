@@ -34,7 +34,7 @@ missing_date_strings = ['2021-02-20', '2021-02-21', '2022-11-09']
 missing_dates = pd.to_datetime(missing_date_strings)
 dates = [
     d.to_pydatetime().strftime('%Y%m%d')
-    for d in pd.date_range('2002-06-01', '2023-02-23', freq='D')
+    for d in pd.date_range('2002-06-01', '2002-12-31', freq='D')
     if d not in missing_dates
 ]
 
@@ -93,8 +93,9 @@ def get_s3_creds(username, password, credentials_api=CREDENTIALS_API):
     auth_redirect.raise_for_status()
 
     final = requests.get(auth_redirect.headers['location'], allow_redirects=False)
-
+    #import pdb; pdb.set_trace()
     results = requests.get(CREDENTIALS_API, cookies={'accessToken': final.cookies['accessToken']})
+    #import pdb; pdb.set_trace()
     results.raise_for_status()
 
     creds = json.loads(results.content)
@@ -147,7 +148,7 @@ class ValidateDatasetDimensions(beam.PTransform):
     expected_dims: Dict = field(default_factory=dict)
 
     @staticmethod
-    def _validate(zarr_store: zarr.storage.FSStore, expected_dims: Dict) -> None:
+    def _validate(zarr_store: zarr.storage.FSStore, expected_dims: dict) -> None:
         ds = xr.open_dataset(zarr_store, engine='zarr')
         if set(ds.dims) != expected_dims.keys():
             raise ValueError(f'Expected dimensions {expected_dims.keys()}, got {ds.dims}')
@@ -166,6 +167,22 @@ class ValidateDatasetDimensions(beam.PTransform):
     ) -> beam.PCollection:
         return pcoll | beam.Map(self._validate, expected_dims=self.expected_dims)
 
+# For running without a runner
+# ==========START=============
+import fsspec
+from pangeo_forge_recipes.storage import FSSpecTarget
+
+# Define the local target directory
+target_directory = 'recipe-output'
+
+# Create a filesystem object for the local directory
+fsfs = fsspec.filesystem('file', auto_mkdir=True)
+
+fs_target = FSSpecTarget(fsfs, target_directory)
+# https://github.com/pangeo-forge/pangeo-forge-recipes/blob/8915b4729c1959e7eafa6655908b22e528ccf538/pangeo_forge_recipes/transforms.py#L543C44-L543C57
+# ===========END=============
+
+fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 recipe = (
     beam.Create(pattern.items())
@@ -176,11 +193,20 @@ recipe = (
         inline_threshold=6000,
         storage_options=fsspec_open_kwargs,
     )
-    | FilterVars(keep={*pattern.concat_dims, *IDENTICAL_DIMS, *SELECTED_VARS})
     | WriteCombinedReference(
         concat_dims=CONCAT_DIMS,
         identical_dims=IDENTICAL_DIMS,
-        store_name=SHORT_NAME
+        store_name=SHORT_NAME,
+        remote_options=fsspec_open_kwargs,
+        remote_protocol=earthdata_protocol,
+        # for running without a runner, use this target_root
+        # target_root=fs_target,
+        mzz_kwargs={'coo_map': {"time": "cf:time"}, 'inline_threshold': 0}
     )
     | ValidateDatasetDimensions(expected_dims={'time': None, 'lat': (-90, 90), 'lon': (-180, 180)})
 )
+
+
+def run():
+    with beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--direct_num_workers", "1", "--direct_running_mode", "in_memory"])) as p:
+        result = (p | recipe)
