@@ -130,5 +130,5 @@ recipe = (
         identical_dims=IDENTICAL_DIMS,
         store_name=SHORT_NAME,
     )
-    | test_ds()
+    | "Test dataset" >> beam.Map(test_ds)
 )
