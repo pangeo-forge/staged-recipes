@@ -5,4 +5,5 @@ requests
 git+https://github.com/norlandrhagen/pangeo-forge-recipes@ndpyramid
 git+https://github.com/carbonplan/ndpyramid@split-levels
 apache-beam==2.52.0
+xarray=2024.1.1
 rioxarray
