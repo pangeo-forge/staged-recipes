@@ -14,7 +14,6 @@
 # --Bake.job_name=local_test
 
 
-
 import base64
 import json
 import os
@@ -22,8 +21,8 @@ import os
 import apache_beam as beam
 import pandas as pd
 import requests
-import zarr
 import xarray as xr
+import zarr
 from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
@@ -31,11 +30,9 @@ from pangeo_forge_recipes.transforms import (
     Indexed,
     OpenURLWithFSSpec,
     OpenWithXarray,
-    OpenWithKerchunk,
-    WriteCombinedReference,
     StoreToPyramid,
-    StoreToZarr
 )
+
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
@@ -130,8 +127,7 @@ def earthdata_auth(username: str, password: str):
 
 
 class TransposeCoords(beam.PTransform):
-    """Transform to transpose coordinates for pyramids and drop time_bnds variable
-    """
+    """Transform to transpose coordinates for pyramids and drop time_bnds variable"""
 
     @staticmethod
     def _transpose_coords(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
@@ -148,6 +144,7 @@ class TransposeCoords(beam.PTransform):
 
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
+
 def test_ds(store: zarr.storage.FSStore) -> None:
     import xarray as xr
 
@@ -155,32 +152,19 @@ def test_ds(store: zarr.storage.FSStore) -> None:
     for dim, size in ds.dims.items():
         print(f'Dimension: {dim}, Length: {size}')
 
+
 recipe = (
     beam.Create(pattern.items())
-    | OpenURLWithFSSpec( open_kwargs=fsspec_open_kwargs)
+    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
     | TransposeCoords()
-    | "Write Pyramid Levels" >> StoreToPyramid(
+    | 'Write Pyramid Levels'
+    >> StoreToPyramid(
         store_name=SHORT_NAME,
-        epsg_code="4326",
-        rename_spatial_dims={"lon": "longitude", "lat": "latitude"},
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
         n_levels=4,
-        pyramid_kwargs={"extra_dim": "nv"},
+        pyramid_kwargs={'extra_dim': 'nv'},
         combine_dims=pattern.combine_dim_keys,
     )
-
-    # | OpenWithKerchunk(
-    #     remote_protocol=earthdata_protocol,
-    #     file_type=pattern.file_type,
-    #     # lat/lon are around 5k, this is the best option for forcing kerchunk to inline them
-    #     inline_threshold=6000,
-    #     storage_options=fsspec_open_kwargs,
-    # )
-    # | WriteCombinedReference(
-    #     concat_dims=CONCAT_DIMS,
-    #     remote_options=fsspec_open_kwargs,
-    #     remote_protocol=earthdata_protocol,
-    #     identical_dims=IDENTICAL_DIMS,
-    #     store_name=SHORT_NAME,
-    # )
 )
