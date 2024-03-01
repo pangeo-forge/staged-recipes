@@ -1,0 +1,17 @@
+// {
+//   "Bake": {
+//     "prune": true,
+//     "bakery_class": "pangeo_forge_runner.bakery.local.LocalDirectBakery"
+//   },
+//   "LocalDirectBakery": {
+//     "num_workers": 1
+//   },
+//   "TargetStorage": {
+//     "fsspec_class": "fsspec.implementations.local.LocalFileSystem",
+//     "root_path": "local_storage/target/"
+//   },
+//   "InputCacheStorage": {
+//     "fsspec_class": "fsspec.implementations.local.LocalFileSystem",
+//     "root_path": "local_storage/cache/"
+//   }
+// }
