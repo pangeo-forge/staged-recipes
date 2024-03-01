@@ -37,7 +37,7 @@ ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
 earthdata_protocol = os.environ['PROTOCOL'] or 'https'
-
+earthdata_protocol = 'https'
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
@@ -168,3 +168,29 @@ recipe = (
         combine_dims=pattern.combine_dim_keys,
     )
 )
+
+
+# For running localy:
+# pipeline = beam.Pipeline()
+
+# fs = fsspec.get_filesystem_class("file")()
+# path = 'tmp'
+# target_root = FSSpecTarget(fs, path)
+
+# pattern = pattern.prune()
+# with pipeline as p:
+
+#     (p | beam.Create(pattern.items())
+#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+#     | OpenWithXarray(file_type=pattern.file_type)
+#     | TransposeCoords()
+#     | 'Write Pyramid Levels'
+#     >> StoreToPyramid(
+#         target_root=target_root,
+#         store_name=SHORT_NAME,
+#         epsg_code='4326',
+#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+#         n_levels=4,
+#         pyramid_kwargs={'extra_dim': 'nv'},
+#         combine_dims=pattern.combine_dim_keys,
+#     ))
