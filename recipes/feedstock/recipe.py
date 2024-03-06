@@ -124,8 +124,7 @@ class DropVarCoord(beam.PTransform):
         index, ds = item
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
-        # import pdb; pdb.set_trace()
-        ds = ds[['precipitation']]
+        ds = ds[['precipitation','MWprecipitation','randomError']]
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
