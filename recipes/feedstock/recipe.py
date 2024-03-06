@@ -26,8 +26,8 @@ from pangeo_forge_recipes.transforms import (
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
-earthdata_protocol = os.environ['PROTOCOL'] or 'https'
-# earthdata_protocol = 'https'
+earthdata_protocol = os.environ.get('PROTOCOL') or 'https'
+earthdata_protocol = 'https'
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
@@ -124,6 +124,8 @@ class DropVarCoord(beam.PTransform):
         index, ds = item
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
+        # import pdb; pdb.set_trace()
+        ds = ds[['precipitation']]
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
