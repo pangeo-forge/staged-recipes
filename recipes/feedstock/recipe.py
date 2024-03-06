@@ -1,12 +1,3 @@
-# pangeo-forge-runner bake \
-#  --repo=./pangeo_forge_staging \
-#  --ref="mursst-kerchunk" \
-#  --feedstock-subdir="recipes/mursst" \
-#  --Bake.recipe_id=MUR-JPL-L4-GLOB-v4.1 \
-#  --Bake.job_name=local_test \
-#  -f multi-local-runner-config.py
-
-
 # AWS_PROFILE=devseed pangeo-forge-runner bake \
 # --repo=~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/ \
 # -f ~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/feedstock/config.py \
@@ -17,16 +8,14 @@
 import base64
 import json
 import os
-import fsspec
+
 import apache_beam as beam
 import pandas as pd
 import requests
 import xarray as xr
-import zarr
 from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
-from pangeo_forge_recipes.storage import FSSpecTarget
 from pangeo_forge_recipes.transforms import (
     Indexed,
     OpenURLWithFSSpec,
@@ -127,7 +116,6 @@ def earthdata_auth(username: str, password: str):
         return {'headers': {'Authorization': f'Bearer {token}'}}
 
 
-
 class DropVarCoord(beam.PTransform):
     """Drops non-viz variables & time_bnds."""
 
@@ -135,14 +123,12 @@ class DropVarCoord(beam.PTransform):
     def _dropvarcoord(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
         # Removing time_bnds since it doesn't have spatial dims
-        # import pdb; pdb.set_trace()
         ds = ds.drop_vars('time_bnds')
-
-        # ds = ds[['precipitation', 'precipitation_cnt', 'precipitation_cnt_cond', 'MWprecipitation', 'MWprecipitation_cnt', 'MWprecipitation_cnt_cond', 'randomError', 'randomError_cnt', 'probabilityLiquidPrecipitation']]
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
         return pcoll | beam.Map(self._dropvarcoord)
+
 
 class TransposeCoords(beam.PTransform):
     """Transform to transpose coordinates for pyramids and drop time_bnds variable"""
@@ -157,63 +143,67 @@ class TransposeCoords(beam.PTransform):
         return pcoll | beam.Map(self._transpose_coords)
 
 
-
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 
+recipe = (
+    beam.Create(pattern.items())
+    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+    | OpenWithXarray(file_type=pattern.file_type)
+    | TransposeCoords()
+    | DropVarCoord()
+    | 'Write Pyramid Levels'
+    >> StoreToPyramid(
+        store_name=SHORT_NAME,
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        n_levels=4,
+        pyramid_kwargs={'extra_dim': 'nv'},
+        combine_dims=pattern.combine_dim_keys,
+    )
+)
 
-# recipe = (
-#     beam.Create(pattern.items())
-#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-#     | OpenWithXarray(file_type=pattern.file_type)
-#     | TransposeCoords()
-#     | DropVarCoord()
-#     | 'Write Pyramid Levels'
-#     >> StoreToPyramid(
-#         store_name=SHORT_NAME,
-#         epsg_code='4326',
-#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-#         n_levels=4,
-#         pyramid_kwargs={'extra_dim': 'nv'},
-#         combine_dims=pattern.combine_dim_keys,
-#     )
-# )
 
+# ----------------------------------------
+#### LOCAL RUNNING W/O pangeo-forge-runner
+# ----------------------------------------
 
-# For running locally:
-pipeline = beam.Pipeline()
+# import fsspec
+# import zarr
+# from pangeo_forge_recipes.storage import FSSpecTarget
+
+# pipeline = beam.Pipeline()
 # pipeline = beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--num_workers", '2', "--direct_running_mode", "multi_processing"]))
-
 
 
 # fs = fsspec.get_filesystem_class("file")()
 # path = 'tmp'
 # target_root = FSSpecTarget(fs, path)
 
-fs = fsspec.get_filesystem_class("s3")()
-path = 's3://carbonplan-scratch/pyramid'
-target_root = FSSpecTarget(fs, path)
+# fs = fsspec.get_filesystem_class("s3")()
+# path = 's3://carbonplan-scratch/pyramid'
+# target_root = FSSpecTarget(fs, path)
 
-import s3fs
-s3 = s3fs.S3FileSystem()
-s3.rm(path, recursive=True)
+# import s3fs
+# s3 = s3fs.S3FileSystem()
+# s3.rm(path, recursive=True)
 
-pattern = pattern.prune()
-with pipeline as p:
+# pattern = pattern.prune()
+# with pipeline as p:
 
-    (p | beam.Create(pattern.items())
-    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-    | OpenWithXarray(file_type=pattern.file_type)
-    | TransposeCoords()
-    | DropVarCoord()
+#     (p | beam.Create(pattern.items())
+#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+#     | OpenWithXarray(file_type=pattern.file_type)
+#     | TransposeCoords()
+#     | DropVarCoord()
 
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        target_root=target_root,
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=2,
-        pyramid_kwargs={'extra_dim': 'nv'},
-        combine_dims=pattern.combine_dim_keys,
-    ))
+#     | 'Write Pyramid Levels'
+#     >> StoreToPyramid(
+#         target_root=target_root,
+#         store_name=SHORT_NAME,
+#         epsg_code='4326',
+#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+#         n_levels=2,
+#         pyramid_kwargs={'extra_dim': 'nv'},
+#         combine_dims=pattern.combine_dim_keys,
+#     ))
