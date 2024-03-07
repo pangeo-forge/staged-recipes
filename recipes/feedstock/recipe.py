@@ -21,6 +21,7 @@ from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
     OpenWithXarray,
     StoreToPyramid,
+    StoreToZarr
 )
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
@@ -39,9 +40,9 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2014-01-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-03', freq='D')
 ]
-
+#2014-01-01
 
 def make_filename(time):
     if earthdata_protocol == 'https':
@@ -124,7 +125,9 @@ class DropVarCoord(beam.PTransform):
         index, ds = item
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
-        ds = ds[['precipitation','MWprecipitation','randomError']]
+        ds = ds[['precipitation']]
+
+        # ds = ds[['precipitation','MWprecipitation','randomError']]
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
@@ -153,15 +156,19 @@ recipe = (
     | OpenWithXarray(file_type=pattern.file_type)
     | TransposeCoords()
     | DropVarCoord()
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=4,
-        pyramid_kwargs={'extra_dim': 'nv'},
+    | StoreToZarr(
+        store_name="gpm_imerg",
         combine_dims=pattern.combine_dim_keys,
     )
+    # | 'Write Pyramid Levels'
+    # >> StoreToPyramid(
+    #     store_name=SHORT_NAME,
+    #     epsg_code='4326',
+    #     rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+    #     n_levels=4,
+    #     pyramid_kwargs={'extra_dim': 'nv'},
+    #     combine_dims=pattern.combine_dim_keys,
+    # )
 )
 
 
