@@ -27,7 +27,7 @@ from pangeo_forge_recipes.transforms import (
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
-earthdata_protocol = os.environ.get('PROTOCOL') or 'https'
+earthdata_protocol = 's3'
 # earthdata_protocol = 'https'
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
