@@ -125,7 +125,7 @@ class DropVarCoord(beam.PTransform):
         index, ds = item
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
-        #ds = ds[['precipitation']]
+        ds = ds[['precipitation']]
 
         # ds = ds[['precipitation','MWprecipitation','randomError']]
         return index, ds
