@@ -27,13 +27,8 @@ from pangeo_forge_recipes.transforms import (
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
-<<<<<<< HEAD
-earthdata_protocol = os.environ.get('PROTOCOL') or 'https'
-earthdata_protocol = 'https'
-=======
 earthdata_protocol = 's3'
 # earthdata_protocol = 'https'
->>>>>>> 91b9c30fcc2fdbaa3fef29a16ec2d2a01db0f5a1
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
@@ -45,11 +40,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-<<<<<<< HEAD
-    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
-=======
     for d in pd.date_range('2000-06-01', '2000-08-01', freq='D')
->>>>>>> 91b9c30fcc2fdbaa3fef29a16ec2d2a01db0f5a1
 ]
 
 
