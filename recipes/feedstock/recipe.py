@@ -1,4 +1,4 @@
-# AWS_PROFILE=devseed pangeo-forge-runner bake \
+# pangeo-forge-runner bake \
 # --repo=~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/ \
 # -f ~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/feedstock/config.py \
 # --Bake.recipe_id=GPM_3IMERGDF.07 \
@@ -17,18 +17,18 @@ from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.transforms import (
+    ConsolidateMetadata,
     Indexed,
     OpenURLWithFSSpec,
     OpenWithXarray,
     StoreToPyramid,
-    StoreToZarr
 )
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
 earthdata_protocol = os.environ.get('PROTOCOL') or 'https'
-# earthdata_protocol = 'https'
+earthdata_protocol = 'https'
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
@@ -40,9 +40,9 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-03', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
 ]
-#2014-01-01
+
 
 def make_filename(time):
     if earthdata_protocol == 'https':
@@ -123,11 +123,11 @@ class DropVarCoord(beam.PTransform):
     @staticmethod
     def _dropvarcoord(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
+        print("AHHHHHHHHHHHHH")
+        print(index)
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
         ds = ds[['precipitation']]
-
-        # ds = ds[['precipitation','MWprecipitation','randomError']]
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
@@ -156,19 +156,16 @@ recipe = (
     | OpenWithXarray(file_type=pattern.file_type)
     | TransposeCoords()
     | DropVarCoord()
-    | StoreToZarr(
-        store_name="gpm_imerg",
+    | 'Write Pyramid Levels'
+    >> StoreToPyramid(
+        store_name=SHORT_NAME,
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        n_levels=2,
+        pyramid_kwargs={'extra_dim': 'nv'},
         combine_dims=pattern.combine_dim_keys,
     )
-    # | 'Write Pyramid Levels'
-    # >> StoreToPyramid(
-    #     store_name=SHORT_NAME,
-    #     epsg_code='4326',
-    #     rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-    #     n_levels=4,
-    #     pyramid_kwargs={'extra_dim': 'nv'},
-    #     combine_dims=pattern.combine_dim_keys,
-    # )
+
 )
 
 
@@ -215,3 +212,5 @@ recipe = (
 #         pyramid_kwargs={'extra_dim': 'nv'},
 #         combine_dims=pattern.combine_dim_keys,
 #     ))
+
+
