@@ -40,13 +40,14 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-08-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-07-01', freq='D')
 ]
 
 
 def make_filename(time):
     if earthdata_protocol == 'https':
-        # https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/GPM_3IMERGDF.07/2023/07/3B-DAY.MS.MRG.3IMERG.20230731-S000000-E235959.V07B.nc4
+        # https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/GPM_3IMERGDF.07/2023/07/3B-DAY
+        # .MS.MRG.3IMERG.20230731-S000000-E235959.V07B.nc4
         base_url = f'https://data.gesdisc.earthdata.nasa.gov/data/GPM_L3/{SHORT_NAME}/'
     else:
         base_url = f's3://gesdisc-cumulus-prod-protected/GPM_L3/{SHORT_NAME}/'
@@ -123,8 +124,6 @@ class DropVarCoord(beam.PTransform):
     @staticmethod
     def _dropvarcoord(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
-        print("AHHHHHHHHHHHHH")
-        print(index)
         # Removing time_bnds since it doesn't have spatial dims
         ds = ds.drop_vars('time_bnds')
         ds = ds[['precipitation']]
