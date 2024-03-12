@@ -1,8 +1,7 @@
 # pangeo-forge-runner bake \
-# --repo=~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/ \
-# -f ~/Documents/carbonplan/pangeo_forge/staged-recipes/recipes/feedstock/config.py \
-# --Bake.recipe_id=GPM_3IMERGDF.07 \
-# --Bake.job_name=local_test
+#     --config debug/config.py \
+#     --repo . \
+#     --Bake.job_name=test1 
 
 
 import base64
@@ -27,8 +26,8 @@ from pangeo_forge_recipes.transforms import (
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
 
-earthdata_protocol = 's3'
-# earthdata_protocol = 'https'
+# earthdata_protocol = 's3'
+earthdata_protocol = 'https'
 if earthdata_protocol not in ('https', 's3'):
     raise ValueError(f'Unknown ED_PROTOCOL: {earthdata_protocol}')
 
@@ -40,7 +39,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-07-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-01', freq='D')
 ]
 
 
@@ -133,17 +132,16 @@ class DropVarCoord(beam.PTransform):
         return pcoll | beam.Map(self._dropvarcoord)
 
 
-class TransposeCoords(beam.PTransform):
-    """Transform to transpose coordinates for pyramids and drop time_bnds variable"""
+class LoadDS(beam.PTransform):
 
     @staticmethod
-    def _transpose_coords(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
+    def _loadit(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
-        ds = ds.transpose('time', 'lat', 'lon', 'nv')
+        ds = ds.load()
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
-        return pcoll | beam.Map(self._transpose_coords)
+        return pcoll | beam.Map(self._loadit)
 
 
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
@@ -153,17 +151,8 @@ recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
-    | TransposeCoords()
-    | DropVarCoord()
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=2,
-        pyramid_kwargs={'extra_dim': 'nv'},
-        combine_dims=pattern.combine_dim_keys,
-    )
+    | LoadDS()
+
 )
 
 
