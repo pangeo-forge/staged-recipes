@@ -147,6 +147,20 @@ class LoadDS(beam.PTransform):
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 
+class TransposeCoords(beam.PTransform):
+    """Transform to transpose coordinates for pyramids and drop time_bnds variable"""
+
+    @staticmethod
+    def _transpose_coords(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
+        index, ds = item
+        ds = ds.transpose('time', 'lat', 'lon', 'nv')
+        return index, ds
+
+    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
+        return pcoll | beam.Map(self._transpose_coords)
+
+
+
 recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
