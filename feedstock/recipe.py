@@ -1,8 +1,8 @@
-pangeo-forge-runner bake \
-    --config feedstock/config.py \
-    --repo='https://github.com/pangeo-forge/staged-recipes.git' \
-    --ref='debug' \
-    --Bake.job_name=test1 
+# pangeo-forge-runner bake \
+#     --config feedstock/config.py \
+#     --repo='https://github.com/pangeo-forge/staged-recipes.git' \
+#     --ref='debug' \
+#     --Bake.job_name=test1 
 
 
 import base64
@@ -40,7 +40,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-08-01', freq='D')
 ]
 
 
