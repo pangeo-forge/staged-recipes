@@ -2,7 +2,7 @@
 #     --config feedstock/config.py \
 #     --repo='https://github.com/pangeo-forge/staged-recipes.git' \
 #     --ref='debug' \
-#     --Bake.job_name=test1 
+#     --Bake.job_name=test1
 
 
 import base64
@@ -153,6 +153,7 @@ recipe = (
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
     | LoadDS()
+    | beam.Map(print)
 
 )
 
@@ -209,5 +210,3 @@ recipe = (
 #         pyramid_kwargs={'extra_dim': 'nv'},
 #         combine_dims=pattern.combine_dim_keys,
 #     ))
-
-
