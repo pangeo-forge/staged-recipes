@@ -40,7 +40,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-10', freq='D')
 ]
 
 
@@ -134,7 +134,6 @@ class DropVarCoord(beam.PTransform):
 
 
 class LoadDS(beam.PTransform):
-
     @staticmethod
     def _loadit(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
@@ -154,7 +153,6 @@ recipe = (
     | OpenWithXarray(file_type=pattern.file_type)
     | LoadDS()
     | beam.Map(print)
-
 )
 
 # recipe = (
@@ -164,7 +162,6 @@ recipe = (
 #     | LoadDS()
 
 # )
-
 
 
 # ----------------------------------------
