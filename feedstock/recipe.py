@@ -152,7 +152,7 @@ recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
-    # | LoadDS()
+    | LoadDS()
 
 )
 
