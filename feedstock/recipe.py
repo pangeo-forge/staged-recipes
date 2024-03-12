@@ -151,9 +151,26 @@ recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
-    | LoadDS()
-    | beam.Map(print)
+    | TransposeCoords()
+    | DropVarCoord()
+    | 'Write Pyramid Levels'
+    >> StoreToPyramid(
+        store_name=SHORT_NAME,
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        n_levels=2,
+        pyramid_kwargs={'extra_dim': 'nv'},
+        combine_dims=pattern.combine_dim_keys,
+    )
 )
+
+# recipe = (
+#     beam.Create(pattern.items())
+#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+#     | OpenWithXarray(file_type=pattern.file_type)
+#     | LoadDS()
+#     | beam.Map(print)
+# )
 
 # recipe = (
 #     beam.Create(pattern.items())
