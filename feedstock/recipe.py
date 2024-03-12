@@ -151,7 +151,7 @@ fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-    # | OpenWithXarray(file_type=pattern.file_type)
+    | OpenWithXarray(file_type=pattern.file_type)
     # | LoadDS()
 
 )
