@@ -5,6 +5,12 @@
 #     --Bake.job_name=test1
 
 
+# pangeo-forge-runner bake \
+#     --config feedstock/config.py \
+#     --repo='https://github.com/pangeo-forge/staged-recipes.git' \
+#     --ref='debug' \
+#     --Bake.job_name=test1
+
 import base64
 import json
 import os
@@ -40,7 +46,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-09-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
 ]
 
 
@@ -159,23 +165,36 @@ class TransposeCoords(beam.PTransform):
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
         return pcoll | beam.Map(self._transpose_coords)
 
+class LoadDS(beam.PTransform):
+
+    @staticmethod
+    def _loadit(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
+        index, ds = item
+        ds = ds.load()
+        return index, ds
+
+    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
+        return pcoll | beam.Map(self._loadit)
+
 
 
 recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
-    | TransposeCoords()
-    | DropVarCoord()
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=2,
-        pyramid_kwargs={'extra_dim': 'nv'},
-        combine_dims=pattern.combine_dim_keys,
-    )
+    | LoadDS()
+    | beam.Map(print)
+    # | TransposeCoords()
+    # | DropVarCoord()
+    # | 'Write Pyramid Levels'
+    # >> StoreToPyramid(
+    #     store_name=SHORT_NAME,
+    #     epsg_code='4326',
+    #     rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+    #     n_levels=2,
+    #     pyramid_kwargs={'extra_dim': 'nv'},
+    #     combine_dims=pattern.combine_dim_keys,
+    # )
 )
 
 # recipe = (
