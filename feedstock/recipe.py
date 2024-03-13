@@ -28,7 +28,9 @@ from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
     OpenWithXarray,
     StoreToPyramid,
+    StoreToZarr
 )
+
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
@@ -46,7 +48,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-09-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
 ]
 
 
@@ -165,16 +167,16 @@ class TransposeCoords(beam.PTransform):
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
         return pcoll | beam.Map(self._transpose_coords)
 
-class LoadDS(beam.PTransform):
+class ShowTime(beam.PTransform):
 
     @staticmethod
-    def _loadit(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
+    def _showtime(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
-        ds = ds.load()
+        print(ds.time)
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
-        return pcoll | beam.Map(self._loadit)
+        return pcoll | beam.Map(self._showtime)
 
 
 
@@ -182,10 +184,12 @@ recipe = (
     beam.Create(pattern.items())
     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
     | OpenWithXarray(file_type=pattern.file_type)
-    | LoadDS()
-    | beam.Map(print)
-    # | TransposeCoords()
-    # | DropVarCoord()
+    | TransposeCoords()
+    | DropVarCoord()
+    | StoreToZarr(
+        store_name="tmp.zarr",
+        combine_dims=pattern.combine_dim_keys,
+    )    
     # | 'Write Pyramid Levels'
     # >> StoreToPyramid(
     #     store_name=SHORT_NAME,
