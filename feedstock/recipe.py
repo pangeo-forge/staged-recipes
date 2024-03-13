@@ -186,10 +186,7 @@ recipe = (
     | OpenWithXarray(file_type=pattern.file_type)
     | TransposeCoords()
     | DropVarCoord()
-    # | StoreToZarr(
-    #     store_name="tmp.zarr",
-    #     combine_dims=pattern.combine_dim_keys,
-    # )    
+
     | 'Write Pyramid Levels'
     >> StoreToPyramid(
         store_name=SHORT_NAME,
