@@ -172,7 +172,7 @@ class ShowTime(beam.PTransform):
     @staticmethod
     def _showtime(item: Indexed[xr.Dataset]) -> Indexed[xr.Dataset]:
         index, ds = item
-        print(ds.time)
+        print(ds)
         return index, ds
 
     def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
