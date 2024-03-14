@@ -14,5 +14,10 @@ c.TargetStorage.root_path = 'local_storage/target/'
 # c.TargetStorage.fsspec_class = "s3fs.S3FileSystem"
 # c.TargetStorage.root_path = f"s3://carbonplan-scratch/pyramid_test_consolidated"
 
+
+
+c.InputCacheStorage.fsspec_class = 's3fs.S3FileSystem'
+c.InputCacheStorage.root_path = 's3://carbonplan-scratch/pyramid_hang_test/cache/'
+
 # c.InputCacheStorage.fsspec_class = 'fsspec.implementations.local.LocalFileSystem'
 # c.InputCacheStorage.root_path = 'local_storage/cache/'
