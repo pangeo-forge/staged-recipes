@@ -40,7 +40,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 # 2023/07/3B-DAY.MS.MRG.3IMERG.20230731
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2010-06-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2001-06-01', freq='D')
 ]
 
 
@@ -149,66 +149,66 @@ class TransposeCoords(beam.PTransform):
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 
-recipe = (
-    beam.Create(pattern.items())
-    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-    | OpenWithXarray(file_type=pattern.file_type)
-    | TransposeCoords()
-    | DropVarCoord()
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=4,
-        pyramid_kwargs={'extra_dim': 'nv'},
-        combine_dims=pattern.combine_dim_keys,
-    )
-)
+# recipe = (
+#     beam.Create(pattern.items())
+#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+#     | OpenWithXarray(file_type=pattern.file_type)
+#     | TransposeCoords()
+#     | DropVarCoord()
+#     | 'Write Pyramid Levels'
+#     >> StoreToPyramid(
+#         store_name=SHORT_NAME,
+#         epsg_code='4326',
+#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+#         n_levels=4,
+#         pyramid_kwargs={'extra_dim': 'nv'},
+#         combine_dims=pattern.combine_dim_keys,
+#     )
+# )
 
 
 # ----------------------------------------
 #### LOCAL RUNNING W/O pangeo-forge-runner
 # ----------------------------------------
 
-# import fsspec
-# import zarr
-# from pangeo_forge_recipes.storage import FSSpecTarget
+import fsspec
+import zarr
+from pangeo_forge_recipes.storage import FSSpecTarget
 
 # pipeline = beam.Pipeline()
-# pipeline = beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--num_workers", '2', "--direct_running_mode", "multi_processing"]))
+pipeline = beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--num_workers", '4', "--direct_running_mode", "multi_processing"]))
 
 
 # fs = fsspec.get_filesystem_class("file")()
-# path = 'tmp'
+# path = '1mo'
 # target_root = FSSpecTarget(fs, path)
 
-# fs = fsspec.get_filesystem_class("s3")()
-# path = 's3://carbonplan-scratch/pyramid'
-# target_root = FSSpecTarget(fs, path)
+fs = fsspec.get_filesystem_class("s3")()
+path = 's3://carbonplan-scratch/pyramid_1yr'
+target_root = FSSpecTarget(fs, path)
 
 # import s3fs
 # s3 = s3fs.S3FileSystem()
 # s3.rm(path, recursive=True)
 
 # pattern = pattern.prune()
-# with pipeline as p:
+with pipeline as p:
 
-#     (p | beam.Create(pattern.items())
-#     | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-#     | OpenWithXarray(file_type=pattern.file_type)
-#     | TransposeCoords()
-#     | DropVarCoord()
+    (p | beam.Create(pattern.items())
+    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+    | OpenWithXarray(file_type=pattern.file_type)
+    | TransposeCoords()
+    | DropVarCoord()
 
-#     | 'Write Pyramid Levels'
-#     >> StoreToPyramid(
-#         target_root=target_root,
-#         store_name=SHORT_NAME,
-#         epsg_code='4326',
-#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-#         n_levels=2,
-#         pyramid_kwargs={'extra_dim': 'nv'},
-#         combine_dims=pattern.combine_dim_keys,
-#     ))
+    | 'Write Pyramid Levels'
+    >> StoreToPyramid(
+        target_root=target_root,
+        store_name=SHORT_NAME,
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        n_levels=2,
+        pyramid_kwargs={'extra_dim': 'nv'},
+        combine_dims=pattern.combine_dim_keys,
+    ))
 
 
