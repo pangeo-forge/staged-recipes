@@ -4,7 +4,7 @@ requests
 git+https://github.com/pangeo-forge/pangeo-forge-recipes
 git+https://github.com/carbonplan/pangeo-forge-ndpyramid
 beam-pyspark-runner
-apache-beam==2.52.0
+apache-beam==2.53.0
 xarray>=2024.1.1
 zarr==2.16.1
 rioxarray
