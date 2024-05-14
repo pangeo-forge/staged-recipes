@@ -14,7 +14,7 @@ from pangeo_forge_recipes.transforms import (
     WriteCombinedReference,
 )
 
-dates = pd.date_range('1981-09-01', '2000-09-01', freq='D')
+dates = pd.date_range('1981-09-01', '1982-09-01', freq='D')
 
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -44,8 +44,8 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | WriteCombinedReference(
             identical_dims=['lat', 'lon', 'zlev'],
             target_root=target_root,
-            store_name='oisst_kerchunk_20_years',
+            store_name='oisst_kerchunk_1_year',
             concat_dims=['time'],
-            output_file_name='combined_oisst.parquet',
+            output_file_name='combined_oisst_1year.parquet',
         )
     )
