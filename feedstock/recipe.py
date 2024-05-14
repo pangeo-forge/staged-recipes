@@ -28,11 +28,6 @@ time_concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_url, time_concat_dim)
 
 
-# NOTE: source uses the EMR serverless execution role (veda-data-reader-dev)
-source_fsspec_kwargs = {
-    'anon': True,
-}
-
 # NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
 target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
 fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
@@ -43,7 +38,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
-        | OpenURLWithFSSpec(open_kwargs=source_fsspec_kwargs)
+        | OpenURLWithFSSpec()
         | OpenWithXarray(file_type=pattern.file_type)
         | StoreToZarr(
             target_root=target_root,
