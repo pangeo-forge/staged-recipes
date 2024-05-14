@@ -1,9 +1,10 @@
 s3fs
 boto3
 requests
-git+https://github.com/norlandrhagen/pangeo-forge-recipes@ndpyramid
-git+https://github.com/carbonplan/ndpyramid
+git+https://github.com/pangeo-forge/pangeo-forge-recipes
+git+https://github.com/carbonplan/pangeo-forge-ndpyramid
+beam-pyspark-runner
 apache-beam==2.52.0
-xarray==2024.1.1
+xarray>=2024.1.1
 zarr==2.16.1
 rioxarray
