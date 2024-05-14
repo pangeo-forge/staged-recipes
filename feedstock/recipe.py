@@ -8,11 +8,13 @@ from pangeo_forge_recipes.storage import FSSpecTarget
 from pangeo_forge_recipes.transforms import (
     ConsolidateMetadata,
     OpenURLWithFSSpec,
+    OpenWithKerchunk,
     OpenWithXarray,
     StoreToZarr,
+    WriteCombinedReference,
 )
 
-dates = pd.date_range('1981-09-01', '1981-09-03', freq='D')
+dates = pd.date_range('1981-09-01', '2000-09-01', freq='D')
 
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -28,22 +30,22 @@ time_concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_url, time_concat_dim)
 
 
-# NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
+# # NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
 target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
 fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
-
 
 with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
         | OpenURLWithFSSpec()
-        | OpenWithXarray(file_type=pattern.file_type)
-        | StoreToZarr(
+        | OpenWithKerchunk(file_type=pattern.file_type)
+        | WriteCombinedReference(
+            identical_dims=['lat', 'lon', 'zlev'],
             target_root=target_root,
-            store_name='oisst_test.zarr',
-            combine_dims=pattern.combine_dim_keys,
+            store_name='oisst_kerchunk_20_years',
+            concat_dims=['time'],
+            output_file_name='combined_oisst.parquet',
         )
-        | ConsolidateMetadata()
     )
