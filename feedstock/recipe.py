@@ -30,8 +30,7 @@ pattern = FilePattern(make_url, time_concat_dim)
 
 # NOTE: source uses the EMR serverless execution role (veda-data-reader-dev)
 source_fsspec_kwargs = {
-    'anon': False,
-    'client_kwargs': {'region_name': 'us-west-2'},
+    'anon': True,
 }
 
 # NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
