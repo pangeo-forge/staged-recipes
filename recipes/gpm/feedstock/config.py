@@ -33,4 +33,3 @@ c.TargetStorage.root_path = 'local_storage/target/'
 # #c.InputCacheStorage.fsspec_class = c.TargetStorage.fsspec_class
 # #c.InputCacheStorage.fsspec_args = c.TargetStorage.fsspec_args
 # #c.InputCacheStorage.root_path = f"{BUCKET_PREFIX}/cache/"
-

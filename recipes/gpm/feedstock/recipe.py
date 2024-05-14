@@ -173,17 +173,23 @@ fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 import fsspec
 import zarr
+
 from pangeo_forge_recipes.storage import FSSpecTarget
 
 # pipeline = beam.Pipeline()
-pipeline = beam.Pipeline(runner="DirectRunner", options=beam.pipeline.PipelineOptions(["--num_workers", '4', "--direct_running_mode", "multi_processing"]))
+pipeline = beam.Pipeline(
+    runner='DirectRunner',
+    options=beam.pipeline.PipelineOptions(
+        ['--num_workers', '4', '--direct_running_mode', 'multi_processing']
+    ),
+)
 
 
 # fs = fsspec.get_filesystem_class("file")()
 # path = '1mo'
 # target_root = FSSpecTarget(fs, path)
 
-fs = fsspec.get_filesystem_class("s3")()
+fs = fsspec.get_filesystem_class('s3')()
 path = 's3://carbonplan-scratch/pyramid_1yr'
 target_root = FSSpecTarget(fs, path)
 
@@ -193,22 +199,21 @@ target_root = FSSpecTarget(fs, path)
 
 # pattern = pattern.prune()
 with pipeline as p:
-
-    (p | beam.Create(pattern.items())
-    | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
-    | OpenWithXarray(file_type=pattern.file_type)
-    | TransposeCoords()
-    | DropVarCoord()
-
-    | 'Write Pyramid Levels'
-    >> StoreToPyramid(
-        target_root=target_root,
-        store_name=SHORT_NAME,
-        epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        n_levels=2,
-        pyramid_kwargs={'extra_dim': 'nv'},
-        combine_dims=pattern.combine_dim_keys,
-    ))
-
-
+    (
+        p
+        | beam.Create(pattern.items())
+        | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs)
+        | OpenWithXarray(file_type=pattern.file_type)
+        | TransposeCoords()
+        | DropVarCoord()
+        | 'Write Pyramid Levels'
+        >> StoreToPyramid(
+            target_root=target_root,
+            store_name=SHORT_NAME,
+            epsg_code='4326',
+            rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+            n_levels=2,
+            pyramid_kwargs={'extra_dim': 'nv'},
+            combine_dims=pattern.combine_dim_keys,
+        )
+    )
