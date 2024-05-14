@@ -1,0 +1,9 @@
+s3fs
+boto3
+requests
+git+https://github.com/ranchodeluxe/beam-pyspark-runner@patch-2
+apache-beam==2.53.0
+pangeo-forge-recipes>=0.10.5
+xarray>=2024.1.1
+zarr==2.16.1
+rioxarray
