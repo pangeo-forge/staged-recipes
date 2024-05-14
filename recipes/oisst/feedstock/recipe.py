@@ -39,6 +39,7 @@ fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 
 
+## NOAA-OISST is 1/4 spatial res. At the equator that's ~ 27770 meters, so we should have two pyramid levels
 with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
@@ -50,7 +51,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
             store_name='noaa-oisst-pyramid-4lvl.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-            levels=4,
+            levels=2,
             pyramid_kwargs={'extra_dim': 'zlev', 'clear_attrs': True},
             combine_dims=pattern.combine_dim_keys,
         )
