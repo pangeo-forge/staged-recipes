@@ -1,20 +1,17 @@
+from dataclasses import dataclass
+
 import apache_beam as beam
 import pandas as pd
 import s3fs
+import xarray as xr
 from beam_pyspark_runner.pyspark_runner import PySparkRunner
+from pangeo_forge_ndpyramid.transforms import StoreToPyramid
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.storage import FSSpecTarget
-from pangeo_forge_recipes.transforms import (
-    ConsolidateMetadata,
-    OpenURLWithFSSpec,
-    OpenWithKerchunk,
-    OpenWithXarray,
-    StoreToZarr,
-    WriteCombinedReference,
-)
+from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray
 
-dates = pd.date_range('1981-09-01', '1981-09-04', freq='D')
+dates = pd.date_range('1981-09-01', '1981-10-01', freq='D')
 
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -30,22 +27,37 @@ time_concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_url, time_concat_dim)
 
 
-# # NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
+#  NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
 target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
 fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
+
+
+@dataclass
+class SelectSingleZlev(beam.PTransform):
+    def select_single_zlev(self, ds: xr.Dataset) -> xr.Dataset:
+        return ds.isel(zlev=0).drop('zlev')
+
+    def expand(self, pcoll):
+        return pcoll | 'Select single zlev' >> beam.MapTuple(
+            lambda k, v: (k, self.select_single_zlev(v))
+        )
+
 
 with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
         | OpenURLWithFSSpec()
-        | OpenWithKerchunk(file_type=pattern.file_type)
-        | WriteCombinedReference(
-            identical_dims=['lat', 'lon', 'zlev'],
+        | OpenWithXarray(file_type=pattern.file_type)
+        | SelectSingleZlev()
+        | 'Write Pyramid Levels'
+        >> StoreToPyramid(
             target_root=target_root,
-            store_name='oisst_kerchunk_3_day',
-            concat_dims=['time'],
-            output_file_name='combined_oisst_3day.parquet',
+            store_name='oisst_pyramid_2_lvl_1_month_pyramid.zarr',
+            epsg_code='4326',
+            rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+            levels=2,
+            combine_dims=pattern.combine_dim_keys,
         )
     )
