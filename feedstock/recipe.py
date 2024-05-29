@@ -54,7 +54,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='oisst_pyramid_2_lvl_3_week_pyramid_sync_a2.zarr',
+            store_name='oisst_pyramid_2_lvl_1_month_pyramid_sync.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             levels=2,
