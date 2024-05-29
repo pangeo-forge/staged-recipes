@@ -11,7 +11,7 @@ from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.storage import FSSpecTarget
 from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray
 
-dates = pd.date_range('1981-09-01', '1981-09-07', freq='D')
+dates = pd.date_range('1981-09-01', '1981-10-01', freq='D')
 
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -48,13 +48,13 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
-        | OpenURLWithFSSpec()
+        | OpenURLWithFSSpec(fsspec_sync_patch=True)
         | OpenWithXarray(file_type=pattern.file_type)
         | SelectSingleZlev()
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='oisst_pyramid_2_lvl_1_week_pyramid.zarr',
+            store_name='oisst_pyramid_2_lvl_3_week_pyramid_sync_a2.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             levels=2,
