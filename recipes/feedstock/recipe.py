@@ -124,3 +124,10 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
             combine_dims=pattern.combine_dim_keys,
         )
     )
+
+
+# Note: For testing, we're trying two levels. Ideally we should generate 4 levels
+# import morecantile
+# tms = morecantile.tms.get("WebMercatorQuad")
+# tms.zoom_for_res(10000)
+# 4
