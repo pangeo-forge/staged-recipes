@@ -1,5 +1,0 @@
-title: 'oisst'
-description: 'oisst test'
-recipes:
-  - id: 'oisst'
-    object: 'recipe:recipe'

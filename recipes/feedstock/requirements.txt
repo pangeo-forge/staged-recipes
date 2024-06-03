@@ -4,7 +4,8 @@ requests
 git+https://github.com/ranchodeluxe/beam-pyspark-runner@patch-2
 git+https://github.com/carbonplan/pangeo-forge-ndpyramid
 apache-beam==2.53.0
-pangeo-forge-recipes>=0.10.5
+git+https://github.com/pangeo-forge/pangeo-forge-recipes@feature/optional-sync-http
 xarray>=2024.1.1
 zarr==2.16.1
 rioxarray
+httpfs_sync
