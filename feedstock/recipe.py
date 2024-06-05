@@ -106,12 +106,19 @@ class TransposeCoords(beam.PTransform):
             lambda k, v: (k, self._transpose_coords(v))
         )
 
+# from pangeo_forge_recipes.storage import CacheFSSpecTarget
+# from pangeo_forge_recipes.transforms import CheckpointFileTransfer
+# cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://veda-pforge-emr-outputs-v4/cache")
 
 
-with beam.Pipeline() as p:
+
+
+with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
+        # | CheckpointFileTransfer(transfer_target=cache_target,fsspec_sync_patch=False,)
+        # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
         | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=True)
         | OpenWithXarray(file_type=pattern.file_type)
         | DropVarCoord()
@@ -122,7 +129,6 @@ with beam.Pipeline() as p:
             store_name='gpm_imerg_3_lvl_8day.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-
             # pyramid_method = 'resample',
             levels=3,
             combine_dims=pattern.combine_dim_keys,
