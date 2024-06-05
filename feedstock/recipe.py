@@ -77,6 +77,7 @@ pattern = FilePattern(make_filename, concat_dim)
 target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
 fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
+# target_root = FSSpecTarget(fs_target, 's3://carbonplan-scratch/pyresample')
 
 
 @dataclass
@@ -94,11 +95,11 @@ class DropVarCoord(beam.PTransform):
 
 @dataclass
 class TransposeCoords(beam.PTransform):
-    """Transform to transpose coordinates for pyramids and drop time_bnds variable"""
+    """Transform to transpose coordinates for pyramids"""
 
     def _transpose_coords(self, ds: xr.Dataset) -> xr.Dataset:
-        ds = ds.transpose('time', 'lat', 'lon', 'nv')
-        return ds
+        return ds.transpose("time", "lat", "lon")
+
 
     def expand(self, pcoll):
         return pcoll | 'Transpose Coords' >> beam.MapTuple(
@@ -106,26 +107,30 @@ class TransposeCoords(beam.PTransform):
         )
 
 
-with beam.Pipeline(runner=PySparkRunner()) as p:
+
+with beam.Pipeline() as p:
     (
         p
         | beam.Create(pattern.items())
         | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=True)
         | OpenWithXarray(file_type=pattern.file_type)
-        | TransposeCoords()
         | DropVarCoord()
+        | TransposeCoords()
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='gpm_imerg_4_lvl_1week.zarr',
+            store_name='gpm_imerg_3_lvl_8day.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-            levels=4,
+
+            # pyramid_method = 'resample',
+            levels=3,
             combine_dims=pattern.combine_dim_keys,
         )
     )
 
 
+# s5cmd rm 's3://carbonplan-scratch/pyresample/gpm_imerg_2_lvl_3day.zarr/*'
 # Note: For testing, we're trying two levels. Ideally we should generate 4 levels
 # import morecantile
 # tms = morecantile.tms.get("WebMercatorQuad")
