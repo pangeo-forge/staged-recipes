@@ -24,7 +24,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-07-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-09-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -100,16 +100,18 @@ class TransposeCoords(beam.PTransform):
             lambda k, v: (k, self._transpose_coords(v))
         )
 
-# from pangeo_forge_recipes.storage import CacheFSSpecTarget
-# from pangeo_forge_recipes.transforms import CheckpointFileTransfer
-# cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
-
 
 #  NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
 target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
 fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 # target_root = FSSpecTarget(fs_target, 's3://carbonplan-scratch/pyresample')
+
+# from pangeo_forge_recipes.storage import CacheFSSpecTarget
+# from pangeo_forge_recipes.transforms import CheckpointFileTransfer
+# cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
+
+
 
 
 
@@ -126,7 +128,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='gpm_imerg_3_lvl_1month.zarr',
+            store_name='gpm_imerg_3_lvl_3month.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             # pyramid_method = 'resample',
@@ -136,7 +138,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
     )
 
 
-# s5cmd rm 's3://carbonplan-scratch/pyresample/gpm_imerg_2_lvl_3day.zarr/*'
+# s5cmd rm 's3://carbonplan-scratch/pyresample/gpm_imerg_2_lvl_2day_cache.zarr/*'
 # Note: For testing, we're trying two levels. Ideally we should generate 4 levels
 # import morecantile
 # tms = morecantile.tms.get("WebMercatorQuad")
