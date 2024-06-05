@@ -24,7 +24,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-07-01`', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-07-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
