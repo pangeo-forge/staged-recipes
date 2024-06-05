@@ -24,7 +24,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-08', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-07-0`', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -73,12 +73,6 @@ concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_filename, concat_dim)
 
 
-#  NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
-target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
-fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
-target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
-# target_root = FSSpecTarget(fs_target, 's3://carbonplan-scratch/pyresample')
-
 
 @dataclass
 class DropVarCoord(beam.PTransform):
@@ -108,8 +102,14 @@ class TransposeCoords(beam.PTransform):
 
 # from pangeo_forge_recipes.storage import CacheFSSpecTarget
 # from pangeo_forge_recipes.transforms import CheckpointFileTransfer
-# cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://veda-pforge-emr-outputs-v4/cache")
+# cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
 
+
+#  NOTE: target uses the EMR serverless execution role (veda-data-reader-dev)
+target_fsspec_kwargs = {'anon': False, 'client_kwargs': {'region_name': 'us-west-2'}}
+fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
+target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
+# target_root = FSSpecTarget(fs_target, 's3://carbonplan-scratch/pyresample')
 
 
 
@@ -117,7 +117,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
-        # | CheckpointFileTransfer(transfer_target=cache_target,fsspec_sync_patch=False,)
+        # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
         # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
         | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=True)
         | OpenWithXarray(file_type=pattern.file_type)
@@ -126,7 +126,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='gpm_imerg_3_lvl_8day.zarr',
+            store_name='gpm_imerg_3_lvl_1month.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             # pyramid_method = 'resample',
