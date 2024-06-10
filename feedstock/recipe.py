@@ -161,7 +161,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='gpm_imerg_s3_input_3_month_3_lvl.zarr',
+            store_name='gpm_imerg_s3_input_3_month_3_lvl_att2.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             # pyramid_method = 'resample',
