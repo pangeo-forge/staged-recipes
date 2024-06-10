@@ -26,7 +26,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-02', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-09-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -161,7 +161,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | 'Write Pyramid Levels'
         >> StoreToPyramid(
             target_root=target_root,
-            store_name='gpm_imerg_s3_test.zarr',
+            store_name='gpm_imerg_s3_input_3_month_3_lvl.zarr',
             epsg_code='4326',
             rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
             # pyramid_method = 'resample',
