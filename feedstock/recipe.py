@@ -33,8 +33,8 @@ URL_FORMAT = (
     'v2.1/access/avhrr/{time:%Y%m}/oisst-avhrr-v02r01.{time:%Y%m%d}.nc'
 )
 
-earthdata_protocol = 's3'
-# earthdata_protocol = 'https'
+# earthdata_protocol = 's3'
+earthdata_protocol = 'https'
 
 
 def make_filename(time):
@@ -157,7 +157,7 @@ with beam.Pipeline() as p:
         | TransposeCoords()
         | StoreToZarr(
             target_root=target_root,
-            store_name='gpm_imerg_s3_branch_stz.zarr',
+            store_name='gpm_imerg_s3_branch_stz_http_6mo.zarr',
             combine_dims=pattern.combine_dim_keys,
         )
         # | 'Write Pyramid Levels'
