@@ -145,7 +145,7 @@ target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 # cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
 
 
-with beam.Pipeline() as p:
+with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
         | beam.Create(pattern.items())
