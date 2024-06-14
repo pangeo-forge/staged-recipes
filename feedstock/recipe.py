@@ -18,7 +18,7 @@ from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
 from pangeo_forge_recipes.storage import FSSpecTarget
-from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray
+from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray, StoreToZarr
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
@@ -30,7 +30,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2000-06-15', freq='D')
+    for d in pd.date_range('2000-06-01', '2001-06-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -152,7 +152,7 @@ target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 
 
 
-with beam.Pipeline(runner=PySparkRunner()) as p:
+with beam.Pipeline() as p:
     (
         p
         | beam.Create(pattern.items())
@@ -162,16 +162,21 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | OpenWithXarray(file_type=pattern.file_type)
         | DropVarCoord()
         | TransposeCoords()
-        | 'Write Pyramid Levels'
-        >> StoreToPyramid(
+        | StoreToZarr(
             target_root=target_root,
-            store_name='gpm_imerg_s3_input_14day_3_lvl_gc_disable.zarr',
-            epsg_code='4326',
-            rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-            # pyramid_method = 'resample',
-            levels=2,
+            store_name='gpm_imerg_s3_branch_stz.zarr',
             combine_dims=pattern.combine_dim_keys,
         )
+        # | 'Write Pyramid Levels'
+        # >> StoreToPyramid(
+            # target_root=target_root,
+            # store_name='gpm_imerg_s3_input_14day_3_lvl_gc_disable.zarr',
+            # epsg_code='4326',
+            # rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+            # # pyramid_method = 'resample',
+            # levels=2,
+            # combine_dims=pattern.combine_dim_keys,
+        # )
     )
 
 
