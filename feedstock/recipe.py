@@ -155,21 +155,20 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | OpenWithXarray(file_type=pattern.file_type)
         | DropVarCoord()
         | TransposeCoords()
-        | StoreToZarr(
-            target_root=target_root,
-            store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
-            combine_dims=pattern.combine_dim_keys,
-        )
-        # | 'Write Pyramid Levels'
-        # >> StoreToPyramid(
-        # target_root=target_root,
-        # store_name='gpm_imerg_s3_input_14day_3_lvl_gc_disable.zarr',
-        # epsg_code='4326',
-        # rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        # # pyramid_method = 'resample',
-        # levels=2,
-        # combine_dims=pattern.combine_dim_keys,
+        # | StoreToZarr(
+        #     target_root=target_root,
+        #     store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
+        #     combine_dims=pattern.combine_dim_keys,
         # )
+        StoreToPyramid(
+        target_root=target_root,
+        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_sync.zarr',
+        epsg_code='4326',
+        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        # pyramid_method = 'resample',
+        levels=2,
+        combine_dims=pattern.combine_dim_keys,
+        )
     )
 
 
