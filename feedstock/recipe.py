@@ -160,7 +160,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         #     store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
         #     combine_dims=pattern.combine_dim_keys,
         # )
-        StoreToPyramid(
+        | StoreToPyramid(
         target_root=target_root,
         store_name='gpm_imerg_s3_branch_pyr_s3_1yr_sync.zarr',
         epsg_code='4326',
