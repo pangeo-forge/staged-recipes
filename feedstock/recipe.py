@@ -157,7 +157,7 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | TransposeCoords()
         | StoreToZarr(
             target_root=target_root,
-            store_name='gpm_imerg_s3_branch_stz_s3_6month_sync.zarr',
+            store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
             combine_dims=pattern.combine_dim_keys,
         )
         # | 'Write Pyramid Levels'
