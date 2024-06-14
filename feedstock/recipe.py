@@ -1,6 +1,4 @@
 
-import gc
-gc.disable()
 
 import os
 from dataclasses import dataclass
