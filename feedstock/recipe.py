@@ -151,13 +151,13 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | beam.Create(pattern.items())
         # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
         # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
-        | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=False)
+        | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=True)
         | OpenWithXarray(file_type=pattern.file_type)
         | DropVarCoord()
         | TransposeCoords()
         | StoreToZarr(
             target_root=target_root,
-            store_name='gpm_imerg_s3_branch_stz_s3_6mo_async.zarr',
+            store_name='gpm_imerg_s3_branch_stz_s3_6month_sync.zarr',
             combine_dims=pattern.combine_dim_keys,
         )
         # | 'Write Pyramid Levels'
