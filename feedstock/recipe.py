@@ -1,12 +1,10 @@
-
-
+import base64
+import json
 import os
 from dataclasses import dataclass
 
 import apache_beam as beam
 import pandas as pd
-import json
-import base64
 import requests
 import s3fs
 import xarray as xr
@@ -28,7 +26,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2000-06-01', '2001-06-01', freq='D')
+    for d in pd.date_range('2000-06-01', '2000-12-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -37,6 +35,7 @@ URL_FORMAT = (
 
 earthdata_protocol = 's3'
 # earthdata_protocol = 'https'
+
 
 def make_filename(time):
     if earthdata_protocol == 'https':
@@ -102,11 +101,11 @@ def earthdata_auth(username: str, password: str):
         token = get_earthdata_token(username, password)
         return {'headers': {'Authorization': f'Bearer {token}'}}
 
+
 fsspec_open_kwargs = earthdata_auth(ED_USERNAME, ED_PASSWORD)
 
 concat_dim = ConcatDim('time', dates, nitems_per_file=1)
 pattern = FilePattern(make_filename, concat_dim)
-
 
 
 @dataclass
@@ -127,8 +126,7 @@ class TransposeCoords(beam.PTransform):
     """Transform to transpose coordinates for pyramids"""
 
     def _transpose_coords(self, ds: xr.Dataset) -> xr.Dataset:
-        return ds.transpose("time", "lat", "lon")
-
+        return ds.transpose('time', 'lat', 'lon')
 
     def expand(self, pcoll):
         return pcoll | 'Transpose Coords' >> beam.MapTuple(
@@ -145,9 +143,6 @@ target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 # from pangeo_forge_recipes.storage import CacheFSSpecTarget
 # from pangeo_forge_recipes.transforms import CheckpointFileTransfer
 # cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
-
-
-
 
 
 with beam.Pipeline() as p:
@@ -167,13 +162,13 @@ with beam.Pipeline() as p:
         )
         # | 'Write Pyramid Levels'
         # >> StoreToPyramid(
-            # target_root=target_root,
-            # store_name='gpm_imerg_s3_input_14day_3_lvl_gc_disable.zarr',
-            # epsg_code='4326',
-            # rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-            # # pyramid_method = 'resample',
-            # levels=2,
-            # combine_dims=pattern.combine_dim_keys,
+        # target_root=target_root,
+        # store_name='gpm_imerg_s3_input_14day_3_lvl_gc_disable.zarr',
+        # epsg_code='4326',
+        # rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+        # # pyramid_method = 'resample',
+        # levels=2,
+        # combine_dims=pattern.combine_dim_keys,
         # )
     )
 
