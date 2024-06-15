@@ -189,10 +189,10 @@ with beam.Pipeline(runner=PySparkRunner()) as p:
         | OpenWithXarray(file_type=FileType("zarr"), xarray_open_kwargs={"chunks": {}})
         | StoreToPyramid(
         target_root=target_root,
-        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async_zarr_to_zarr.zarr',
+        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async_zarr_to_zarr_3lvl.zarr',
         epsg_code='4326',
         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        levels=2,
+        levels=3,
         combine_dims=pattern.combine_dim_keys,
         )
     )
