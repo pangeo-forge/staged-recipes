@@ -12,7 +12,7 @@ from beam_pyspark_runner.pyspark_runner import PySparkRunner
 from pangeo_forge_ndpyramid.transforms import StoreToPyramid
 from requests.auth import HTTPBasicAuth
 
-from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
+from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, FileType, pattern_from_file_sequence
 from pangeo_forge_recipes.storage import FSSpecTarget
 from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray, StoreToZarr
 
@@ -145,32 +145,57 @@ target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 # cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
 
 
+# with beam.Pipeline(runner=PySparkRunner()) as p:
+#     (
+#         p
+#         | beam.Create(pattern.items())
+#         # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
+#         # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
+#         | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=False)
+#         | OpenWithXarray(file_type=pattern.file_type)
+#         | DropVarCoord()
+#         | TransposeCoords()
+#         # | StoreToZarr(
+#         #     target_root=target_root,
+#         #     store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
+#         #     combine_dims=pattern.combine_dim_keys,
+#         # )
+#         | StoreToPyramid(
+#         target_root=target_root,
+#         store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async.zarr',
+#         epsg_code='4326',
+#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
+#         # pyramid_method = 'resample',
+#         levels=2,
+#         combine_dims=pattern.combine_dim_keys,
+#         )
+#     )
+
+
+## Testing Zarr to Pyr
+
+
+pattern = pattern_from_file_sequence(
+    [
+        "s3://veda-pforge-emr-outputs-v4/gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr"
+    ],
+    concat_dim="time",
+)
+
 with beam.Pipeline(runner=PySparkRunner()) as p:
     (
         p
-        | beam.Create(pattern.items())
-        # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
-        # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
-        | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=False)
-        | OpenWithXarray(file_type=pattern.file_type)
-        | DropVarCoord()
-        | TransposeCoords()
-        # | StoreToZarr(
-        #     target_root=target_root,
-        #     store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
-        #     combine_dims=pattern.combine_dim_keys,
-        # )
+        | beam.Create(pattern.items())    
+        | OpenWithXarray(file_type=FileType("zarr"), xarray_open_kwargs={"chunks": {}})
         | StoreToPyramid(
         target_root=target_root,
-        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async.zarr',
+        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async_zarr_to_zarr.zarr',
         epsg_code='4326',
         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        # pyramid_method = 'resample',
         levels=2,
         combine_dims=pattern.combine_dim_keys,
         )
     )
-
 
 # s5cmd rm 's3://carbonplan-scratch/gpm_imerg_s3test.zarr/*'
 # Note: For testing, we're trying two levels. Ideally we should generate 4 levels
