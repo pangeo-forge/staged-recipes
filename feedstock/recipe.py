@@ -14,7 +14,7 @@ from requests.auth import HTTPBasicAuth
 
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern, FileType, pattern_from_file_sequence
 from pangeo_forge_recipes.storage import FSSpecTarget
-from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray, StoreToZarr
+from pangeo_forge_recipes.transforms import OpenURLWithFSSpec, OpenWithXarray, StoreToZarr, ConsolidateMetadata
 
 ED_USERNAME = os.environ['EARTHDATA_USERNAME']
 ED_PASSWORD = os.environ['EARTHDATA_PASSWORD']
@@ -26,7 +26,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2001-01-01', '2002-01-01', freq='D')
+    for d in pd.date_range('2001-01-01', '2001-01-08', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -145,59 +145,77 @@ target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 # cache_target = CacheFSSpecTarget(s3fs.S3FileSystem(**target_fsspec_kwargs),   root_path="s3://carbonplan-scratch/pyramid/cache")
 
 
-# with beam.Pipeline(runner=PySparkRunner()) as p:
-#     (
-#         p
-#         | beam.Create(pattern.items())
-#         # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
-#         # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
-#         | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=False)
-#         | OpenWithXarray(file_type=pattern.file_type)
-#         | DropVarCoord()
-#         | TransposeCoords()
-#         # | StoreToZarr(
-#         #     target_root=target_root,
-#         #     store_name='gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr',
-#         #     combine_dims=pattern.combine_dim_keys,
-#         # )
-#         | StoreToPyramid(
-#         target_root=target_root,
-#         store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async.zarr',
-#         epsg_code='4326',
-#         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-#         # pyramid_method = 'resample',
-#         levels=2,
-#         combine_dims=pattern.combine_dim_keys,
-#         )
-#     )
-
-
-## Testing Zarr to Pyr
-
-
-pattern = pattern_from_file_sequence(
-    [
-        "s3://veda-pforge-emr-outputs-v4/gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr"
-    ],
-    concat_dim="time",
-)
-
 with beam.Pipeline(runner=PySparkRunner()) as p:
+# with beam.Pipeline() as p:
+
     (
         p
-        | beam.Create(pattern.items())    
-        | OpenWithXarray(file_type=FileType("zarr"), xarray_open_kwargs={"chunks": {}})
+        | beam.Create(pattern.items())
+        # | CheckpointFileTransfer(transfer_target=cache_target,max_executors=10,concurrency_per_executor=10,fsspec_sync_patch=True)
+        # | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, cache=None, fsspec_sync_patch=True)
+        | OpenURLWithFSSpec(open_kwargs=fsspec_open_kwargs, fsspec_sync_patch=False)
+        | OpenWithXarray(file_type=pattern.file_type)
+        | DropVarCoord()
+        | TransposeCoords()
+        # | StoreToZarr(
+        #     target_root=target_root,
+        #     store_name='transpose_testing.zarr',
+        #     combine_dims=pattern.combine_dim_keys,
+        # )
         | StoreToPyramid(
         target_root=target_root,
-        store_name='gpm_imerg_s3_branch_pyr_s3_1yr_async_zarr_to_zarr_3lvl.zarr',
+        store_name='transpose_testing.zarr',
         epsg_code='4326',
-        rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
-        levels=3,
+        pyramid_kwargs={"x": "lon", "y": "lat"},
+        pyramid_method = 'resample',
+        levels=2,
         combine_dims=pattern.combine_dim_keys,
         )
+        | ConsolidateMetadata()
+
     )
 
-# s5cmd rm 's3://carbonplan-scratch/gpm_imerg_s3test.zarr/*'
+# s5cmd rm 's3://carbonplan-scratch/transpose_testing.zarr/*'
+
+# Testing Zarr to Pyr
+
+
+
+# pattern = pattern_from_file_sequence(
+#     [
+#         "s3://carbonplan-scratch/gpm_imerg_2_week_resample_a3.zarr"
+#     ],
+#     concat_dim="time",
+# )
+
+
+# pattern = pattern_from_file_sequence(
+#     [
+#         "s3://veda-pforge-emr-outputs-v4/gpm_imerg_s3_branch_stz_s3_1yr_sync.zarr"
+#     ],
+#     concat_dim="time",
+# )
+
+# with beam.Pipeline(runner=PySparkRunner()) as p:
+# with beam.Pipeline() as p:
+
+#     (
+#         p
+#         | beam.Create(pattern.items())    
+#         | OpenWithXarray(file_type=FileType("zarr"), xarray_open_kwargs={"chunks": {}})
+#         | StoreToPyramid(
+#         target_root=target_root,
+#         store_name='gpm_imerge_resample_3day_consolidate.zarr',
+#         epsg_code="4326",
+#         pyramid_method="resample",
+#         pyramid_kwargs={"x": "lon", "y": "lat"},
+#         levels=3,
+#         combine_dims=pattern.combine_dim_keys,
+#     )
+#     | ConsolidateMetadata()
+#     )
+
+# s5cmd rm 's3://carbonplan-scratch/transpose_testing.zarr/*'
 # Note: For testing, we're trying two levels. Ideally we should generate 4 levels
 # import morecantile
 # tms = morecantile.tms.get("WebMercatorQuad")
