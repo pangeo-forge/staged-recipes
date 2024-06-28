@@ -140,7 +140,7 @@ fs_target = s3fs.S3FileSystem(**target_fsspec_kwargs)
 target_root = FSSpecTarget(fs_target, 's3://veda-pforge-emr-outputs-v4')
 
 
-with beam.Pipeline(runner=PySparkRunner) as zarr_pipeline:
+with beam.Pipeline(runner=PySparkRunner()) as zarr_pipeline:
 
     (
         zarr_pipeline
@@ -165,7 +165,7 @@ pyramid_pattern = pattern_from_file_sequence(
     concat_dim="time",
 )
 
-with beam.Pipeline(runner=PySparkRunner) as pyramid_pipeline:
+with beam.Pipeline(runner=PySparkRunner()) as pyramid_pipeline:
     (
         pyramid_pipeline
         | beam.Create(pyramid_pattern.items())
