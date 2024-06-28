@@ -26,7 +26,7 @@ IDENTICAL_DIMS = ['lat', 'lon']
 
 dates = [
     d.to_pydatetime().strftime('%Y/%m/3B-DAY.MS.MRG.3IMERG.%Y%m%d')
-    for d in pd.date_range('2001-01-01', '2002-01-01', freq='D')
+    for d in pd.date_range('2001-01-01', '2011-01-01', freq='D')
 ]
 URL_FORMAT = (
     'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/'
@@ -151,7 +151,7 @@ with beam.Pipeline(runner=PySparkRunner()) as zarr_pipeline:
         | TransposeCoords()
         | StoreToZarr(
             target_root=target_root,
-            store_name='gpm_imerg_1yr.zarr',
+            store_name='gpm_imerg_10yr.zarr',
             combine_dims=zarr_pattern.combine_dim_keys,
         )
         | "ConsolidateMetadata_zarr" >> ConsolidateMetadata()
@@ -160,7 +160,7 @@ with beam.Pipeline(runner=PySparkRunner()) as zarr_pipeline:
 
 pyramid_pattern = pattern_from_file_sequence(
     [
-        "s3://veda-pforge-emr-outputs-v4/gpm_imerg_1yr.zarr"
+        "s3://veda-pforge-emr-outputs-v4/gpm_imerg_10yr.zarr"
     ],
     concat_dim="time",
 )
@@ -172,7 +172,7 @@ with beam.Pipeline(runner=PySparkRunner()) as pyramid_pipeline:
         | "OpenWithXarray_2" >> OpenWithXarray(file_type=FileType("zarr"), xarray_open_kwargs={"chunks": {}})
         | StoreToPyramid(
         target_root=target_root,
-        store_name='gpm_imerg_pyramid_1yr.zarr',
+        store_name='gpm_imerg_pyramid_10yr.zarr',
         epsg_code='4326',
         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
         # pyramid_kwargs={"x": "lon", "y": "lat"},
