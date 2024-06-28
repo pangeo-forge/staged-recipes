@@ -176,7 +176,7 @@ with beam.Pipeline(runner=PySparkRunner()) as pyramid_pipeline:
         epsg_code='4326',
         rename_spatial_dims={'lon': 'longitude', 'lat': 'latitude'},
         # pyramid_kwargs={"x": "lon", "y": "lat"},
-        pyramid_method = 'reproject',
+        # pyramid_method = 'reproject',
         levels=2,
         combine_dims=pyramid_pattern.combine_dim_keys,
         )
